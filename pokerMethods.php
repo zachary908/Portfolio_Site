@@ -400,7 +400,7 @@
 					while($row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)){
 						  echo "<tr id='".$row['Id']."'><td>".$i.".</td><td>".$row['StartDate']."</td><td>".$row['StartTime'].
 						  "</td><td>".$row['Location']."</td><td>".$row['GameType']."</td><td>".$row['Limits']."</td><td>".$row['Duration'].
-						  "</td><td>".$row['BuyIn']."</td><td>".$row['CashOut']."</td></tr>";
+						  "</td><td>".$row['BuyIn']."</td><td>".$row['CashOut']."</td><td>".$row['Place']."</td><td>".$row['Rate']."</td><td>".$row['Return']."</td></tr>";
 						  $i = $i + 1;
 					}
 				}

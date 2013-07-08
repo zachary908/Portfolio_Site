@@ -19,10 +19,11 @@
 				<th>Game Type</th>
 				<th>Limits</th>
 				<th>Duration</th>
-				<th>Buy In</td>
-				<th>Cash Out</td>
-				<td>Return</td>
-				<td>Rate</td>
+				<th>Buy In</th>
+				<th>Cash Out</th>
+				<th>Place</th>
+				<th>Rate</th>
+				<th>Return</th>
 			</tr>
 		</thead>
 		<tfoot>
