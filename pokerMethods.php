@@ -333,12 +333,11 @@
 				$SqlEndDate = $_REQUEST['phpEndDate'];
 				$SqlLocation = $_REQUEST['phpLocation'];
 				$SqlGameType = $_REQUEST['phpGameType'];
-				$SqlRingTour = $_REQUEST['phpRingTour'];
-				$SqlRingTour = intval($SqlRingTour);
+				$SqlRingTour = intval($_REQUEST['phpRingTour']);
 				$SqlLimits = $_REQUEST['phpLimits'];
-				$SqlBuyin = $_REQUEST['phpBuyin'];
-				$SqlCashout = $_REQUEST['phpCashout'];
-				$SqlPlace = $_REQUEST['phpPlace'];
+				$SqlBuyin = floatval($_REQUEST['phpBuyin']);
+				$SqlCashout = floatval($_REQUEST['phpCashout']);
+				$SqlPlace = intval($_REQUEST['phpPlace']);
 				$AddSessionMsg = "";
 				
 				$params = array(
@@ -347,11 +346,11 @@
 					array($SqlEndDate, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_SMALLDATETIME),
 					array($SqlLocation, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
 					array($SqlGameType, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
-					array($SqlRingTour, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
+					array($SqlRingTour, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_INT),
 					array($SqlLimits, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
-					array($SqlBuyin, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
-					array($SqlCashout, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
-					array($SqlPlace, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
+					array($SqlBuyin, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
+					array($SqlCashout, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
+					array($SqlPlace, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
 					array($AddSessionMsg, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
 				);
 				
