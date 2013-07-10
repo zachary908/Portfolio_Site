@@ -210,6 +210,15 @@ function getTime(hourOption, minOption, amPmOption){
 		hour = hour - 12;
 	}
 	
+	if(hour == 12){
+		for(var k=0; k<amPms.length; k++){
+			if(amPms[k].value == "pm"){
+				amPms[k].selected = true;
+				break;
+			}
+		}
+	}
+	
 	// MATCH CURRENT HR TO STHROPTION
 	for(var i=0; i<hrs.length; i++){
 		if(hrs[i].value == hour){
@@ -223,12 +232,8 @@ function getTime(hourOption, minOption, amPmOption){
 			mins[j].selected = true;
 			break;
 		}
-	}
-	
+	}	
 }
-
-// DATABASE FUNCTIONS
-// ----------------------------------------
 
 function register(){
 	$('#regErrLbl').html("");
@@ -305,7 +310,7 @@ function logout(){
 	});
 }
 
-function getList(listType, listElement, newOptionVal){
+function getList(listType, destListElement, newOptionVal){
 	if (window.XMLHttpRequest){
 		// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp = new XMLHttpRequest();
@@ -325,10 +330,13 @@ function getList(listType, listElement, newOptionVal){
 	xmlhttp.open("GET", "../pokerMethods.php?method=getListAJAX&listType=" + listType, false);
 	xmlhttp.send();
 	
+	// PUT LIST OPTIONS INTO HOLDING ELEMENT- e.g.: "limitReturn" or "gameReturn"
 	if(listType == "game"){
+		document.getElementById('gameReturn').innerHTML = "";
 		document.getElementById('gameReturn').innerHTML = xmlhttp.responseText;
 	}
 	else{
+		document.getElementById('limitReturn').innerHTML = "";
 		document.getElementById('limitReturn').innerHTML = xmlhttp.responseText;
 	}
 	
@@ -336,14 +344,16 @@ function getList(listType, listElement, newOptionVal){
 	var l;
 	if(listType == "game"){
 		g = document.getElementsByName('gameOption');
-		l = document.getElementById('gameOptions');
+		l = document.getElementById(destListElement);
+		l.innerHTML = "";
 	}
 	else{
 		g = document.getElementsByName('limitOption');
-		l = document.getElementById('limitOptions');
+		l = document.getElementById(destListElement);
+		l.innerHTML = "";
 	}
 	
-	var string1;
+	var string1 = "";
 	for(var i=0; i<g.length; i++){
 		if(g[i].innerHTML == newOptionVal){
 			string1 = string1 + "<option selected>" + g[i].innerHTML + "</option>";
@@ -370,7 +380,7 @@ function addGameOption(){
 				}
 				else{
 					clrCloseModal2("addGameModal");
-					getList("game", "gameOptions", newGameVal);
+					getList("game", "gameReturn", newGameVal);
 				}
 			});
 		}
@@ -395,7 +405,7 @@ function addLimitOption(){
 				}
 				else{
 					clrCloseModal2("addLimitModal");
-					getList("limit", "limitOptions", newLimitVal);
+					getList("limit", "limitReturn", newLimitVal);
 				}
 			});
 		}
@@ -434,7 +444,7 @@ function getLocList(newLocName){
 	//BECAUSE THE REQUEST IS NOT BEING SENT ASYNCHRONOUSLY, THE FOLLOWING LINES CAN BE
 	//EXECUTED IMMEDIATELY AFTER THE xmlhttp.send(). THEY DO NOT HAVE TO BE PUT IN A
 	//xmlhttp.onreadystatechange FUNCTION
-	var x = document.getElementById('test');
+	var x = document.getElementById('locationReturn');
 	x.innerHTML = xmlhttp.responseText;
 	parseReq(newLocName);
 }
@@ -569,7 +579,7 @@ function addSession(){
 				
 			// GET DATE VALUES
 				// PARSE THE DATE RETURNED BY DATEPICKER AS SQL DATE()
-				var endFullDate = $('#datepicker').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
+				var endFullDate = $('#datepicker1').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
 				var splitRegEx = /\//;
 				var endArray = endFullDate.split(splitRegEx);
 				var endMonth = endArray[0];
@@ -621,11 +631,98 @@ function addSession(){
 
 function getSessions(){
 	$.post('pokerMethods.php', {method: 'getSessions'}, function (message){
-		if(message != 1){
-			$('#sessTableBody').html(message);
+		if(message == 1){
+			$('#statusMsg').html("You have no recorded sessions. Add one now!");
 		}
 		else{
-			$('#statusMsg').html("You have no recorded sessions. Add one now!");
+			$('#sessTableBody').html(message);
 		}
 	});
 }
+
+function editRow(x){
+	// GET ROW ID
+	$rowId = (x.parentNode.parentNode.id);
+
+	// USE FORM TO POST ROW ID TO EDITSESSIONS PG
+	$('#editRowId').val($rowId);
+	$('#editSession').submit();
+	
+	// FILL IN VALS OF EDIT SESSION FORM (NEW FXN)
+}
+
+function editGetVals(){
+
+	$.post('pokerMethods.php', {method: 'editGetVals'}, function(message){
+		// RETURN DB VARS AS STRING, THEN PARSE INTO ARRAY
+		$splitRegEx = /#/g;
+		$splitMsgArray = message.split($splitRegEx);
+		
+		$startDate = $splitMsgArray[0];
+		$('#datepickerEdit').val($startDate);
+		
+		$startTime = $splitMsgArray[1];
+			$splitTimeRegEx = /:/g;
+			$splitTimeArray = $startTime.split($splitTimeRegEx);
+			$startHr = $splitTimeArray[0];
+			$startMin = $splitTimeArray[1];
+			alert($startHr);
+			// USE FOR LOOP TO MATCH HR TO OPTION
+			$editStHrOptArr = document.getElementsByName('editStHourOption');
+			
+		
+		$endDate = $splitMsgArray[2];
+		$('#datepickerEdit1').val($endDate);
+		
+		$endTime = $splitMsgArray[3];
+		
+	});
+}	
+
+	// INSTEAD OF GETTING NEW DATE, GET DATE OF SESSION BEING EDITED
+	// var today = new Date();
+	// var hour = today.getHours();
+	// var min = today.getMinutes();
+	
+
+	// PUT TIME OPTIONS INTO ARRAYS
+	// var hrs = document.getElementsByName(editHourOption);
+	// var mins = document.getElementsByName(editMinOption);
+	// var amPms = document.getElementsByName(editAmPmOption);
+	
+	// DON'T NEED ROUNDING FOR EDITGETTIME- TIME IS ALREADY ROUNDED IN DB
+	// // ROUND CURRENT MINS TO NEAREST 5
+	// var roundMin = 5 * Math.round(min/5);
+	
+	// // IF MIN ROUNDS UP TO 60, ADD 1 TO HOUR AND SET MIN TO 00
+	// if(min > 56 && min < 60){
+		// hour = hour + 1;
+		// roundMin = 0;
+	// }
+	
+	// IF CURRENT HR > 12, SUBTRACT 12 AND SET PM
+	// if(hour > 12){
+		// for(var k=0; k<amPms.length; k++){
+			// if(amPms[k].value == "pm"){
+				// amPms[k].selected = true;
+				// break;
+			// }
+		// }
+		// hour = hour - 12;
+	// }
+	
+	// // MATCH CURRENT HR TO STHROPTION
+	// for(var i=0; i<hrs.length; i++){
+		// if(hrs[i].value == hour){
+			// hrs[i].selected = true;
+			// break;
+		// }
+	// }
+	
+	// for(var j=0; j<mins.length; j++){
+		// if(mins[j].value == roundMin){
+			// mins[j].selected = true;
+			// break;
+		// }
+	// }	
+// }

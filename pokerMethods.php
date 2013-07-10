@@ -301,7 +301,6 @@
 				
 				$stmt = sqlsrv_query($conn, '{CALL AddGameOption(?,?,?)}', $params);
 
-				
 				if($stmt == false){
 					die(print_r(sqlsrv_errors(), true));
 				}
@@ -360,6 +359,10 @@
 					die(print_r(sqlsrv_errors(), true));
 				}
 				
+				if($AddSessionMsg == 1){
+					echo "End time cannot be before start time!";
+				}
+				
 				sqlsrv_close($conn);
 				break;
 				
@@ -374,12 +377,6 @@
 				
 				$MemberId = $_SESSION['user']['id'];
 				$GetSessionsMsg = 0;
-				
-				// CALL SP INSTEAD- IN SP CAN CONVERT DATETIME TO STRING
-				// $sql = "SELECT * FROM Sessions
-						// WHERE MemberId = '$MemberId'";
-				
-				// $stmt = sqlsrv_query($conn, $sql);
 				
 				$params = array(
 					array($MemberId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
@@ -397,11 +394,12 @@
 				// OTHERWISE, ENTER THIS WHILE LOOP
 				if($GetSessionsMsg == 0){
 					$i = 1;
-					while($row = sqlsrv_fetch_array( $stmt, SQLSRV_FETCH_ASSOC)){
-						  echo "<tr id='".$row['Id']."'><td>".$i.".</td><td>".$row['StartDate']."</td><td>".$row['StartTime'].
-						  "</td><td>".$row['Location']."</td><td>".$row['GameType']."</td><td>".$row['Limits']."</td><td>".$row['Duration'].
-						  "</td><td>".$row['BuyIn']."</td><td>".$row['CashOut']."</td><td>".$row['Place']."</td><td>".$row['Rate']."</td><td>".$row['Return']."</td></tr>";
-						  $i = $i + 1;
+					while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+						echo "<tr id='".$row['Id']."'><td>".$i.".</td><td>".$row['StartDate']."</td><td>".$row['StartTime'].
+						"</td><td>".$row['Location']."</td><td>".$row['GameType']."</td><td>".$row['Limits']."</td><td>".$row['Duration']."</td>
+						<td>".$row['BuyIn']."</td><td>".$row['CashOut']."</td><td>".$row['Place']."</td><td>".$row['Rate']."</td>
+						<td>".$row['Return']."</td><td><button onclick='editRow(this)'>Edit</button></td></tr>";
+						$i = $i + 1;
 					}
 				}
 				else{
@@ -410,7 +408,41 @@
 				
 				sqlsrv_close($conn);
 				break;
+			
+			case 'editGetVals':
+			// CONNECT TO DB
+				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);
+				$conn = sqlsrv_connect($myServer, $connectionInfo);
 				
+				if(!$conn){
+					die('Database connection failed.\n');
+				}
+				
+				$MemberId = $_SESSION['user']['id'];
+				$SessionId = $_SESSION['editRowId'];
+				
+				// GET SESSION START DATE AND ENTER INTO START DATE FIELD
+				$params = array(
+					array($MemberId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
+					array($SessionId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
+				);
+				
+				$stmt = sqlsrv_query($conn, '{CALL EditGetVals(?,?)}', $params);
+				
+				if($stmt === false){
+					echo 'Data could not be retrieved from database.';
+					die(print_r(sqlsrv_errors(), true));
+				}
+				
+				while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+					echo $row['StartDate']."#"
+						.$row['StartTime']."#"
+						.$row['EndDate']."#"
+						.$row['EndTime']."#";
+				}
+				
+				// sqlsrv_close($conn);
+				// break;
 		}
 	}
 	catch (Exception $e){

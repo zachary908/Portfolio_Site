@@ -1,6 +1,9 @@
 <?php
 	include 'controls/pokerHeader.php';
 ?>
+	<form id="editSession" action="../pokerEditSession.php" method="POST" style="position: absolute">
+		<input id="editRowId" name="editRowId" type="hidden" value="" />
+	</form>
 	
 	<div id="statusMsg">
 		<?php

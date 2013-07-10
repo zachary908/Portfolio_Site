@@ -12,10 +12,11 @@
 
 <body>
 	<div id="fullCover2"></div>
-	<form id="statusForm" action="../setStatus.php" method="POST" style="position: absolute">
+	<form id="statusForm" action="../pokerSetStatus.php" method="POST" style="position: absolute">
 		<input id="status" name="status" type="hidden" value="" />
 	</form>
-	<div id="test" style="visibility:hidden; position:absolute"></div>
+
+	<div id="locationReturn" style="visibility:hidden; position:absolute"></div>
 	<div id="gameReturn" style="visibility:hidden; position:absolute"></div>
 	<div id="limitReturn" style="visibility:hidden; position:absolute"></div>
 	<div class="modalWrap" id="modalWrap2">
