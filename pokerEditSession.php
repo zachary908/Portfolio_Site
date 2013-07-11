@@ -138,11 +138,6 @@
 			<div class="modalLabel">Location Type:</div>
 		</div>
 		<div id="editLocTypeVal"></div>
-		<script>$(document).ready(function(){
-			showLocType('editLocTypeVal');
-			});
-		</script>
-
 	</div>
 	<!-------------------------------------->
 	<div class="modalRow">
@@ -151,7 +146,7 @@
 		</div>
 		<select id="editGameOptions" style="width:150px"></select>
 		<!--
-		<script>getList("game", "editGameOptions");</script>
+		<script>getList("game", gameListDest);</script>
 		<span onclick="showModal2('addGameModal', 'addGame')" style="cursor:pointer">Add Game Type</span>
 		-->
 	</div>
@@ -161,12 +156,10 @@
 			<div class="modalLabel" style="visibility:hidden">Game Type:</div>
 		</div>
 		<div>
-			<!--
-			<form name="ringTourType">
-				<input type="radio" name="ringTourRadio" id="ring" value=0 checked="checked">Ring
-				<input type="radio" name="ringTourRadio" id="tourney" value=1>Tournament
+			<form name="editRingTourType">
+				<input type="radio" name="editRingTourRadio" id="editRing" value=0 checked="checked">Ring
+				<input type="radio" name="editRingTourRadio" id="editTourney" value=1>Tournament
 			</form>
-			-->
 		</div>
 	</div>
 	<!-------------------------------------->
@@ -176,7 +169,7 @@
 		</div>
 		<select id="editLimitOptions" style="width:150px"></select>
 		<!--
-		<script>getList("limit", "editLimitOptions");</script>
+		<script>getList("limit", limitListDest);</script>
 		<span onclick="showModal2('addLimitModal', 'addLimit')" style="cursor:pointer">Add Limit</span>
 		-->
 	</div>
@@ -186,8 +179,9 @@
 			<div class="modalLabel">Buy In:</div>
 		</div>
 		<span>$</span>
+		<input id="editBuyin" type="text" style="width:138px" />
 		<!--
-		<input id="buyin" type="text" style="width:138px" onkeypress="checkEnter(event, 'addSession');" />
+		<input id="editBuyin" type="text" style="width:138px" onkeypress="checkEnter(event, 'addSession');" />
 		-->
 	</div>
 	<!-------------------------------------->
@@ -196,8 +190,9 @@
 			<div class="modalLabel">Cash Out:</div>
 		</div>
 		<span>$</span>
+		<input id="editCashout" type="text" style="width:138px" />
 		<!--
-		<input id="cashout" type="text" style="width:138px" onkeypress="checkEnter(event, 'addSession');" />
+		<input id="editCashout" type="text" style="width:138px" onkeypress="checkEnter(event, 'addSession');" />
 		-->
 	</div>
 	<!-------------------------------------->
@@ -205,6 +200,7 @@
 		<div class="modalLabelWrap">
 			<div class="modalLabel">Place:</div>
 		</div>
+		<input id="editPlace" type="text" />
 		<!--
 		<input id="place" type="text" onkeypress="checkEnter(event, 'addSession');" />
 		-->
@@ -217,7 +213,8 @@
 
 	<!-------------------------------------->
 	<script>
-		editGetVals();
+		$(document).ready(editGetVals());
+		$(document).ready(showLocType());
 	</script>
 
 <?php

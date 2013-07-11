@@ -11,6 +11,24 @@
 </head>
 
 <body>
+<?php
+	if(basename($_SERVER['PHP_SELF']) == "pokerAddSession.php"){
+		echo '<script>
+			locListDest = "locationOptions";
+			locTypeDest = "locTypeVal";
+			gameListDest = "gameOptions";
+			limitListDest = "limitOptions";
+			</script>';
+	}
+	else if(basename($_SERVER['PHP_SELF']) == "pokerEditSession.php"){
+		echo '<script>
+			locListDest = "editLocationOptions";
+			locTypeDest = "editLocTypeVal";
+			gameListDest = "editGameOptions";
+			limitListDest = "editLimitOptions";
+			</script>';
+	}
+?>
 	<div id="fullCover2"></div>
 	<form id="statusForm" action="../pokerSetStatus.php" method="POST" style="position: absolute">
 		<input id="status" name="status" type="hidden" value="" />

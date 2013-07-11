@@ -440,7 +440,12 @@
 						.$row['EndDate']."#"
 						.$row['EndTime']."#"
 						.$row['Location']."#"
-						.$row['GameType']."#";
+						.$row['GameType']."#"
+						.$row['RingTour']."#"
+						.$row['Limits']."#"
+						.$row['BuyIn']."#"
+						.$row['CashOut']."#"
+						.$row['Place']."#";
 				}
 				
 				sqlsrv_close($conn);

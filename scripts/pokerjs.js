@@ -145,29 +145,23 @@ function clrCloseModal2(elementId){
 	}
 }
 
-function showLocType(destListElement){
+function showLocType(){
 	var x = document.getElementsByName("locType");
 	var y = document.getElementsByName("location");
-	var targetVal = "";
-	if(destListElement == 'editLocTypeVal'){
-		targetVal = $("#editLocationOptions").val();
-	}
-	else if(destListElement == 'locTypeVal'){
-		targetVal = $("#locationOptions").val();
-	}
+	var targetVal = $("#" + locListDest).val();
+
 	var targetIndex = 0;
 	for(var j=0; j<y.length; j++){
 		if(targetVal == y[j].innerHTML){
 			targetIndex = j;
-			break;
 		}
 	}
-	var testType = x[targetIndex].innerHTML
+	var testType = x[targetIndex].innerHTML;
 	if(testType == 0){
-		$("#"+ destListElement).html("Live");
+		$("#"+ locTypeDest).html("Live");
 	}
 	else{
-		$("#"+ destListElement).html("Online");
+		$("#"+ locTypeDest).html("Online");
 	}
 }
 
@@ -301,7 +295,7 @@ function logout(){
 	});
 }
 
-function getList(listType, destListElement, newOptionVal){
+function getList(listType, newOptionVal){
 	if (window.XMLHttpRequest){
 		// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp = new XMLHttpRequest();
@@ -335,12 +329,12 @@ function getList(listType, destListElement, newOptionVal){
 	var l;
 	if(listType == "game"){
 		g = document.getElementsByName('gameOption');
-		l = document.getElementById(destListElement);
+		l = document.getElementById(gameListDest);
 		l.innerHTML = "";
 	}
 	else{
 		g = document.getElementsByName('limitOption');
-		l = document.getElementById(destListElement);
+		l = document.getElementById(limitListDest);
 		l.innerHTML = "";
 	}
 	
@@ -396,7 +390,7 @@ function addLimitOption(){
 				}
 				else{
 					clrCloseModal2("addLimitModal");
-					getList("limit", "limitReturn", newLimitVal);
+					getList("limit", "limitOptions", newLimitVal);
 				}
 			});
 		}
@@ -434,7 +428,7 @@ function addLocOption(){
 	}
 }
 
-function getLocList(destListElement, newOptionVal){
+function getLocList(newOptionVal){
 	$('#addSessErrLbl').html("");
 	if (window.XMLHttpRequest){
 		// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -473,14 +467,9 @@ function getLocList(destListElement, newOptionVal){
 			string1 = string1 + "<option>" + y[j].innerHTML + "</option>";
 		}
 	}
-	document.getElementById(destListElement).innerHTML = string1;
+	document.getElementById(locListDest).innerHTML = string1;
 	
-	if(destListElement == 'editLocationOptions'){
-		showLocType('editLocTypeVal');
-	}
-	else if(destListElement == 'locationOptions'){
-		showLocType('locTypeVal');
-	}
+	// showLocType(locTypeDest);
 }
 
 function addSession(){
@@ -651,46 +640,45 @@ function getSessions(){
 
 function editRow(x){
 	// GET ROW ID
-	$rowId = (x.parentNode.parentNode.id);
+	var rowId = (x.parentNode.parentNode.id);
 
 	// USE FORM TO POST ROW ID TO EDITSESSIONS PG
-	$('#editRowId').val($rowId);
+	$('#editRowId').val(rowId);
 	$('#editSession').submit();
 	
 	// FILL IN VALS OF EDIT SESSION FORM (NEW FXN)
 }
 
 function editGetVals(){
-
 	$.post('pokerMethods.php', {method: 'editGetVals'}, function(message){
 		// RETURN DB VARS AS STRING, THEN PARSE INTO ARRAY
-		$splitRegEx = /#/g;
-		$splitMsgArray = message.split($splitRegEx);
+		var splitRegEx = /#/g;
+		var splitMsgArray = message.split(splitRegEx);
 		
 		// START DATE
-		$editStDate = $splitMsgArray[0];
-		$('#datepickerEdit').val($editStDate);
+		var editStDate = splitMsgArray[0];
+		$('#datepickerEdit').val(editStDate);
 		
 		// START TIME
-		$editStTime = $splitMsgArray[1];
-			$splitTimeRegEx = /:/g;
-			$splitEditStTimeArray = $editStTime.split($splitTimeRegEx);
-			$editStHr24 = $splitEditStTimeArray[0];
-			$editStMin24 = $splitEditStTimeArray[1];
-			$editStAmPm = "am"
+		var editStTime = splitMsgArray[1];
+			var splitTimeRegEx = /:/g;
+			var splitEditStTimeArray = editStTime.split(splitTimeRegEx);
+			var editStHr24 = splitEditStTimeArray[0];
+			var editStMin24 = splitEditStTimeArray[1];
+			var editStAmPm = "am"
 
-			if($editStHr24 > 12){
-				$editStHr12 = $editStHr24 - 12;
-				$editStAmPm = "pm";
+			if(editStHr24 > 12){
+				editStHr12 = editStHr24 - 12;
+				editStAmPm = "pm";
 			}
 			else{
-				$editStHr12 = $editStHr24;
+				editStHr12 = editStHr24;
 			}
 			
 			var editStHrOptions = document.getElementsByName('editStHourOption');
 			
 			for(var i=0; i<editStHrOptions.length; i++){
-				if(editStHrOptions[i].value == $editStHr12){
+				if(editStHrOptions[i].value == editStHr12){
 					editStHrOptions[i].selected = true;
 				}
 			}
@@ -698,7 +686,7 @@ function editGetVals(){
 			var editStMinOptions = document.getElementsByName('editStMinOption');
 			
 			for(var i=0; i<editStMinOptions.length; i++){
-				if(editStMinOptions[i].value == $editStMin24){
+				if(editStMinOptions[i].value == editStMin24){
 					editStMinOptions[i].selected = true;
 				}
 			}
@@ -706,108 +694,88 @@ function editGetVals(){
 			var editStAmPmOptions = document.getElementsByName('editStAmPmOption');
 			
 			for(var i=0; i<editStAmPmOptions.length; i++){
-				if(editStAmPmOptions[i].value == $editStAmPm){
+				if(editStAmPmOptions[i].value == editStAmPm){
 					editStAmPmOptions[i].selected = true;
 				}
 			}
 		
 		// END DATE
-		$editEndDate = $splitMsgArray[2];
-		$('#datepickerEdit1').val($editEndDate);
+		var editEndDate = splitMsgArray[2];
+		$('#datepickerEdit1').val(editEndDate);
 		
 		// END TIME
-		$editEndTime = $splitMsgArray[3];
-			$splitEditEndTimeArray = $editEndTime.split($splitTimeRegEx);
-			$editEndHr24 = $splitEditEndTimeArray[0];
-			$editEndMin24 = $splitEditEndTimeArray[1];
-			$editEndAMPM = "am"
+		var editEndTime = splitMsgArray[3];
+			var splitEditEndTimeArray = editEndTime.split(splitTimeRegEx);
+			var editEndHr24 = splitEditEndTimeArray[0];
+			var editEndMin24 = splitEditEndTimeArray[1];
+			var editEndAMPM = "am"
 			
-			if($editEndHr24 > 12){
-				$editEndHr12 = $editEndHr24 - 12;
-				$editEndAMPM = "pm";
+			if(editEndHr24 > 12){
+				editEndHr12 = editEndHr24 - 12;
+				editEndAMPM = "pm";
 			}
 			else{
-				$editEndHr12 = $editEndHr24;
+				editEndHr12 = editEndHr24;
 			}
 			
 			var editEndHrOptions = document.getElementsByName('editEndHrOption');
 			for(var i=0; i<editEndHrOptions.length; i++){
-				if(editEndHrOptions[i].value == $editEndHr12){
+				if(editEndHrOptions[i].value == editEndHr12){
 					editEndHrOptions[i].selected = true;
 				}
 			}
 			
 			var editEndMinOptions = document.getElementsByName('editEndMinOption');
 			for(var i=0; i<editEndMinOptions.length; i++){
-				if(editEndMinOptions[i].value == $editEndMin24){
+				if(editEndMinOptions[i].value == editEndMin24){
 					editEndMinOptions[i].selected = true;
 				}
 			}
 			
 			var editEndAmPmOptions = document.getElementsByName('editEndAmPmOption');
 			for(var i=0; i<editEndAmPmOptions.length; i++){
-				if(editEndAmPmOptions[i].value == $editEndAMPM){
+				if(editEndAmPmOptions[i].value == editEndAMPM){
 					editEndAmPmOptions[i].selected = true;
 				}
 			}
 		
 		// LOCATION
-		$editLocation = $splitMsgArray[4];
-		getLocList('editLocationOptions', $editLocation);
+		var editLocation = splitMsgArray[4];
+		getLocList(editLocation);
 		
 		//LOCATION TYPE
-			// showLocType() IS CALLED AT END OF getLocList()
+		showLocType();
 			
 		// GAME TYPE
-		$editGameType = $splitMsgArray[5];
-		getList('game', 'editGameOptions', $editGameType)
+		var editGameType = splitMsgArray[5];
+		getList('game', editGameType);
+		
+		// RING/TOUR
+		var editRingTourType = splitMsgArray[6];
+		var editRingTourTypeOptions = document.getElementsByName('editRingTourRadio');
+		for(var i=0; i<editRingTourTypeOptions.length; i++){
+			if(editRingTourTypeOptions[i].value == editRingTourType){
+				editRingTourTypeOptions[i].checked = true;
+			}
+		}
+		
+		// LIMITS
+		var editLimit = splitMsgArray[7];
+		getList('limit', editLimit);
+		
+		// BUY-IN
+		var editBuyin = splitMsgArray[8];
+		$('#editBuyin').val(editBuyin);
+		
+		// CASH OUT
+		var editCashOut = splitMsgArray[9];
+		$('#editCashout').val(editCashOut);
+		
+		// PLACE
+		var editPlace = splitMsgArray[10];
+		$('#editPlace').val(editPlace);
+		
 	});
-}	
+}
 
-	// INSTEAD OF GETTING NEW DATE, GET DATE OF SESSION BEING EDITED
-	// var today = new Date();
-	// var hour = today.getHours();
-	// var min = today.getMinutes();
-	
 
-	// PUT TIME OPTIONS INTO ARRAYS
-	// var hrs = document.getElementsByName(editHourOption);
-	// var mins = document.getElementsByName(editMinOption);
-	// var amPms = document.getElementsByName(editAmPmOption);
-	
-	// DON'T NEED ROUNDING FOR EDITGETTIME- TIME IS ALREADY ROUNDED IN DB
-	// // ROUND CURRENT MINS TO NEAREST 5
-	// var roundMin = 5 * Math.round(min/5);
-	
-	// // IF MIN ROUNDS UP TO 60, ADD 1 TO HOUR AND SET MIN TO 00
-	// if(min > 56 && min < 60){
-		// hour = hour + 1;
-		// roundMin = 0;
-	// }
-	
-	// IF CURRENT HR > 12, SUBTRACT 12 AND SET PM
-	// if(hour > 12){
-		// for(var k=0; k<amPms.length; k++){
-			// if(amPms[k].value == "pm"){
-				// amPms[k].selected = true;
-				// break;
-			// }
-		// }
-		// hour = hour - 12;
-	// }
-	
-	// // MATCH CURRENT HR TO STHROPTION
-	// for(var i=0; i<hrs.length; i++){
-		// if(hrs[i].value == hour){
-			// hrs[i].selected = true;
-			// break;
-		// }
-	// }
-	
-	// for(var j=0; j<mins.length; j++){
-		// if(mins[j].value == roundMin){
-			// mins[j].selected = true;
-			// break;
-		// }
-	// }	
-// }
