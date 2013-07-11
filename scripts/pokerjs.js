@@ -145,26 +145,17 @@ function clrCloseModal2(elementId){
 	}
 }
 
-function parseReq(newLocNameVal){
-	var y = document.getElementsByName("location");
-	var string1 = "";
-	for(var j=0; j<y.length; j++){
-		if(y[j].innerHTML == newLocNameVal){
-			string1 = string1 + "<option selected>" + y[j].innerHTML + "</option>";
-		}
-		else{
-			string1 = string1 + "<option>" + y[j].innerHTML + "</option>";
-		}
-	}
-	document.getElementById("locationOptions").innerHTML = string1;
-	showLocType();
-}
-
-function showLocType(){
+function showLocType(destListElement){
 	var x = document.getElementsByName("locType");
 	var y = document.getElementsByName("location");
-	var targetVal = $('#locationOptions').val();
-	var targetIndex;
+	var targetVal = "";
+	if(destListElement == 'editLocTypeVal'){
+		targetVal = $("#editLocationOptions").val();
+	}
+	else if(destListElement == 'locTypeVal'){
+		targetVal = $("#locationOptions").val();
+	}
+	var targetIndex = 0;
 	for(var j=0; j<y.length; j++){
 		if(targetVal == y[j].innerHTML){
 			targetIndex = j;
@@ -173,10 +164,10 @@ function showLocType(){
 	}
 	var testType = x[targetIndex].innerHTML
 	if(testType == 0){
-		$('#locTypeVal').html("Live");
+		$("#"+ destListElement).html("Live");
 	}
 	else{
-		$('#locTypeVal').html("Online");
+		$("#"+ destListElement).html("Online");
 	}
 }
 
@@ -380,7 +371,7 @@ function addGameOption(){
 				}
 				else{
 					clrCloseModal2("addGameModal");
-					getList("game", "gameReturn", newGameVal);
+					getList("game", "gameOptions", newGameVal);
 				}
 			});
 		}
@@ -418,7 +409,32 @@ function addLimitOption(){
 	}
 }
 
-function getLocList(newLocName){
+function addLocOption(){
+	$("#addLocErrLbl").html("");
+	var locTypeVal = $('input[name="locTypeRadio"]:checked').val();
+	var newLocNameVal = $('#addLocName').val();
+	if(newLocNameVal != ""){
+		if(checkChars(newLocNameVal)){
+			$.post('pokerMethods.php', {method: 'addLocOption', phpLocNameVal: newLocNameVal, phpLocType: locTypeVal}, function(message){
+				if(message != ""){
+					$("#addLocErrLbl").html(message);
+				}
+				else{
+					clrCloseModal2('addLocationModal');
+					getLocList("locationReturn", newLocNameVal);
+				}
+			});
+		}
+		else{
+			$("#addLocErrLbl").html("Entry cannot contain special characters.");
+		}
+	}
+	else{
+		$("#addLocErrLbl").html("Please fill in the location name.")
+	}
+}
+
+function getLocList(destListElement, newOptionVal){
 	$('#addSessErrLbl').html("");
 	if (window.XMLHttpRequest){
 		// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -446,31 +462,24 @@ function getLocList(newLocName){
 	//xmlhttp.onreadystatechange FUNCTION
 	var x = document.getElementById('locationReturn');
 	x.innerHTML = xmlhttp.responseText;
-	parseReq(newLocName);
-}
 
-function addLocOption(){
-	$("#addLocErrLbl").html("");
-	var locTypeVal = $('input[name="locTypeRadio"]:checked').val();
-	var newLocNameVal = $('#addLocName').val();
-	if(newLocNameVal != ""){
-		if(checkChars(newLocNameVal)){
-			$.post('pokerMethods.php', {method: 'addLocOption', phpLocNameVal: newLocNameVal, phpLocType: locTypeVal}, function(message){
-				if(message != ""){
-					$("#addLocErrLbl").html(message);
-				}
-				else{
-					clrCloseModal2('addLocationModal');
-					getLocList(newLocNameVal);
-				}
-			});
+	var y = document.getElementsByName("location");
+	var string1 = "";
+	for(var j=0; j<y.length; j++){
+		if(y[j].innerHTML == newOptionVal){
+			string1 = string1 + "<option selected>" + y[j].innerHTML + "</option>";
 		}
 		else{
-			$("#addLocErrLbl").html("Entry cannot contain special characters.");
+			string1 = string1 + "<option>" + y[j].innerHTML + "</option>";
 		}
 	}
-	else{
-		$("#addLocErrLbl").html("Please fill in the location name.")
+	document.getElementById(destListElement).innerHTML = string1;
+	
+	if(destListElement == 'editLocationOptions'){
+		showLocType('editLocTypeVal');
+	}
+	else if(destListElement == 'locationOptions'){
+		showLocType('locTypeVal');
 	}
 }
 
@@ -658,24 +667,100 @@ function editGetVals(){
 		$splitRegEx = /#/g;
 		$splitMsgArray = message.split($splitRegEx);
 		
-		$startDate = $splitMsgArray[0];
-		$('#datepickerEdit').val($startDate);
+		// START DATE
+		$editStDate = $splitMsgArray[0];
+		$('#datepickerEdit').val($editStDate);
 		
-		$startTime = $splitMsgArray[1];
+		// START TIME
+		$editStTime = $splitMsgArray[1];
 			$splitTimeRegEx = /:/g;
-			$splitTimeArray = $startTime.split($splitTimeRegEx);
-			$startHr = $splitTimeArray[0];
-			$startMin = $splitTimeArray[1];
-			alert($startHr);
-			// USE FOR LOOP TO MATCH HR TO OPTION
-			$editStHrOptArr = document.getElementsByName('editStHourOption');
+			$splitEditStTimeArray = $editStTime.split($splitTimeRegEx);
+			$editStHr24 = $splitEditStTimeArray[0];
+			$editStMin24 = $splitEditStTimeArray[1];
+			$editStAmPm = "am"
+
+			if($editStHr24 > 12){
+				$editStHr12 = $editStHr24 - 12;
+				$editStAmPm = "pm";
+			}
+			else{
+				$editStHr12 = $editStHr24;
+			}
 			
+			var editStHrOptions = document.getElementsByName('editStHourOption');
+			
+			for(var i=0; i<editStHrOptions.length; i++){
+				if(editStHrOptions[i].value == $editStHr12){
+					editStHrOptions[i].selected = true;
+				}
+			}
+			
+			var editStMinOptions = document.getElementsByName('editStMinOption');
+			
+			for(var i=0; i<editStMinOptions.length; i++){
+				if(editStMinOptions[i].value == $editStMin24){
+					editStMinOptions[i].selected = true;
+				}
+			}
+			
+			var editStAmPmOptions = document.getElementsByName('editStAmPmOption');
+			
+			for(var i=0; i<editStAmPmOptions.length; i++){
+				if(editStAmPmOptions[i].value == $editStAmPm){
+					editStAmPmOptions[i].selected = true;
+				}
+			}
 		
-		$endDate = $splitMsgArray[2];
-		$('#datepickerEdit1').val($endDate);
+		// END DATE
+		$editEndDate = $splitMsgArray[2];
+		$('#datepickerEdit1').val($editEndDate);
 		
-		$endTime = $splitMsgArray[3];
+		// END TIME
+		$editEndTime = $splitMsgArray[3];
+			$splitEditEndTimeArray = $editEndTime.split($splitTimeRegEx);
+			$editEndHr24 = $splitEditEndTimeArray[0];
+			$editEndMin24 = $splitEditEndTimeArray[1];
+			$editEndAMPM = "am"
+			
+			if($editEndHr24 > 12){
+				$editEndHr12 = $editEndHr24 - 12;
+				$editEndAMPM = "pm";
+			}
+			else{
+				$editEndHr12 = $editEndHr24;
+			}
+			
+			var editEndHrOptions = document.getElementsByName('editEndHrOption');
+			for(var i=0; i<editEndHrOptions.length; i++){
+				if(editEndHrOptions[i].value == $editEndHr12){
+					editEndHrOptions[i].selected = true;
+				}
+			}
+			
+			var editEndMinOptions = document.getElementsByName('editEndMinOption');
+			for(var i=0; i<editEndMinOptions.length; i++){
+				if(editEndMinOptions[i].value == $editEndMin24){
+					editEndMinOptions[i].selected = true;
+				}
+			}
+			
+			var editEndAmPmOptions = document.getElementsByName('editEndAmPmOption');
+			for(var i=0; i<editEndAmPmOptions.length; i++){
+				if(editEndAmPmOptions[i].value == $editEndAMPM){
+					editEndAmPmOptions[i].selected = true;
+				}
+			}
 		
+		// LOCATION
+		$editLocation = $splitMsgArray[4];
+		getLocList('editLocationOptions', $editLocation);
+		
+		//LOCATION TYPE
+			// showLocType() IS CALLED AT END OF getLocList()
+			
+		// GAME TYPE
+		$editGameType = $splitMsgArray[5];
+		getList('game', 'editGameOptions', $editGameType)
 	});
 }	
 

@@ -438,11 +438,13 @@
 					echo $row['StartDate']."#"
 						.$row['StartTime']."#"
 						.$row['EndDate']."#"
-						.$row['EndTime']."#";
+						.$row['EndTime']."#"
+						.$row['Location']."#"
+						.$row['GameType']."#";
 				}
 				
-				// sqlsrv_close($conn);
-				// break;
+				sqlsrv_close($conn);
+				break;
 		}
 	}
 	catch (Exception $e){

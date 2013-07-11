@@ -121,8 +121,8 @@
 		<div class="modalLabelWrap">
 			<div class="modalLabel">Location:</div>
 		</div>
-		
-		<select id="locationOptions" style="width:150px" onchange="showLocType()"></select>
+		<select id="locationOptions" style="width:150px" onchange="showLocType('locTypeVal')"></select>
+		<script>getLocList("locationOptions")</script>
 		
 		<span onclick="showModal2('addLocationModal', 'addLocName')" style="cursor:pointer">Add Location</span>
 	</div>
@@ -131,9 +131,8 @@
 		<div class="modalLabelWrap">
 			<div class="modalLabel">Location Type:</div>
 		</div>
-
 		<script>$(document).ready(function(){
-			showLocType();
+			showLocType('locTypeVal');
 			});
 		</script>
 
@@ -145,7 +144,6 @@
 			<div class="modalLabel">Game Type:</div>
 		</div>	
 		<select id="gameOptions" style="width:150px"></select>
-		
 		<script>getList("game", "gameOptions")</script>
 		
 		<span onclick="showModal2('addGameModal', 'addGame')" style="cursor:pointer">Add Game Type</span>
@@ -168,7 +166,6 @@
 			<div class="modalLabel">Limits:</div>
 		</div>	
 		<select id="limitOptions" style="width:150px"></select>
-		
 		<script>getList("limit", "limitOptions")</script>
 		
 		<span onclick="showModal2('addLimitModal', 'addLimit')" style="cursor:pointer">Add Limit</span>
@@ -204,8 +201,6 @@
 	<div id="test1"></div><br>
 	<div id="test2"></div><br>
 	
-	
-	<script>getLocList()</script>
 <?php
 	include 'controls/pokerFooter.php';
 ?>

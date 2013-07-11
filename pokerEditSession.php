@@ -82,38 +82,38 @@
 		<div class="modalLabelWrap">
 			<div class="modalLabel">End Time:</div>
 		</div>
-		<select id="endHour">
-			<option name="endHrOption">1</option>
-			<option name="endHrOption">2</option>
-			<option name="endHrOption">3</option>
-			<option name="endHrOption">4</option>
-			<option name="endHrOption">5</option>
-			<option name="endHrOption">6</option>
-			<option name="endHrOption">7</option>
-			<option name="endHrOption">8</option>
-			<option name="endHrOption">9</option>
-			<option name="endHrOption">10</option>
-			<option name="endHrOption">11</option>
-			<option name="endHrOption">12</option>
+		<select id="editEndHour">
+			<option name="editEndHrOption">1</option>
+			<option name="editEndHrOption">2</option>
+			<option name="editEndHrOption">3</option>
+			<option name="editEndHrOption">4</option>
+			<option name="editEndHrOption">5</option>
+			<option name="editEndHrOption">6</option>
+			<option name="editEndHrOption">7</option>
+			<option name="editEndHrOption">8</option>
+			<option name="editEndHrOption">9</option>
+			<option name="editEndHrOption">10</option>
+			<option name="editEndHrOption">11</option>
+			<option name="editEndHrOption">12</option>
 		</select>
 		<span>:</span>
-		<select id="endMin">
-			<option name="endMinOption">00</option>
-			<option name="endMinOption">05</option>
-			<option name="endMinOption">10</option>
-			<option name="endMinOption">15</option>
-			<option name="endMinOption">20</option>
-			<option name="endMinOption">25</option>
-			<option name="endMinOption">30</option>
-			<option name="endMinOption">35</option>
-			<option name="endMinOption">40</option>
-			<option name="endMinOption">45</option>
-			<option name="endMinOption">50</option>
-			<option name="endMinOption">55</option>
+		<select id="editEndMin">
+			<option name="editEndMinOption">00</option>
+			<option name="editEndMinOption">05</option>
+			<option name="editEndMinOption">10</option>
+			<option name="editEndMinOption">15</option>
+			<option name="editEndMinOption">20</option>
+			<option name="editEndMinOption">25</option>
+			<option name="editEndMinOption">30</option>
+			<option name="editEndMinOption">35</option>
+			<option name="editEndMinOption">40</option>
+			<option name="editEndMinOption">45</option>
+			<option name="editEndMinOption">50</option>
+			<option name="editEndMinOption">55</option>
 		</select>
-		<select id="endAmPm">
-			<option name="endAmPmOption">am</option>
-			<option name="endAmPmOption">pm</option>
+		<select id="editEndAmPm">
+			<option name="editEndAmPmOption">am</option>
+			<option name="editEndAmPmOption">pm</option>
 		</select>
 		<!--
 		<script>
@@ -126,9 +126,9 @@
 		<div class="modalLabelWrap">
 			<div class="modalLabel">Location:</div>
 		</div>
+		<select id="editLocationOptions" style="width:150px" onchange="showLocType('editLocTypeVal')"></select>
 		<!--
-		<select id="locationOptions" style="width:150px" onchange="showLocType()"></select>
-		
+		<script>getLocList("editLocationOptions")</script>
 		<span onclick="showModal2('addLocationModal', 'addLocName')" style="cursor:pointer">Add Location</span>
 		-->
 	</div>
@@ -137,14 +137,12 @@
 		<div class="modalLabelWrap">
 			<div class="modalLabel">Location Type:</div>
 		</div>
-		<!--
+		<div id="editLocTypeVal"></div>
 		<script>$(document).ready(function(){
-			showLocType();
+			showLocType('editLocTypeVal');
 			});
 		</script>
-		
-		<div id="locTypeVal"></div>
-		-->
+
 	</div>
 	<!-------------------------------------->
 	<div class="modalRow">
@@ -152,8 +150,8 @@
 			<div class="modalLabel">Game Type:</div>
 		</div>
 		<select id="editGameOptions" style="width:150px"></select>
-		
 		<!--
+		<script>getList("game", "editGameOptions");</script>
 		<span onclick="showModal2('addGameModal', 'addGame')" style="cursor:pointer">Add Game Type</span>
 		-->
 	</div>
@@ -177,8 +175,8 @@
 			<div class="modalLabel">Limits:</div>
 		</div>
 		<select id="editLimitOptions" style="width:150px"></select>
-		
 		<!--
+		<script>getList("limit", "editLimitOptions");</script>
 		<span onclick="showModal2('addLimitModal', 'addLimit')" style="cursor:pointer">Add Limit</span>
 		-->
 	</div>
@@ -220,8 +218,6 @@
 	<!-------------------------------------->
 	<script>
 		editGetVals();
-		getList("game", "editGameOptions");
-		getList("limit", "editLimitOptions");
 	</script>
 
 <?php
