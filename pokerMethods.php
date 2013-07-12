@@ -366,6 +366,54 @@
 				sqlsrv_close($conn);
 				break;
 				
+			case 'editSession':
+				// CONNECT TO DB
+				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);
+				$conn = sqlsrv_connect($myServer, $connectionInfo);
+				
+				if(!$conn){
+					die('Database connection failed.\n');
+				}
+				
+				$SessionId = $_SESSION['editRowId'];
+				$SqlStartDate = $_REQUEST['phpStartDate'];
+				$SqlEndDate = $_REQUEST['phpEndDate'];
+				$SqlLocation = $_REQUEST['phpLocation'];
+				$SqlGameType = $_REQUEST['phpGameType'];
+				$SqlRingTour = intval($_REQUEST['phpRingTour']);
+				$SqlLimits = $_REQUEST['phpLimits'];
+				$SqlBuyin = floatval($_REQUEST['phpBuyin']);
+				$SqlCashout = floatval($_REQUEST['phpCashout']);
+				$SqlPlace = intval($_REQUEST['phpPlace']);
+				$EditSessionMsg = "";
+				
+				$params = array(
+					array($SessionId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
+					array($SqlStartDate, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_SMALLDATETIME),
+					array($SqlEndDate, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_SMALLDATETIME),
+					array($SqlLocation, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
+					array($SqlGameType, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
+					array($SqlRingTour, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_INT),
+					array($SqlLimits, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
+					array($SqlBuyin, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
+					array($SqlCashout, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
+					array($SqlPlace, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
+					array($EditSessionMsg, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
+				);
+				
+				$stmt = sqlsrv_query($conn, '{CALL EditSession(?,?,?,?,?,?,?,?,?,?,?)}', $params);
+				
+				if($stmt == false){
+					die(print_r(sqlsrv_errors(), true));
+				}
+				
+				if($EditSessionMsg == 1){
+					echo "End time cannot be before start time!";
+				}
+				
+				sqlsrv_close($conn);
+				break;
+				
 			case 'getSessions':
 				// CONNECT TO DB
 				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);

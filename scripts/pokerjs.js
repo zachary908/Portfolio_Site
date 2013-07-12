@@ -125,12 +125,12 @@ function hideModal2(elementId){
 	cover.style.visibility = 'hidden';
 }
 
-// CLEAR ALL INPUTS BEFORE CLOSING MODAL
+// CLEAR ALL NON-RADIO INPUTS BEFORE CLOSING MODAL
 function clrCloseModal(elementId){
 	var whichElement = document.getElementById(elementId);
 
 	if(whichElement != null && whichElement != undefined){
-		$("#" + elementId + " input").val("");
+		$("#" + elementId + " input[type != 'radio']").val("");
 		hideModal(elementId);
 	}
 }
@@ -365,7 +365,7 @@ function addGameOption(){
 				}
 				else{
 					clrCloseModal2("addGameModal");
-					getList("game", "gameOptions", newGameVal);
+					getList("game", newGameVal);
 				}
 			});
 		}
@@ -390,7 +390,7 @@ function addLimitOption(){
 				}
 				else{
 					clrCloseModal2("addLimitModal");
-					getList("limit", "limitOptions", newLimitVal);
+					getList("limit", newLimitVal);
 				}
 			});
 		}
@@ -415,7 +415,7 @@ function addLocOption(){
 				}
 				else{
 					clrCloseModal2('addLocationModal');
-					getLocList("locationReturn", newLocNameVal);
+					getLocList(newLocNameVal);
 				}
 			});
 		}
@@ -469,7 +469,7 @@ function getLocList(newOptionVal){
 	}
 	document.getElementById(locListDest).innerHTML = string1;
 	
-	// showLocType(locTypeDest);
+	showLocType();
 }
 
 function addSession(){
@@ -486,142 +486,319 @@ function addSession(){
 		$('#addSessErrLbl').html("Buy-in entry can contain only numbers.");
 	}
 	else{
-		if(isNaN(cashout)){
-			$('#addSessErrLbl').html("Cash out entry can contain only numbers.");
+		if(buyinValid < 0){
+			$('#addSessErrLbl').html("Buy-in entry must be a positive number.");
 		}
 		else{
-			if(isNaN(place)){
-				$('#addSessErrLbl').html("Place entry can contain only numbers.");
+			if(isNaN(cashout)){
+				$('#addSessErrLbl').html("Cash out entry can contain only numbers.");
 			}
 			else{
-				var buyin = buyinValid;
-			
-		// START DATE				
-			// GET TIME VALUES
-				var stHrStr12 = parseInt($('#stHour').val());
-				var stMinStr = $('#stMin').val();
-				var stSecStr = "00";
-				var stAmPmStr = $('#stAmPm').val().toString();
-				
-				// CONVERT 12-HOUR TIME TO 24-HOUR
-				if(stHrStr12 == 12){
-					if(stAmPmStr == "pm"){
-						stHrStr24 = stHrStr12;
-					}
-					else{
-						stHrStr24 = 0;
-					}
+				if(cashout < 0){
+					$('#addSessErrLbl').html("Cash out entry must be a positive number.");
 				}
 				else{
-					if(stAmPmStr == "pm"){
-						stHrStr24 = stHrStr12 + 12;
+					if(isNaN(place)){
+						$('#addSessErrLbl').html("Place entry can contain only numbers.");
 					}
 					else{
-						stHrStr24 = stHrStr12;
-					}
-				}
-				
-				if(stHrStr24 < 10){
-					stHrStr24 = "0" + stHrStr24;
-				}
-				
-				// PARSE THE TIME RETURNED BY ADDSESSION FORM AS SQL TIME
-				var sqlStTimeStr = stHrStr24 + ":" + stMinStr + ":" + stSecStr;
-				
-			// GET DATE VALUES
-				// PARSE THE DATE RETURNED BY DATEPICKER AS SQL DATE()
-				var stFullDate = $('#datepicker').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
-				var splitRegEx = /\//;
-				var stArray = stFullDate.split(splitRegEx);
-				var stMonth = stArray[0];
-				var stDate = stArray[1];
-				var stYear = stArray[2];
-
-				var sqlStDate = stYear + "-" + stMonth + "-" + stDate; // SQL EXPECTS "YYYY-MM-DD"
-				var sqlStDateStr = sqlStDate.toString();
-				
-			// CONSOLIDATE DATE AND TIME TO SQL DATETIME FORMAT
-				var sqlStDatetimeStr = sqlStDateStr + " " + sqlStTimeStr
-				
-	// END DATE
-			// GET TIME VALUES
-				var endHrStr12 = parseInt($('#endHour').val());
-				var endMinStr = $('#endMin').val();
-				var endSecStr = "00";
-				var endAmPmStr = $('#endAmPm').val().toString();
-				
-				// CONVERT 12-HOUR TIME TO 24-HOUR
-				if(endHrStr12 == 12){
-					if(endAmPmStr == "pm"){
-						endHrStr24 = endHrStr12;
-					}
-					else{
-						endHrStr24 = 0;
-					}
-				}
-				else{
-					if(endAmPmStr == "pm"){
-						endHrStr24 = endHrStr12 + 12;
-					}
-					else{
-						endHrStr24 = endHrStr12;
-					}
-				}
-				
-				if(endHrStr24 < 10){
-					endHrStr24 = "0" + endHrStr24;
-				}
-				
-				// PARSE THE TIME RETURNED BY ADDSESSION FORM AS SQL TIME
-				var sqlEndTimeStr = endHrStr24 + ":" + endMinStr + ":" + endSecStr;
-				
-			// GET DATE VALUES
-				// PARSE THE DATE RETURNED BY DATEPICKER AS SQL DATE()
-				var endFullDate = $('#datepicker1').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
-				var splitRegEx = /\//;
-				var endArray = endFullDate.split(splitRegEx);
-				var endMonth = endArray[0];
-				var endDate = endArray[1];
-				var endYear = endArray[2];
-
-				var sqlEndDate = endYear + "-" + endMonth + "-" + endDate; // SQL EXPECTS "YYYY-MM-DD"
-				var sqlEndDateStr = sqlEndDate.toString();
-				
-			// CONSOLIDATE DATE AND TIME TO SQL DATETIME FORMAT
-				var sqlEndDatetimeStr = sqlEndDateStr + " " + sqlEndTimeStr
-				
-			// LOCATION
-				var location = $('#locationOptions').val();
-
-			// LOCATION TYPE DOES NOT NEED TO BE ADDED TO SESSION TABLE- 
-			// IT IS ASSOCIATED WITH THE LOCATION NAME IN THE LOCATION TABLE
-
-			// GAME TYPE
-				var gameType = $('#gameOptions').val();
-
-			// RING/TOURNEY
-				var ringTour = $('input[name="ringTourRadio"]:checked').val();
-
-			// LIMITS
-				var limits = $('#limitOptions').val();
-				
-				var t = new Date();
-				$('#test1').html(t);
-				$('#test2').html(sqlEndDatetimeStr);
-				
-				// POST DATA TO DB
-				$.post('pokerMethods.php', {method: 'addSession', phpStartDate: sqlStDatetimeStr, phpEndDate: sqlEndDatetimeStr, phpLocation: location,
-					phpGameType: gameType, phpRingTour: ringTour, phpLimits: limits, phpBuyin: buyin, phpCashout: cashout, phpPlace: place}, function(message){
-						if(message != ""){
-							$('#addSessErrLbl').html(message);
+						if(place < 0){
+							$('#addSessErrLbl').html("Place entry must be a positive integer.");
 						}
 						else{
-							$('#status').val("Your session has been added!");
-							document.getElementById('statusForm').submit();
+							var buyin = buyinValid;
+						
+					// START DATE				
+						// GET TIME VALUES
+							var stHrStr12 = parseInt($('#stHour').val());
+							var stMinStr = $('#stMin').val();
+							var stSecStr = "00";
+							var stAmPmStr = $('#stAmPm').val().toString();
+							
+							// CONVERT 12-HOUR TIME TO 24-HOUR
+							if(stHrStr12 == 12){
+								if(stAmPmStr == "pm"){
+									stHrStr24 = stHrStr12;
+								}
+								else{
+									stHrStr24 = 0;
+								}
+							}
+							else{
+								if(stAmPmStr == "pm"){
+									stHrStr24 = stHrStr12 + 12;
+								}
+								else{
+									stHrStr24 = stHrStr12;
+								}
+							}
+							
+							if(stHrStr24 < 10){
+								stHrStr24 = "0" + stHrStr24;
+							}
+							
+							// PARSE THE TIME RETURNED BY ADDSESSION FORM AS SQL TIME
+							var sqlStTimeStr = stHrStr24 + ":" + stMinStr + ":" + stSecStr;
+							
+						// GET DATE VALUES
+							// PARSE THE DATE RETURNED BY DATEPICKER AS SQL DATE()
+							var stFullDate = $('#datepicker').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
+							var splitRegEx = /\//;
+							var stArray = stFullDate.split(splitRegEx);
+							var stMonth = stArray[0];
+							var stDate = stArray[1];
+							var stYear = stArray[2];
+
+							var sqlStDate = stYear + "-" + stMonth + "-" + stDate; // SQL EXPECTS "YYYY-MM-DD"
+							var sqlStDateStr = sqlStDate.toString();
+							
+						// CONSOLIDATE DATE AND TIME TO SQL DATETIME FORMAT
+							var sqlStDatetimeStr = sqlStDateStr + " " + sqlStTimeStr
+							
+				// END DATE
+						// GET TIME VALUES
+							var endHrStr12 = parseInt($('#endHour').val());
+							var endMinStr = $('#endMin').val();
+							var endSecStr = "00";
+							var endAmPmStr = $('#endAmPm').val().toString();
+							
+							// CONVERT 12-HOUR TIME TO 24-HOUR
+							if(endHrStr12 == 12){
+								if(endAmPmStr == "pm"){
+									endHrStr24 = endHrStr12;
+								}
+								else{
+									endHrStr24 = 0;
+								}
+							}
+							else{
+								if(endAmPmStr == "pm"){
+									endHrStr24 = endHrStr12 + 12;
+								}
+								else{
+									endHrStr24 = endHrStr12;
+								}
+							}
+							
+							if(endHrStr24 < 10){
+								endHrStr24 = "0" + endHrStr24;
+							}
+							
+							// PARSE THE TIME RETURNED BY ADDSESSION FORM AS SQL TIME
+							var sqlEndTimeStr = endHrStr24 + ":" + endMinStr + ":" + endSecStr;
+							
+						// GET DATE VALUES
+							// PARSE THE DATE RETURNED BY DATEPICKER AS SQL DATE()
+							var endFullDate = $('#datepicker1').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
+							var splitRegEx = /\//;
+							var endArray = endFullDate.split(splitRegEx);
+							var endMonth = endArray[0];
+							var endDate = endArray[1];
+							var endYear = endArray[2];
+
+							var sqlEndDate = endYear + "-" + endMonth + "-" + endDate; // SQL EXPECTS "YYYY-MM-DD"
+							var sqlEndDateStr = sqlEndDate.toString();
+							
+						// CONSOLIDATE DATE AND TIME TO SQL DATETIME FORMAT
+							var sqlEndDatetimeStr = sqlEndDateStr + " " + sqlEndTimeStr
+							
+						// LOCATION
+							var location = $('#locationOptions').val();
+
+						// LOCATION TYPE DOES NOT NEED TO BE ADDED TO SESSION TABLE- 
+						// IT IS ASSOCIATED WITH THE LOCATION NAME IN THE LOCATION TABLE
+
+						// GAME TYPE
+							var gameType = $('#gameOptions').val();
+
+						// RING/TOURNEY
+							var ringTour = $('input[name="ringTourRadio"]:checked').val();
+
+						// LIMITS
+							var limits = $('#limitOptions').val();
+							
+							// POST DATA TO DB
+							$.post('pokerMethods.php', {method: 'addSession', phpStartDate: sqlStDatetimeStr, phpEndDate: sqlEndDatetimeStr, phpLocation: location,
+								phpGameType: gameType, phpRingTour: ringTour, phpLimits: limits, phpBuyin: buyin, phpCashout: cashout, phpPlace: place}, function(message){
+									if(message != ""){
+										$('#addSessErrLbl').html(message);
+									}
+									else{
+										$('#status').val("Your session has been added!");
+										document.getElementById('statusForm').submit();
+									}
+								
+							});
+						
 						}
-					
-				});
-				
+					}
+				}
+			}
+		}
+	}
+}
+
+function editSession(){
+// GET ALL VALS FROM FORM AND VALIDATE
+
+// BUY-IN
+	var buyinValid = $('#editBuyin').val();
+// CASH OUT
+	var cashout = $('#editCashout').val();
+// PLACE
+	var place = $('#editPlace').val();
+	
+	if(isNaN(buyinValid)){
+		$('#editSessErrLbl').html("Buy-in entry can contain only numbers.");
+	}
+	else{
+		if(buyinValid < 0){
+			$('#editSessErrLbl').html("Buy-in entry must be a positive number.");
+		}
+		else{
+			if(isNaN(cashout)){
+				$('#editSessErrLbl').html("Cash out entry can contain only numbers.");
+			}
+			else{
+				if(cashout < 0){
+					$('#editSessErrLbl').html("Cash out entry must be a positive number.");
+				}
+				else{
+					if(isNaN(place)){
+						$('#editSessErrLbl').html("Place entry can contain only numbers.");
+					}
+					else{
+						if(place < 0){
+							$('#editSessErrLbl').html("Place entry must be a positive integer.");
+						}
+						else{
+							var buyin = buyinValid;
+						
+					// START DATE				
+						// GET TIME VALUES
+							var stHrStr12 = parseInt($('#editStHour').val());
+							var stMinStr = $('#editStMin').val();
+							var stSecStr = "00";
+							var stAmPmStr = $('#editStAmPm').val().toString();
+							
+							// CONVERT 12-HOUR TIME TO 24-HOUR
+							if(stHrStr12 == 12){
+								if(stAmPmStr == "pm"){
+									stHrStr24 = stHrStr12;
+								}
+								else{
+									stHrStr24 = 0;
+								}
+							}
+							else{
+								if(stAmPmStr == "pm"){
+									stHrStr24 = stHrStr12 + 12;
+								}
+								else{
+									stHrStr24 = stHrStr12;
+								}
+							}
+							
+							if(stHrStr24 < 10){
+								stHrStr24 = "0" + stHrStr24;
+							}
+							
+							// PARSE THE TIME RETURNED BY ADDSESSION FORM AS SQL TIME
+							var sqlStTimeStr = stHrStr24 + ":" + stMinStr + ":" + stSecStr;
+							
+						// GET DATE VALUES
+							// PARSE THE DATE RETURNED BY DATEPICKER AS SQL DATE()
+							var stFullDate = $('#datepickerEdit').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
+							var splitRegEx = /\//;
+							var stArray = stFullDate.split(splitRegEx);
+							var stMonth = stArray[0];
+							var stDate = stArray[1];
+							var stYear = stArray[2];
+
+							var sqlStDate = stYear + "-" + stMonth + "-" + stDate; // SQL EXPECTS "YYYY-MM-DD"
+							var sqlStDateStr = sqlStDate.toString();
+							
+						// CONSOLIDATE DATE AND TIME TO SQL DATETIME FORMAT
+							var sqlStDatetimeStr = sqlStDateStr + " " + sqlStTimeStr
+							
+				// END DATE
+						// GET TIME VALUES
+							var endHrStr12 = parseInt($('#editEndHour').val());
+							var endMinStr = $('#editEndMin').val();
+							var endSecStr = "00";
+							var endAmPmStr = $('#editEndAmPm').val().toString();
+							
+							// CONVERT 12-HOUR TIME TO 24-HOUR
+							if(endHrStr12 == 12){
+								if(endAmPmStr == "pm"){
+									endHrStr24 = endHrStr12;
+								}
+								else{
+									endHrStr24 = 0;
+								}
+							}
+							else{
+								if(endAmPmStr == "pm"){
+									endHrStr24 = endHrStr12 + 12;
+								}
+								else{
+									endHrStr24 = endHrStr12;
+								}
+							}
+							
+							if(endHrStr24 < 10){
+								endHrStr24 = "0" + endHrStr24;
+							}
+							
+							// PARSE THE TIME RETURNED BY ADDSESSION FORM AS SQL TIME
+							var sqlEndTimeStr = endHrStr24 + ":" + endMinStr + ":" + endSecStr;
+							
+						// GET DATE VALUES
+							// PARSE THE DATE RETURNED BY DATEPICKER AS SQL DATE()
+							var endFullDate = $('#datepickerEdit1').val(); // DATEPICKER RETURNS "MM/DD/YYYY"
+							var splitRegEx = /\//;
+							var endArray = endFullDate.split(splitRegEx);
+							var endMonth = endArray[0];
+							var endDate = endArray[1];
+							var endYear = endArray[2];
+
+							var sqlEndDate = endYear + "-" + endMonth + "-" + endDate; // SQL EXPECTS "YYYY-MM-DD"
+							var sqlEndDateStr = sqlEndDate.toString();
+							
+						// CONSOLIDATE DATE AND TIME TO SQL DATETIME FORMAT
+							var sqlEndDatetimeStr = sqlEndDateStr + " " + sqlEndTimeStr
+							
+						// LOCATION
+							var location = $('#editLocationOptions').val();
+
+						// LOCATION TYPE DOES NOT NEED TO BE ADDED TO SESSION TABLE- 
+						// IT IS ASSOCIATED WITH THE LOCATION NAME IN THE LOCATION TABLE
+
+						// GAME TYPE
+							var gameType = $('#editGameOptions').val();
+
+						// RING/TOURNEY
+							var ringTour = $('input[name="editRingTourRadio"]:checked').val();
+
+						// LIMITS
+							var limits = $('#editLimitOptions').val();
+							
+							// POST DATA TO DB
+							$.post('pokerMethods.php', {method: 'editSession', phpStartDate: sqlStDatetimeStr, phpEndDate: sqlEndDatetimeStr, phpLocation: location,
+								phpGameType: gameType, phpRingTour: ringTour, phpLimits: limits, phpBuyin: buyin, phpCashout: cashout, phpPlace: place}, function(message){
+									if(message != ""){
+										$('#editSessErrLbl').html(message);
+									}
+									else{
+										$('#status').val("Your changes have been recorded.");
+										document.getElementById('statusForm').submit();
+									}
+								
+							});
+						
+						}
+					}
+				}
 			}
 		}
 	}

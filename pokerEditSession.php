@@ -116,8 +116,9 @@
 			<option name="editEndAmPmOption">pm</option>
 		</select>
 		<!--
+		'NOW' BUTTON?
 		<script>
-			getTime('endHrOption', 'endMinOption', 'endAmPmOption');
+			getTime('editEndHrOption', 'editEndMinOption', 'editEndAmPmOption');
 		</script>
 		-->
 	</div>
@@ -127,10 +128,7 @@
 			<div class="modalLabel">Location:</div>
 		</div>
 		<select id="editLocationOptions" style="width:150px" onchange="showLocType('editLocTypeVal')"></select>
-		<!--
-		<script>getLocList("editLocationOptions")</script>
 		<span onclick="showModal2('addLocationModal', 'addLocName')" style="cursor:pointer">Add Location</span>
-		-->
 	</div>
 	<!-------------------------------------->
 	<div class="modalRow">
@@ -145,10 +143,7 @@
 			<div class="modalLabel">Game Type:</div>
 		</div>
 		<select id="editGameOptions" style="width:150px"></select>
-		<!--
-		<script>getList("game", gameListDest);</script>
 		<span onclick="showModal2('addGameModal', 'addGame')" style="cursor:pointer">Add Game Type</span>
-		-->
 	</div>
 	<!-------------------------------------->
 	<div class="modalRow">
@@ -168,10 +163,7 @@
 			<div class="modalLabel">Limits:</div>
 		</div>
 		<select id="editLimitOptions" style="width:150px"></select>
-		<!--
-		<script>getList("limit", limitListDest);</script>
 		<span onclick="showModal2('addLimitModal', 'addLimit')" style="cursor:pointer">Add Limit</span>
-		-->
 	</div>
 	<!-------------------------------------->
 	<div class="modalRow">
@@ -181,7 +173,7 @@
 		<span>$</span>
 		<input id="editBuyin" type="text" style="width:138px" />
 		<!--
-		<input id="editBuyin" type="text" style="width:138px" onkeypress="checkEnter(event, 'addSession');" />
+		<input id="editBuyin" type="text" style="width:138px" onkeypress="checkEnter(event, 'editSession');" />
 		-->
 	</div>
 	<!-------------------------------------->
@@ -192,7 +184,7 @@
 		<span>$</span>
 		<input id="editCashout" type="text" style="width:138px" />
 		<!--
-		<input id="editCashout" type="text" style="width:138px" onkeypress="checkEnter(event, 'addSession');" />
+		<input id="editCashout" type="text" style="width:138px" onkeypress="checkEnter(event, 'editSession');" />
 		-->
 	</div>
 	<!-------------------------------------->
@@ -202,13 +194,12 @@
 		</div>
 		<input id="editPlace" type="text" />
 		<!--
-		<input id="place" type="text" onkeypress="checkEnter(event, 'addSession');" />
+		<input id="place" type="text" onkeypress="checkEnter(event, 'editSession');" />
 		-->
 	</div>
 	<!-------------------------------------->
 	<div id='editSessErrLbl'></div><br>
-	<!--
-	<button class="modalBtn" onclick="addSession()">Submit</button>	-->
+	<button class="modalBtn" onclick="editSession()">Submit</button>
 	<button class="modalBtn" onclick="$('#status').val('Changes cancelled.'); $('#statusForm').submit()">Cancel</button>
 
 	<!-------------------------------------->
