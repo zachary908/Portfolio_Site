@@ -17,13 +17,14 @@
 		<thead>
 			<tr>
 				<th></th>
-				<th colspan="2">Start Time</th>
+				<th>Start Time</th>
 				<th>Location</th>
 				<th>Game Type</th>
 				<th>Limits</th>
 				<th>Duration</th>
 				<th>Buy In</th>
 				<th>Cash Out</th>
+				<th>R/T</th>
 				<th>Place</th>
 				<th>Rate</th>
 				<th>Return</th>
@@ -46,7 +47,6 @@
 	</table>
 	
 	<button type="button" onclick="parent.location='pokerAddSession.php'">Add Session</button>
-	<br>a table of sessions will be shown here.<br>
 	
 <?php
 	include 'controls/pokerFooter.php';

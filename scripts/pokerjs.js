@@ -822,8 +822,6 @@ function editRow(x){
 	// USE FORM TO POST ROW ID TO EDITSESSIONS PG
 	$('#editRowId').val(rowId);
 	$('#editSession').submit();
-	
-	// FILL IN VALS OF EDIT SESSION FORM (NEW FXN)
 }
 
 function editGetVals(){

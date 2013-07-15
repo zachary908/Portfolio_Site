@@ -443,9 +443,9 @@
 				if($GetSessionsMsg == 0){
 					$i = 1;
 					while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
-						echo "<tr id='".$row['Id']."'><td>".$i.".</td><td>".$row['StartDate']."</td><td>".$row['StartTime'].
+						echo "<tr id='".$row['Id']."'><td>".$i.".</td><td>".$row['StartDate']."<br>".$row['StartTime'].
 						"</td><td>".$row['Location']."</td><td>".$row['GameType']."</td><td>".$row['Limits']."</td><td>".$row['Duration']."</td>
-						<td>".$row['BuyIn']."</td><td>".$row['CashOut']."</td><td>".$row['Place']."</td><td>".$row['Rate']."</td>
+						<td>".$row['BuyIn']."</td><td>".$row['CashOut']."</td><td>".$row['RingTour']."</td><td>".$row['Place']."</td><td>".$row['Rate']."</td>
 						<td>".$row['Return']."</td><td><button onclick='editRow(this)'>Edit</button></td></tr>";
 						$i = $i + 1;
 					}
