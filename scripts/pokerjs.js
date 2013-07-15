@@ -804,6 +804,15 @@ function editSession(){
 	}
 }
 
+function editRow(x){
+	// GET ROW ID
+	var rowId = (x.parentNode.parentNode.id);
+
+	// USE FORM TO POST ROW ID TO EDITSESSIONS PG
+	$('#editRowId').val(rowId);
+	$('#editSession').submit();
+}
+
 function getSessions(){
 	$.post('pokerMethods.php', {method: 'getSessions'}, function (message){
 		if(message == 1){
@@ -815,13 +824,72 @@ function getSessions(){
 	});
 }
 
-function editRow(x){
-	// GET ROW ID
-	var rowId = (x.parentNode.parentNode.id);
+function newGetSessions(){
+	$.post('pokerMethods.php', {method: 'newGetSessions'}, function (message){
+		if(message == 1){
+			$('#statusMsg').html("You have no recorded sessions. Add one now!");
+		}
+		else{
+			$('#data').html(message);
+		}
+		fillTable();
+	});
+}
 
-	// USE FORM TO POST ROW ID TO EDITSESSIONS PG
-	$('#editRowId').val(rowId);
-	$('#editSession').submit();
+function fillTable(){
+	// ALL THE FOLLOWING MUST BE IN SEPARATE FXN, 
+	// OTHERWISE, CALL WILL BE MADE TO DB EVERY TIME FILTER IS APPLIED
+	var dataStr = document.getElementById('data').innerHTML;
+	var splitRegEx = /%/g;
+	var rowArr = dataStr.split(splitRegEx);
+	
+	// for(var i=0; i<rowArr.length-1; i++){
+		// alert(rowArr[i]);
+	// }
+	
+	// PUT EACH ROW INTO ARRAY AS OBJECT
+	var trArr = new Array();
+	for(var i=0; i<rowArr.length-1; i++){
+		var tr = new Object();
+		var attrArr = rowArr[i].split(/#/g);
+		tr.id = "tr" + i;
+		tr.sessId = attrArr[0];
+		tr.startDate = attrArr[1];
+		tr.location = attrArr[2];
+		tr.gameType = attrArr[3];
+		tr.limit = attrArr[4];
+		tr.duration = attrArr[5];
+		tr.buyin = attrArr[6];
+		tr.cashout = attrArr[7];
+		tr.ringtour = attrArr[8];
+		tr.place = attrArr[9];
+		tr.rate = attrArr[10];
+		tr.ret = attrArr[11];
+		trArr[i] = tr;
+	}
+	
+	var dataString = "";
+	var x = 1;
+	for(var i=0; i<trArr.length; i++){
+		dataString = dataString + "<tr id=\""+ trArr[i].id + "\">" +
+			"<td>" + x + ".</td>" +
+			//"<td>" + trArr[i].sessId + "</td>" +
+			"<td>" + trArr[i].startDate + "</td>" +
+			"<td>" + trArr[i].location + "</td>" +
+			"<td>" + trArr[i].gameType + "</td>" +
+			"<td>" + trArr[i].limit + "</td>" +
+			"<td>" + trArr[i].duration + "</td>" +
+			"<td>" + trArr[i].buyin + "</td>" +
+			"<td>" + trArr[i].cashout + "</td>" +
+			"<td>" + trArr[i].ringtour + "</td>" +
+			"<td>" + trArr[i].place + "</td>" +
+			"<td>" + trArr[i].rate + "</td>" +
+			"<td>" + trArr[i].ret + "</td>" +
+			"</tr>";
+			x = x + 1;
+	}
+	
+	document.getElementById("sessTableBody").innerHTML = dataString;
 }
 
 function editGetVals(){

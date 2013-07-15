@@ -456,6 +456,55 @@
 				
 				sqlsrv_close($conn);
 				break;
+				
+			case 'newGetSessions':
+				// CONNECT TO DB
+				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);
+				$conn = sqlsrv_connect($myServer, $connectionInfo);
+				
+				if(!$conn){
+					die('Database connection failed.\n');
+				}
+				
+				$MemberId = $_SESSION['user']['id'];
+				$GetSessionsMsg = 0;
+				
+				$params = array(
+					array($MemberId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
+					array($GetSessionsMsg, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_BIT)
+				);
+				
+				$stmt = sqlsrv_query($conn, '{CALL newGetSessions(?,?)}', $params);
+				
+				if($stmt === false){
+					echo 'Data could not be retrieved from database.';
+					die(print_r(sqlsrv_errors(), true));
+				}
+				
+				// ADD AN OUTPUT PARAM- IF OUTPUT PARAM = 1, STATUS MSG READS: "NO SESSIONS FOUND, YOU SHOULD ADD A SESSION",
+				// OTHERWISE, ENTER THIS WHILE LOOP
+				if($GetSessionsMsg == 0){
+					while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
+						echo $row['Id']."#"
+							.$row['StartTime']."#"
+							.$row['Location']."#"
+							.$row['GameType']."#"
+							.$row['Limits']."#"
+							.$row['Duration']."#"
+							.$row['BuyIn']."#"
+							.$row['CashOut']."#"
+							.$row['RingTour']."#"
+							.$row['Place']."#"
+							.$row['Rate']."#"
+							.$row['Return']."%";
+					}
+				}
+				else{
+					echo $GetSessionsMsg;
+				}
+				
+				sqlsrv_close($conn);
+				break;
 			
 			case 'editGetVals':
 			// CONNECT TO DB

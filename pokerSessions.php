@@ -4,7 +4,7 @@
 	<form id="editSession" action="../pokerEditSession.php" method="POST" style="position: absolute">
 		<input id="editRowId" name="editRowId" type="hidden" value="" />
 	</form>
-	
+	<div id="data" style="position: absolute; visibility: hidden"></div>
 	<div id="statusMsg">
 		<?php
 			if(isset($_SESSION["statusMsg"])){
@@ -39,15 +39,13 @@
 				<td>ROI:</td>
 			</tr>
 		</tfoot>
-		<tbody id="sessTableBody">
-			<script>
-				getSessions();
-			</script>
-		</tbody>
+		<tbody id="sessTableBody"></tbody>
 	</table>
 	
 	<button type="button" onclick="parent.location='pokerAddSession.php'">Add Session</button>
-	
+	<script>
+		newGetSessions();
+	</script>
 <?php
 	include 'controls/pokerFooter.php';
 ?>
