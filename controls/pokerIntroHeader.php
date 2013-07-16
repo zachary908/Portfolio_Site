@@ -5,9 +5,11 @@
 <html>
 <head>
 	<title>Zax Poker Page</title>
-	<script type="text/javascript" src="../scripts/pokerjs.js"></script>
-	<script src="../scripts/jquery-1.8.3.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="../js/jquery-ui-1.10.3.custom.js"></script>
+	<script src="../scripts/pokerjs.js"></script>
 	<link rel="stylesheet" type="text/css" href="../styles/pokerStyle.css" />
+	<link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.css" />
 </head>
 
 <body>
