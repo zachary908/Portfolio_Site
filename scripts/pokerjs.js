@@ -1,10 +1,6 @@
 // GENERAL-PURPOSE FUNCTIONS
 // ----------------------------------------
 
-function debug(thing){
-	alert("ID: " + thing.id + " NAME: " + thing.name + " VALUE: " + thing.value);
-}
-
 function checkEnter(event, funcName){
 	var keycode = (event.keyCode) ? event.keyCode : event.which;
 	if(keycode == '13')
@@ -843,11 +839,8 @@ function fillTable(){
 	var splitRegEx = /%/g;
 	var rowArr = dataStr.split(splitRegEx);
 	
-	// for(var i=0; i<rowArr.length-1; i++){
-		// alert(rowArr[i]);
-	// }
-	
 	// PUT EACH ROW INTO ARRAY AS OBJECT
+	// ALL DATA FOR EA. SESSION IS COLLECTED
 	var trArr = new Array();
 	for(var i=0; i<rowArr.length-1; i++){
 		var tr = new Object();
@@ -868,12 +861,13 @@ function fillTable(){
 		trArr[i] = tr;
 	}
 	
+	// PARSE DESIRED DATA INTO HTML
+	// APPLY FILTER BEFORE 'FOR' LOOP
 	var dataString = "";
 	var x = 1;
 	for(var i=0; i<trArr.length; i++){
-		dataString = dataString + "<tr id=\""+ trArr[i].id + "\">" +
+		dataString = dataString + "<tr id=\"" + trArr[i].sessId + "\">" +
 			"<td>" + x + ".</td>" +
-			//"<td>" + trArr[i].sessId + "</td>" +
 			"<td>" + trArr[i].startDate + "</td>" +
 			"<td>" + trArr[i].location + "</td>" +
 			"<td>" + trArr[i].gameType + "</td>" +
@@ -885,12 +879,38 @@ function fillTable(){
 			"<td>" + trArr[i].place + "</td>" +
 			"<td>" + trArr[i].rate + "</td>" +
 			"<td>" + trArr[i].ret + "</td>" +
+			"<td><button onclick='editRow(this)'>Edit</button></td>" +
 			"</tr>";
 			x = x + 1;
 	}
 	
+	// FILL TABLE WITH RESULTS
 	document.getElementById("sessTableBody").innerHTML = dataString;
+
 }
+
+// function showTourneys(){
+	// // FIND ALL ROWS WITH RINGTOUR = 1
+	// // LOOK THRU ROWS COLLECTION
+	// var rowColl = document.getElementById('sessions').rows;
+	// alert(rowColl.length);
+	
+	// for(var i=0; i<rowColl.length; i++){
+		// for(var x=0, col; col = rowColl.cells[x]; x++){
+			// //if
+		// }
+	// }
+	
+	// // var table = document.getElementById("mytab1");
+	// // for (var i = 0, row; row = table.rows[i]; i++) {
+    // //	iterate through rows
+    // //	rows would be accessed using the "row" variable assigned in the for loop
+    // // 		for (var j = 0, col; col = row.cells[j]; j++) {
+    // // 		iterate through columns
+    // // 		columns would be accessed using the "col" variable assigned in the for loop
+	// // 	}  
+	// // }
+// }
 
 function editGetVals(){
 	$.post('pokerMethods.php', {method: 'editGetVals'}, function(message){

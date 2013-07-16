@@ -13,7 +13,7 @@
 			}
 		?>
 	</div><br>
-	<table>
+	<table id="sessions">
 		<thead>
 			<tr>
 				<th></th>
@@ -41,10 +41,10 @@
 		</tfoot>
 		<tbody id="sessTableBody"></tbody>
 	</table>
-	
 	<button type="button" onclick="parent.location='pokerAddSession.php'">Add Session</button>
+	<button type="button" onclick="showTourneys()">Show tourneys</button>
 	<script>
-		newGetSessions();
+		$(document).ready(newGetSessions());
 	</script>
 <?php
 	include 'controls/pokerFooter.php';

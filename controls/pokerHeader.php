@@ -1,10 +1,10 @@
 <html>
 <head>
 	<title>My Poker Page</title>
-	<script src="../scripts/pokerjs.js"></script>
-	<script src="../scripts/jquery-1.8.3.js"></script>
 	<script src="../js/jquery-1.9.1.js"></script>
 	<script src="../js/jquery-ui-1.10.3.custom.js"></script>
+	<script src="../scripts/pokerjs.js"></script>
+	<!--<script src="../scripts/jquery-1.8.3.js"></script>-->
 	<link rel="stylesheet" type="text/css" href="../styles/pokerStyle.css" />
 	<link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.css" />
 	
