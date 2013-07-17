@@ -867,19 +867,19 @@ function fillTable(){
 	var x = 1;
 	for(var i=0; i<trArr.length; i++){
 		dataString = dataString + "<tr id=\"" + trArr[i].sessId + "\">" +
-			"<td>" + x + ".</td>" +
-			"<td>" + trArr[i].startDate + "</td>" +
-			"<td>" + trArr[i].location + "</td>" +
-			"<td>" + trArr[i].gameType + "</td>" +
-			"<td>" + trArr[i].limit + "</td>" +
-			"<td>" + trArr[i].duration + "</td>" +
-			"<td>" + trArr[i].buyin + "</td>" +
-			"<td>" + trArr[i].cashout + "</td>" +
-			"<td>" + trArr[i].ringtour + "</td>" +
-			"<td>" + trArr[i].place + "</td>" +
-			"<td>" + trArr[i].rate + "</td>" +
-			"<td>" + trArr[i].ret + "</td>" +
-			"<td><button onclick='editRow(this)'>Edit</button></td>" +
+			"<td>" + x + ".</td>" +		// COL 0
+			"<td>" + trArr[i].startDate + "</td>" +	// COL 1
+			"<td>" + trArr[i].location + "</td>" +	// COL 2
+			"<td>" + trArr[i].gameType + "</td>" +	// COL 3
+			"<td>" + trArr[i].limit + "</td>" +		// COL 4
+			"<td>" + trArr[i].duration + "</td>" +	// COL 5
+			"<td>" + trArr[i].buyin + "</td>" +		// COL 6
+			"<td>" + trArr[i].cashout + "</td>" +	// COL 7
+			"<td>" + trArr[i].ringtour + "</td>" +	// COL 8
+			"<td>" + trArr[i].place + "</td>" +		// COL 9
+			"<td>" + trArr[i].rate + "</td>" +		// COL 10
+			"<td>" + trArr[i].ret + "</td>" +		// COL 11
+			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 12
 			"</tr>";
 			x = x + 1;
 	}
@@ -889,17 +889,28 @@ function fillTable(){
 
 }
 
-// function showTourneys(){
+function showTourneys(){
 	// // FIND ALL ROWS WITH RINGTOUR = 1
 	// // LOOK THRU ROWS COLLECTION
-	// var rowColl = document.getElementById('sessions').rows;
-	// alert(rowColl.length);
+	var tbl = document.getElementById('sessions');
+	var rowColl = tbl.rows;
+	var filterArr = new Array();
+	var j = 0;
+	for(var i=1; i<rowColl.length-1; i++){
+		var cellColl = rowColl[i].cells
+		if(cellColl[8] != 'undefined' && cellColl[8].textContent == "0"){
+			filterArr[j] = i;
+			j = j + 1;
+		}
+	}
 	
-	// for(var i=0; i<rowColl.length; i++){
-		// for(var x=0, col; col = rowColl.cells[x]; x++){
-			// //if
-		// }
-	// }
+	var rowNum = 0;
+	for(var x=0; x<filterArr.length; x++){
+		rowNum = filterArr[x];
+		
+		// INSTEAD OF HIDING ROWS, Y NOT DELETE ALL ROWS, THEN DO FXN LIKE FILL TABLE
+		document.getElementById('sessions').rows[rowNum].style.visibility = "hidden";
+	}
 	
 	// // var table = document.getElementById("mytab1");
 	// // for (var i = 0, row; row = table.rows[i]; i++) {
@@ -910,7 +921,7 @@ function fillTable(){
     // // 		columns would be accessed using the "col" variable assigned in the for loop
 	// // 	}  
 	// // }
-// }
+}
 
 function editGetVals(){
 	$.post('pokerMethods.php', {method: 'editGetVals'}, function(message){
