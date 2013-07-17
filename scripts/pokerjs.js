@@ -896,20 +896,20 @@ function showTourneys(){
 	var rowColl = tbl.rows;
 	var filterArr = new Array();
 	var j = 0;
-	for(var i=1; i<rowColl.length-1; i++){
+	for(var i=0; i<rowColl.length; i++){
 		var cellColl = rowColl[i].cells
-		if(cellColl[8] != 'undefined' && cellColl[8].textContent == "0"){
-			filterArr[j] = i;
+		if(cellColl[8] != undefined && cellColl[8].textContent == "0"){
+			filterArr[j] = rowColl[i].id;
 			j = j + 1;
 		}
 	}
-	
-	var rowNum = 0;
+
 	for(var x=0; x<filterArr.length; x++){
-		rowNum = filterArr[x];
-		
-		// INSTEAD OF HIDING ROWS, Y NOT DELETE ALL ROWS, THEN DO FXN LIKE FILL TABLE
-		document.getElementById('sessions').rows[rowNum].style.visibility = "hidden";
+		for(var y=0; y<rowColl.length; y++){
+			if(rowColl[y].id == filterArr[x]){
+				document.getElementById('sessions').deleteRow(y);
+			}
+		}
 	}
 	
 	// // var table = document.getElementById("mytab1");
