@@ -890,9 +890,32 @@ function fillTable(){
 }
 
 function showTourneys(){
-	// // FIND ALL ROWS WITH RINGTOUR = 1
-	// // LOOK THRU ROWS COLLECTION
-	var tbl = document.getElementById('sessions');
+	// CHOOSE COL ON WHICH TO FILTER
+	// show drop-down on sessions pg with filter category options
+	// if(filterCol == location){
+		// colIndex = 2;	
+	// }
+	
+	// show drop-down on session pg with comparison operator options
+	// display comparison options appropriate to filter column	
+	// if(compare == 'equalTo'){
+	
+	// }
+	// else if(compare == 'notEqualTo'){
+	
+	// }
+	// else if(compare == 'moreThan'){
+	
+	// }
+	// else if(compare == 'lessThan'){
+	
+	// }
+	// else if(compare == 'between'){
+	
+	// }
+	
+	// FIND ALL ROWS WITH RINGTOUR = 0
+	var tbl = document.getElementById('sessions').tBodies[0];
 	var rowColl = tbl.rows;
 	var filterArr = new Array();
 	var j = 0;
@@ -907,9 +930,15 @@ function showTourneys(){
 	for(var x=0; x<filterArr.length; x++){
 		for(var y=0; y<rowColl.length; y++){
 			if(rowColl[y].id == filterArr[x]){
-				document.getElementById('sessions').deleteRow(y);
+				document.getElementById('sessions').tBodies[0].deleteRow(y);
 			}
 		}
+	}
+	
+	// RE-NUMBER ROWS
+	for(var y=0; y<rowColl.length; y++){
+		var z = y + 1;
+		rowColl[y].cells[0].textContent = z + "."
 	}
 	
 	// // var table = document.getElementById("mytab1");
