@@ -904,43 +904,147 @@ function fillOperator(){
 
 function fillFilterVal(){
 	var cat = document.getElementById('category').value;
+
 	// FILL FILTER VAL FIELD WITH OPTIONS FROM TABLE
-	if(cat == 2){
-		var locations = document.getElementsByName('location');
-		// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
-		var uniqueLoc = new Array();
-		var match = 0;
-		var x = 1;
-		
-		//-------------------------------------------------------------------
-		// USE FXN LIKE THIS TO GET AN ARRAY OF UNIQUE VALUES FROM
-		// AN ARRAY CONTAINING REPEATED VALUES
-		//-------------------------------------------------------------------
-		uniqueLoc[0] = locations[0];
-		for(i=0; i<locations.length; i++){
-			match = 0;
-			for(j=0; j<uniqueLoc.length; j++){
-				if(uniqueLoc[j].textContent == locations[i].textContent){
-					match = 1;
+	switch(cat){
+		case "1": // START TIME
+			var operator = document.getElementById('operator').value;
+			if(operator == "IS BEFORE" || operator == "IS AFTER"){
+				filterValStr = "<input type='text' id='filterInput1' />";
+			}
+			else if(operator == "IS BETWEEN"){
+				filterValStr = "<input type='text' id='filterInput1' />" + " AND " +
+					"<input type='text' id='filterInput2' />";
+			}
+			break;
+		case "2": // LOCATIONS
+			var locations = document.getElementsByName('location');
+			// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
+			var uniqueLoc = new Array();
+			var match = 0;
+			var x = 1;
+			
+			//-------------------------------------------------------------------
+			// USE FXN LIKE THIS TO GET AN ARRAY OF UNIQUE VALUES FROM
+			// AN ARRAY CONTAINING REPEATED VALUES
+			//-------------------------------------------------------------------
+			uniqueLoc[0] = locations[0];
+			for(i=0; i<locations.length; i++){
+				match = 0;
+				for(j=0; j<uniqueLoc.length; j++){
+					if(uniqueLoc[j].textContent == locations[i].textContent){
+						match = 1;
+					}
+				}
+				if(match == 0){
+					uniqueLoc[x] = locations[i];
+					x = x + 1;
 				}
 			}
-			if(match == 0){
-				uniqueLoc[x] = locations[i];
-				x = x + 1;
+			//-------------------------------------------------------------------
+			var filterValStr = "";
+			for(var z=0; z<uniqueLoc.length; z++){
+				filterValStr = filterValStr + "<option>" + uniqueLoc[z].textContent + "</option>";
 			}
-		}
-		//-------------------------------------------------------------------
-		var filterValStr = "";
-		for(var z=0; z<uniqueLoc.length; z++){
-			filterValStr = filterValStr + "<option>" + uniqueLoc[z].textContent + "</option>";
-		}
-	}
-	
+			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
+			break;
+		case "3": // GAME TYPE
+			var games = document.getElementsByName('gameType');
+			// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
+			var uniqueGame = new Array();
+			var match = 0;
+			var x = 1;
+			
+			//-------------------------------------------------------------------
+			// USE FXN LIKE THIS TO GET AN ARRAY OF UNIQUE VALUES FROM
+			// AN ARRAY CONTAINING REPEATED VALUES
+			//-------------------------------------------------------------------
+			uniqueGame[0] = games[0];
+			for(i=0; i<games.length; i++){
+				match = 0;
+				for(j=0; j<uniqueGame.length; j++){
+					if(uniqueGame[j].textContent == games[i].textContent){
+						match = 1;
+					}
+				}
+				if(match == 0){
+					uniqueGame[x] = games[i];
+					x = x + 1;
+				}
+			}
+			//-------------------------------------------------------------------
+			var filterValStr = "";
+			for(var z=0; z<uniqueGame.length; z++){
+				filterValStr = filterValStr + "<option>" + uniqueGame[z].textContent + "</option>";
+			}
+			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
+			break;
+		case "4": // LIMITS
+			var limits = document.getElementsByName('limit');
+			// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
+			var uniqueLim = new Array();
+			var match = 0;
+			var x = 1;
+			
+			//-------------------------------------------------------------------
+			// USE FXN LIKE THIS TO GET AN ARRAY OF UNIQUE VALUES FROM
+			// AN ARRAY CONTAINING REPEATED VALUES
+			//-------------------------------------------------------------------
+			uniqueLim[0] = limits[0];
+			for(i=0; i<limits.length; i++){
+				match = 0;
+				for(j=0; j<uniqueLim.length; j++){
+					if(uniqueLim[j].textContent == limits[i].textContent){
+						match = 1;
+					}
+				}
+				if(match == 0){
+					uniqueLim[x] = limits[i];
+					x = x + 1;
+				}
+			}
+			//-------------------------------------------------------------------
+			var filterValStr = "";
+			for(var z=0; z<uniqueLim.length; z++){
+				filterValStr = filterValStr + "<option>" + uniqueLim[z].textContent + "</option>";
+			}
+			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
+			break;
+		case "5": // DURATION
+			filterValStr = "<input type='text' id='filterInput1' />h<input type='text' id='filterInput2' />m";
+			break;
+		case "6": // BUY-IN
+			filterValStr = "<input type='text' id='filterInput1' />";
+			break;
+		case "7": // CASH OUT
+			filterValStr = "<input type='text' id='filterInput1' />";
+			break;
+		case "8": // RING/TOUR (0 = RING, 1 = TOURNAMENT)
+			filterValStr = "<option>Ring</option><option>Tournament</option>";
+			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
+			break;
+		case "9": // PLACE
+			filterValStr = "<input type='text' id='filterInput1' />";
+			break;
+		case "10": // RATE
+			filterValStr = "<input type='text' id='filterInput1' />";
+			break;
+		case "11": // RETURN
+			filterValStr = "<input type='text' id='filterInput1' />";
+			break;	
+	} // END SWITCH
 	
 	document.getElementById('filterVal').innerHTML = filterValStr;
+	if(cat == "1"){
+		$('#filterInput1').datepicker();
+		$('#filterInput1').datepicker('setDate', new Date());
+		$('#filterInput2').datepicker();
+		$('#filterInput2').datepicker('setDate', new Date());
+	}			
+	
 }
 
-function showTourneys(){
+function applyFilter(){
 	// start = 1;
 	// location = 2;
 	// gameType = 3;
@@ -955,9 +1059,9 @@ function showTourneys(){
 	
 	// CHOOSE COL ON WHICH TO FILTER
 	// show drop-down on sessions pg with filter category options
-	// if(filterCol == location){
-		// colIndex = 2;	
-	// }
+	// GET FILTER CATEGORY
+	cat = $('#category').val();
+	sel = $('#operator').val();
 	
 	// show drop-down on session pg with comparison operator options
 	// display comparison options appropriate to filter column	
@@ -983,10 +1087,12 @@ function showTourneys(){
 	var filterArr = new Array();
 	var j = 0;
 	for(var i=0; i<rowColl.length; i++){
-		var cellColl = rowColl[i].cells
-		if(cellColl[8] != undefined && cellColl[8].textContent == "0"){
-			filterArr[j] = rowColl[i].id;
-			j = j + 1;
+		var cellColl = rowColl[i].cells;
+		if(sel = "IS NOT"){
+			if(cellColl[cat] != filterVal){
+				filterArr[j] = rowColl[i].id;
+				j = j + 1;
+			}
 		}
 	}
 
