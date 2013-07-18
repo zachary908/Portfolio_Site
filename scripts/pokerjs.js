@@ -913,6 +913,9 @@ function fillFilterVal(){
 		var x = 1;
 		
 		//-------------------------------------------------------------------
+		// USE FXN LIKE THIS TO GET AN ARRAY OF UNIQUE VALUES FROM
+		// AN ARRAY CONTAINING REPEATED VALUES
+		//-------------------------------------------------------------------
 		uniqueLoc[0] = locations[0];
 		for(i=0; i<locations.length; i++){
 			match = 0;
@@ -927,13 +930,13 @@ function fillFilterVal(){
 			}
 		}
 		//-------------------------------------------------------------------
-		
+		var filterValStr = "";
+		for(var z=0; z<uniqueLoc.length; z++){
+			filterValStr = filterValStr + "<option>" + uniqueLoc[z].textContent + "</option>";
+		}
 	}
 	
-	var filterValStr = "";
-	for(var z=0; z<uniqueLoc.length; z++){
-		filterValStr = filterValStr + "<option>" + uniqueLoc[z].textContent + "</option>";
-	}
+	
 	document.getElementById('filterVal').innerHTML = filterValStr;
 }
 
