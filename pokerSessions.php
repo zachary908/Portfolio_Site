@@ -13,6 +13,23 @@
 			}
 		?>
 	</div><br>
+	<div id="filter">Select a category to filter...<br>
+		<select id="category" onchange="fillOperator(); fillFilterVal()">
+			<option value=1>Start Time</option>
+			<option value=2>Location</option>
+			<option value=3>Game Type</option>
+			<option value=4>Limits</option>
+			<option value=5>Duration</option>
+			<option value=6>Buy-In</option>
+			<option value=7>Cash Out</option>
+			<option value=8>Ring/Tournament</option>
+			<option value=9>Place</option>
+			<option value=10>Rate</option>
+			<option value=11>Return</option>
+		</select>
+		<select id="operator"></select>
+		<select id="filterVal"></select>
+	</div>
 	<table id="sessions">
 		<thead>
 			<tr>
@@ -46,6 +63,7 @@
 	<button type="button" onclick="fillTable()">Clear Filter</button>
 	<script>
 		$(document).ready(newGetSessions());
+		$(document).ready(fillOperator());
 	</script>
 <?php
 	include 'controls/pokerFooter.php';

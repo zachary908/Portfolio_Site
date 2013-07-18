@@ -868,17 +868,17 @@ function fillTable(){
 	for(var i=0; i<trArr.length; i++){
 		dataString = dataString + "<tr id=\"" + trArr[i].sessId + "\">" +
 			"<td>" + x + ".</td>" +		// COL 0
-			"<td>" + trArr[i].startDate + "</td>" +	// COL 1
-			"<td>" + trArr[i].location + "</td>" +	// COL 2
-			"<td>" + trArr[i].gameType + "</td>" +	// COL 3
-			"<td>" + trArr[i].limit + "</td>" +		// COL 4
-			"<td>" + trArr[i].duration + "</td>" +	// COL 5
-			"<td>" + trArr[i].buyin + "</td>" +		// COL 6
-			"<td>" + trArr[i].cashout + "</td>" +	// COL 7
-			"<td>" + trArr[i].ringtour + "</td>" +	// COL 8
-			"<td>" + trArr[i].place + "</td>" +		// COL 9
-			"<td>" + trArr[i].rate + "</td>" +		// COL 10
-			"<td>" + trArr[i].ret + "</td>" +		// COL 11
+			"<td name='startDate'>" + trArr[i].startDate + "</td>" +	// COL 1
+			"<td name='location'>" + trArr[i].location + "</td>" +	// COL 2
+			"<td name='gameType'>" + trArr[i].gameType + "</td>" +	// COL 3
+			"<td name='limit'>" + trArr[i].limit + "</td>" +		// COL 4
+			"<td name='duration'>" + trArr[i].duration + "</td>" +	// COL 5
+			"<td name='buyin'>" + trArr[i].buyin + "</td>" +		// COL 6
+			"<td name='cashout'>" + trArr[i].cashout + "</td>" +	// COL 7
+			"<td name='ringtour'>" + trArr[i].ringtour + "</td>" +	// COL 8
+			"<td name='place'>" + trArr[i].place + "</td>" +		// COL 9
+			"<td name='rate'>" + trArr[i].rate + "</td>" +		// COL 10
+			"<td name='ret'>" + trArr[i].ret + "</td>" +		// COL 11
 			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 12
 			"</tr>";
 			x = x + 1;
@@ -889,7 +889,67 @@ function fillTable(){
 
 }
 
+function fillOperator(){
+	var cat = document.getElementById('category').value;
+	if(cat == 2 || cat == 3 || cat == 4 || cat == 8){
+		document.getElementById('operator').innerHTML = "<option>IS</option><option>IS NOT</option>";
+	}
+	else if(cat == 1){
+		document.getElementById('operator').innerHTML = "<option>IS BEFORE</option><option>IS AFTER</option><option>IS BETWEEN</option>";
+	}
+	else if(cat == 5 || cat == 6 || cat == 7 || cat == 9 || cat == 10 || cat == 11){
+		document.getElementById('operator').innerHTML = "<option>IS MORE THAN</option><option>IS LESS THAN</option>";
+	}
+}
+
+function fillFilterVal(){
+	var cat = document.getElementById('category').value;
+	// FILL FILTER VAL FIELD WITH OPTIONS FROM TABLE
+	if(cat == 2){
+		var locations = document.getElementsByName('location');
+		// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
+		var uniqueLoc = new Array();
+		var match = 0;
+		var x = 1;
+		
+		//-------------------------------------------------------------------
+		uniqueLoc[0] = locations[0];
+		for(i=0; i<locations.length; i++){
+			match = 0;
+			for(j=0; j<uniqueLoc.length; j++){
+				if(uniqueLoc[j].textContent == locations[i].textContent){
+					match = 1;
+				}
+			}
+			if(match == 0){
+				uniqueLoc[x] = locations[i];
+				x = x + 1;
+			}
+		}
+		//-------------------------------------------------------------------
+		
+	}
+	
+	var filterValStr = "";
+	for(var z=0; z<uniqueLoc.length; z++){
+		filterValStr = filterValStr + "<option>" + uniqueLoc[z].textContent + "</option>";
+	}
+	document.getElementById('filterVal').innerHTML = filterValStr;
+}
+
 function showTourneys(){
+	// start = 1;
+	// location = 2;
+	// gameType = 3;
+	// limit = 4;
+	// duration = 5;
+	// buyin = 6;
+	// cashout = 7;
+	// ringtour = 8;
+	// place = 9;
+	// rate = 10;
+	// ret = 11;
+	
 	// CHOOSE COL ON WHICH TO FILTER
 	// show drop-down on sessions pg with filter category options
 	// if(filterCol == location){
@@ -940,16 +1000,6 @@ function showTourneys(){
 		var z = y + 1;
 		rowColl[y].cells[0].textContent = z + "."
 	}
-	
-	// // var table = document.getElementById("mytab1");
-	// // for (var i = 0, row; row = table.rows[i]; i++) {
-    // //	iterate through rows
-    // //	rows would be accessed using the "row" variable assigned in the for loop
-    // // 		for (var j = 0, col; col = row.cells[j]; j++) {
-    // // 		iterate through columns
-    // // 		columns would be accessed using the "col" variable assigned in the for loop
-	// // 	}  
-	// // }
 }
 
 function editGetVals(){
