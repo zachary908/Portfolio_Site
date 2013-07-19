@@ -1044,6 +1044,69 @@ function fillFilterVal(){
 	
 }
 
+function dpToJsDate(dpDate){
+	// DATEPICKER FORMAT IS DD/MM/YYYY
+	var splitRegEx = /\//g;
+	var splitDp = dpDate.split(splitRegEx);
+	var dpDateMM = splitDp[0] - 1;
+	var dpDateDD = splitDp[1];
+	var dpDateYYYY = splitDp[2];
+	return jsDate = new Date(dpDateYYYY, dpDateMM, dpDateDD, 0, 0, 0, 0);
+}
+
+function tblToJsDate(tblDate){
+	// TABLE DATE FORMAT IS: Jul 16 2013 10:25AM
+	var splitRegEx = /\s+/g;
+	var splitTbl = tblDate.split(splitRegEx);
+	var MMStr = splitTbl[0];
+	var MMNum = 0;
+	switch(MMStr){
+		case "Jan":
+			MMNum = 0;
+			break;
+		case "Feb":
+			MMNum = 1;
+			break;
+		case "Mar":
+			MMNum = 2;
+			break;
+		case "Apr":
+			MMNum = 3;
+			break;
+		case "May":
+			MMNum = 4;
+			break;
+		case "Jun":
+			MMNum = 5;
+			break;
+		case "Jul":
+			MMNum = 6;
+			break;
+		case "Aug":
+			MMNum = 7;
+			break;
+		case "Sep":
+			MMNum = 8;
+			break;
+		case "Oct":
+			MMNum = 9;
+			break;
+		case "Nov":
+			MMNum = 10;
+			break;
+		case "Dec":
+			MMNum = 11;
+			break;
+	}
+	var tblDateMM = MMNum;
+	var tblDateDD = splitTbl[1];
+	// if(tblDateDD < 10){
+		// tblDateDD = "0" + tblDateDD;
+	// }
+	var tblDateYYYY = splitTbl[2];
+	return jsDate = new Date(tblDateYYYY, tblDateMM, tblDateDD, 0, 0, 0, 0);
+}
+
 function applyFilter(){
 	// start = 1;
 	// location = 2;
@@ -1063,6 +1126,7 @@ function applyFilter(){
 	filVal1 = $('#filterInput1').val();
 	filVal2 = $('#filterInput2').val();
 	
+	// CONVERT RING/TOUR VAL TO 0 OR 1
 	if(cat == 8){
 		if(filVal1 == "Ring"){
 			filVal1 = 0;
@@ -1072,6 +1136,18 @@ function applyFilter(){
 		}
 	}
 	
+	// IF USER FILTERS ON DATE (CAT = 1), CONVERT DATEPICKER VAL TO JS DATE
+	if(cat == 1){
+		if(oper == "IS BETWEEN"){
+			filVal1 = dpToJsDate(filVal1);
+			filVal2 = dpToJsDate(filVal2);
+		}
+		else{
+			filVal1 = dpToJsDate(filVal1);
+		}
+	}
+	// IF USER FILTERS ON DATE (CAT = 1), CONVERT TABLE DATETIME TO JS DATE
+	
 	// IF USER FILTERS ON "PLACE", APPLY TOURNAMENT FILTER FIRST
 	
 	var tbl = document.getElementById('sessions').tBodies[0];
@@ -1079,6 +1155,7 @@ function applyFilter(){
 	var filterArr = new Array();
 	var j = 0;
 	
+	// PUT IDS OF EXCLUDED ROWS INTO FILTER ARRAY
 	for(var i=0; i<rowColl.length; i++){
 		var cellColl = rowColl[i].cells;
 		switch(oper){
@@ -1095,22 +1172,40 @@ function applyFilter(){
 				}
 				break;
 			case "IS MORE THAN":
-				if(cellColl[cat].textContent <= filVal1){
+				if(parseInt(cellColl[cat].textContent) <= filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}
 				break;
 			case "IS LESS THAN":
-				if(cellColl[cat].textContent >= filVal1){
+				if(parseInt(cellColl[cat].textContent) >= filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}			
 				break;
 			case "IS BEFORE":
-			
+				var tblDateStr = cellColl[cat].textContent;
+				var tblDate = tblToJsDate(tblDateStr);
+				if(tblDate >= filVal1){
+					filterArr[j] = rowColl[i].id;
+					j = j + 1;
+				}
 				break;
 			case "IS AFTER":
-			
+				var tblDateStr = cellColl[cat].textContent;
+				var tblDate = tblToJsDate(tblDateStr);
+				if(tblDate < filVal1){
+					filterArr[j] = rowColl[i].id;
+					j = j + 1;
+				}
+				break;
+			case "IS BETWEEN":
+				var tblDateStr = cellColl[cat].textContent;
+				var tblDate = tblToJsDate(tblDateStr);
+				if(tblDate < filVal1 || tblDate >= filVal2){
+					filterArr[j] = rowColl[i].id;
+					j = j + 1;
+				}
 				break;
 		} // END SWITCH
 	} // END FOR
