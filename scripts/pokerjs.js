@@ -1056,45 +1056,64 @@ function applyFilter(){
 	// place = 9;
 	// rate = 10;
 	// ret = 11;
-	
-	// CHOOSE COL ON WHICH TO FILTER
-	// show drop-down on sessions pg with filter category options
+
 	// GET FILTER CATEGORY
 	cat = $('#category').val();
-	sel = $('#operator').val();
+	oper = $('#operator').val();
+	filVal1 = $('#filterInput1').val();
+	filVal2 = $('#filterInput2').val();
 	
-	// show drop-down on session pg with comparison operator options
-	// display comparison options appropriate to filter column	
-	// if(compare == 'equalTo'){
+	if(cat == 8){
+		if(filVal1 == "Ring"){
+			filVal1 = 0;
+		}
+		else{
+			filVal1 = 1;
+		}
+	}
 	
-	// }
-	// else if(compare == 'notEqualTo'){
+	// IF USER FILTERS ON "PLACE", APPLY TOURNAMENT FILTER FIRST
 	
-	// }
-	// else if(compare == 'moreThan'){
-	
-	// }
-	// else if(compare == 'lessThan'){
-	
-	// }
-	// else if(compare == 'between'){
-	
-	// }
-	
-	// FIND ALL ROWS WITH RINGTOUR = 0
 	var tbl = document.getElementById('sessions').tBodies[0];
 	var rowColl = tbl.rows;
 	var filterArr = new Array();
 	var j = 0;
+	
 	for(var i=0; i<rowColl.length; i++){
 		var cellColl = rowColl[i].cells;
-		if(sel = "IS NOT"){
-			if(cellColl[cat] != filterVal){
-				filterArr[j] = rowColl[i].id;
-				j = j + 1;
-			}
-		}
-	}
+		switch(oper){
+			case "IS NOT":
+				if(cellColl[cat].textContent == filVal1){
+					filterArr[j] = rowColl[i].id;
+					j = j + 1;
+				}
+				break;
+			case "IS":
+				if(cellColl[cat].textContent != filVal1){
+					filterArr[j] = rowColl[i].id;
+					j = j + 1;
+				}
+				break;
+			case "IS MORE THAN":
+				if(cellColl[cat].textContent <= filVal1){
+					filterArr[j] = rowColl[i].id;
+					j = j + 1;
+				}
+				break;
+			case "IS LESS THAN":
+				if(cellColl[cat].textContent >= filVal1){
+					filterArr[j] = rowColl[i].id;
+					j = j + 1;
+				}			
+				break;
+			case "IS BEFORE":
+			
+				break;
+			case "IS AFTER":
+			
+				break;
+		} // END SWITCH
+	} // END FOR
 
 	for(var x=0; x<filterArr.length; x++){
 		for(var y=0; y<rowColl.length; y++){

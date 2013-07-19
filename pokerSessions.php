@@ -61,7 +61,7 @@
 	</table>
 	<button type="button" onclick="parent.location='pokerAddSession.php'">Add Session</button>
 	<button type="button" onclick="showTourneys()">Show tourneys</button>
-	<button type="button" onclick="fillTable()">Clear Filter</button>
+	<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
 	<script>
 		$(document).ready(newGetSessions());
 		$(document).ready(fillOperator());
