@@ -1014,10 +1014,10 @@ function fillFilterVal(){
 			filterValStr = "<input type='text' id='filterInput1' />h<input type='text' id='filterInput2' />m";
 			break;
 		case "6": // BUY-IN
-			filterValStr = "<input type='text' id='filterInput1' />";
+			filterValStr = "$<input type='text' id='filterInput1' />";
 			break;
 		case "7": // CASH OUT
-			filterValStr = "<input type='text' id='filterInput1' />";
+			filterValStr = "$<input type='text' id='filterInput1' />";
 			break;
 		case "8": // RING/TOUR (0 = RING, 1 = TOURNAMENT)
 			filterValStr = "<option>Ring</option><option>Tournament</option>";
@@ -1027,10 +1027,10 @@ function fillFilterVal(){
 			filterValStr = "<input type='text' id='filterInput1' />";
 			break;
 		case "10": // RATE
-			filterValStr = "<input type='text' id='filterInput1' />";
+			filterValStr = "$/hr.<input type='text' id='filterInput1' />";
 			break;
 		case "11": // RETURN
-			filterValStr = "<input type='text' id='filterInput1' />";
+			filterValStr = "$<input type='text' id='filterInput1' />";
 			break;	
 	} // END SWITCH
 	
@@ -1136,6 +1136,19 @@ function applyFilter(){
 		}
 	}
 	
+	// CONVERT DURATION VAL TO DOUBLE-DIGIT STRING
+	if(cat == 5){
+		if(filVal2 < 10){
+			if(filVal2 == ""){
+				filVal2 = "00";
+			}
+			else{
+				filVal2 = "0" + filVal2;
+			}
+		}
+		filVal1 = filVal1 + filVal2;
+	}
+	
 	// IF USER FILTERS ON DATE (CAT = 1), CONVERT DATEPICKER VAL TO JS DATE
 	if(cat == 1){
 		if(oper == "IS BETWEEN"){
@@ -1146,7 +1159,6 @@ function applyFilter(){
 			filVal1 = dpToJsDate(filVal1);
 		}
 	}
-	// IF USER FILTERS ON DATE (CAT = 1), CONVERT TABLE DATETIME TO JS DATE
 	
 	// IF USER FILTERS ON "PLACE", APPLY TOURNAMENT FILTER FIRST
 	
@@ -1172,7 +1184,19 @@ function applyFilter(){
 				}
 				break;
 			case "IS MORE THAN":
-				if(parseInt(cellColl[cat].textContent) <= filVal1){
+				var tblVal = cellColl[cat].textContent;
+				if(cat == 5){ // DURATION
+					var splitH = /h/i;
+					var durArr = tblVal.split(splitH);
+					var durHr = durArr[0];
+					var durComboMin = durArr[1];
+					var splitM = /m/i;
+					var durMinArr = durComboMin.split(splitM);
+					var durMin = durMinArr[0]
+					tblVal = durHr + durMin;
+				}
+
+				if(parseInt(tblVal) <= filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}
@@ -1185,6 +1209,7 @@ function applyFilter(){
 				break;
 			case "IS BEFORE":
 				var tblDateStr = cellColl[cat].textContent;
+				// CONVERT TABLE DATETIME TO JS DATE
 				var tblDate = tblToJsDate(tblDateStr);
 				if(tblDate >= filVal1){
 					filterArr[j] = rowColl[i].id;
@@ -1193,6 +1218,7 @@ function applyFilter(){
 				break;
 			case "IS AFTER":
 				var tblDateStr = cellColl[cat].textContent;
+				// CONVERT TABLE DATETIME TO JS DATE
 				var tblDate = tblToJsDate(tblDateStr);
 				if(tblDate < filVal1){
 					filterArr[j] = rowColl[i].id;
