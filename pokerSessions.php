@@ -15,17 +15,17 @@
 	</div><br>
 	<div id="filter">Select a category to filter...<br>
 		<select id="category" onchange="fillOperator(); fillFilterVal()">
-			<option value=1>Start Time</option>
-			<option value=2>Location</option>
-			<option value=3>Game Type</option>
-			<option value=4>Limit</option>
-			<option value=5>Duration</option>
-			<option value=6>Buy-In</option>
-			<option value=7>Cash Out</option>
-			<option value=8>Ring/Tournament</option>
-			<option value=9>Place</option>
-			<option value=10>Rate</option>
-			<option value=11>Return</option>
+			<option value="start">Start Time</option>
+			<option value="location">Location</option>
+			<option value="gameType">Game Type</option>
+			<option value="limit">Limit</option>
+			<option value="duration">Duration</option>
+			<option value="buyin">Buy-In</option>
+			<option value="cashout">Cash Out</option>
+			<option value="ringTour">Ring/Tournament</option>
+			<option value="place">Place</option>
+			<option value="rate">Rate</option>
+			<option value="return">Return</option>
 		</select>
 		<select id="operator" onchange="fillFilterVal()"></select>
 		<span id="filterVal"></span>

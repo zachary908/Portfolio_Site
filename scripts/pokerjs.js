@@ -891,23 +891,35 @@ function fillTable(){
 
 function fillOperator(){
 	var cat = document.getElementById('category').value;
-	if(cat == 2 || cat == 3 || cat == 4 || cat == 8){
+	if(cat == "location" || cat == "gameType" || cat == "limit" || cat == "ringTour"){
 		document.getElementById('operator').innerHTML = "<option>IS</option><option>IS NOT</option>";
 	}
-	else if(cat == 1){
+	else if(cat == "start"){
 		document.getElementById('operator').innerHTML = "<option>IS BEFORE</option><option>IS AFTER</option><option>IS BETWEEN</option>";
 	}
-	else if(cat == 5 || cat == 6 || cat == 7 || cat == 9 || cat == 10 || cat == 11){
+	else if(cat == "duration" || cat == "buyin" || cat == "cashout" || cat == "place" || cat == "rate" || cat == "ret"){
 		document.getElementById('operator').innerHTML = "<option>IS MORE THAN</option><option>IS LESS THAN</option>";
 	}
 }
 
 function fillFilterVal(){
 	var cat = document.getElementById('category').value;
-
+	
+	// start = 1;
+	// location = 2;
+	// gameType = 3;
+	// limit = 4;
+	// duration = 5;
+	// buyin = 6;
+	// cashout = 7;
+	// ringTour = 8;
+	// place = 9;
+	// rate = 10;
+	// ret = 11;
+	
 	// FILL FILTER VAL FIELD WITH OPTIONS FROM TABLE
 	switch(cat){
-		case "1": // START TIME
+		case "start": // START TIME
 			var operator = document.getElementById('operator').value;
 			if(operator == "IS BEFORE" || operator == "IS AFTER"){
 				filterValStr = "<input type='text' id='filterInput1' />";
@@ -917,7 +929,7 @@ function fillFilterVal(){
 					"<input type='text' id='filterInput2' />";
 			}
 			break;
-		case "2": // LOCATIONS
+		case "location": // LOCATIONS
 			var locations = document.getElementsByName('location');
 			// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
 			var uniqueLoc = new Array();
@@ -948,7 +960,7 @@ function fillFilterVal(){
 			}
 			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
 			break;
-		case "3": // GAME TYPE
+		case "gameType": // GAME TYPE
 			var games = document.getElementsByName('gameType');
 			// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
 			var uniqueGame = new Array();
@@ -979,7 +991,7 @@ function fillFilterVal(){
 			}
 			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
 			break;
-		case "4": // LIMITS
+		case "limit": // LIMITS
 			var limits = document.getElementsByName('limit');
 			// TRIM ARRAY DOWN TO UNIQUE LOCATIONS
 			var uniqueLim = new Array();
@@ -1010,32 +1022,32 @@ function fillFilterVal(){
 			}
 			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
 			break;
-		case "5": // DURATION
+		case "duration": // DURATION
 			filterValStr = "<input type='text' id='filterInput1' />h<input type='text' id='filterInput2' />m";
 			break;
-		case "6": // BUY-IN
+		case "buyin": // BUY-IN
 			filterValStr = "$<input type='text' id='filterInput1' />";
 			break;
-		case "7": // CASH OUT
+		case "cashout": // CASH OUT
 			filterValStr = "$<input type='text' id='filterInput1' />";
 			break;
-		case "8": // RING/TOUR (0 = RING, 1 = TOURNAMENT)
+		case "ringTour": // RING/TOUR (0 = RING, 1 = TOURNAMENT)
 			filterValStr = "<option>Ring</option><option>Tournament</option>";
 			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
 			break;
-		case "9": // PLACE
+		case "place": // PLACE
 			filterValStr = "<input type='text' id='filterInput1' />";
 			break;
-		case "10": // RATE
+		case "rate": // RATE
 			filterValStr = "$/hr.<input type='text' id='filterInput1' />";
 			break;
-		case "11": // RETURN
+		case "ret": // RETURN
 			filterValStr = "$<input type='text' id='filterInput1' />";
 			break;	
 	} // END SWITCH
 	
 	document.getElementById('filterVal').innerHTML = filterValStr;
-	if(cat == "1"){
+	if(cat == "start"){
 		$('#filterInput1').datepicker();
 		$('#filterInput1').datepicker('setDate', new Date());
 		$('#filterInput2').datepicker();
@@ -1112,7 +1124,7 @@ function applyFilter(){
 	// duration = 5;
 	// buyin = 6;
 	// cashout = 7;
-	// ringtour = 8;
+	// ringTour = 8;
 	// place = 9;
 	// rate = 10;
 	// ret = 11;
@@ -1124,7 +1136,7 @@ function applyFilter(){
 	filVal2 = $('#filterInput2').val();
 	
 	// CONVERT RING/TOUR VAL TO 0 OR 1
-	if(cat == 8){
+	if(cat == "ringTour"){
 		if(filVal1 == "Ring"){
 			filVal1 = 0;
 		}
@@ -1134,7 +1146,7 @@ function applyFilter(){
 	}
 	
 	// CONVERT DURATION VAL TO DOUBLE-DIGIT STRING
-	if(cat == 5){
+	if(cat == "duration"){
 		if(filVal2 < 10){
 			if(filVal2 == ""){
 				filVal2 = "00";
@@ -1147,7 +1159,7 @@ function applyFilter(){
 	}
 	
 	// IF USER FILTERS ON DATE (CAT = 1), CONVERT DATEPICKER VAL TO JS DATE
-	if(cat == 1){
+	if(cat == "start"){
 		if(oper == "IS BETWEEN"){
 			filVal1 = dpToJsDate(filVal1);
 			filVal2 = dpToJsDate(filVal2);
@@ -1164,25 +1176,67 @@ function applyFilter(){
 	var filterArr = new Array();
 	var j = 0;
 	
+	//-------------------------------------------------------------------
+	// SET CATEGORY NAMES = THEIR COLUMN INDEX
+	// ANY CHANGES TO COLUMN ORDER MUST BE REFLECTED HERE
+	//-------------------------------------------------------------------
+	var colNum = 0;
+	switch(cat){
+		case "start":
+			colNum = 1;
+			break;
+		case "location":
+			colNum = 2;
+			break;
+		case "gametype":
+			colNum = 3;
+			break;
+		case "limit":
+			colNum = 4;
+			break;
+		case "duration":
+			colNum = 5;
+			break;
+		case "buyin":
+			colNum = 6;
+			break;
+		case "cashout":
+			colNum = 7;
+			break;
+		case "ringTour":
+			colNum = 8;
+			break;
+		case "place":
+			colNum = 9;
+			break;
+		case "rate":
+			colNum = 10;
+			break;
+		case "return":
+			colNum = 2;
+			break;
+	}
+	//-------------------------------------------------------------------
+	
 	// PUT IDS OF EXCLUDED ROWS INTO FILTER ARRAY
 	for(var i=0; i<rowColl.length; i++){
 		var cellColl = rowColl[i].cells;
 		switch(oper){
 			case "IS NOT":
-				if(cellColl[cat].textContent == filVal1){
+				if(cellColl[colNum].textContent == filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}
 				break;
 			case "IS":
-				if(cellColl[cat].textContent != filVal1){
+				if(cellColl[colNum].textContent != filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}
 				break;
 			case "IS MORE THAN":
-				var tblVal = cellColl[cat].textContent;
-				if(cat == 5){ // DURATION
+				var tblVal = cellColl[colNum].textContent;
+				if(colNum == 5){ // DURATION
 					var splitH = /h/i;
 					var durArr = tblVal.split(splitH);
 					var durHr = durArr[0];
@@ -1199,8 +1253,8 @@ function applyFilter(){
 				}
 				break;
 			case "IS LESS THAN":
-				var tblVal = cellColl[cat].textContent;
-				if(cat == 5){ // DURATION
+				var tblVal = cellColl[colNum].textContent;
+				if(colNum == 5){ // DURATION
 					var splitH = /h/i;
 					var durArr = tblVal.split(splitH);
 					var durHr = durArr[0];
@@ -1217,7 +1271,7 @@ function applyFilter(){
 				}			
 				break;
 			case "IS BEFORE":
-				var tblDateStr = cellColl[cat].textContent;
+				var tblDateStr = cellColl[colNum].textContent;
 				// CONVERT TABLE DATETIME TO JS DATE
 				var tblDate = tblToJsDate(tblDateStr);
 				if(tblDate >= filVal1){
@@ -1226,7 +1280,7 @@ function applyFilter(){
 				}
 				break;
 			case "IS AFTER":
-				var tblDateStr = cellColl[cat].textContent;
+				var tblDateStr = cellColl[colNum].textContent;
 				// CONVERT TABLE DATETIME TO JS DATE
 				var tblDate = tblToJsDate(tblDateStr);
 				if(tblDate < filVal1){
@@ -1235,7 +1289,7 @@ function applyFilter(){
 				}
 				break;
 			case "IS BETWEEN":
-				var tblDateStr = cellColl[cat].textContent;
+				var tblDateStr = cellColl[colNum].textContent;
 				var tblDate = tblToJsDate(tblDateStr);
 				if(tblDate < filVal1 || tblDate >= filVal2){
 					filterArr[j] = rowColl[i].id;
