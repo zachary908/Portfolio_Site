@@ -1193,13 +1193,25 @@ function applyFilter(){
 					tblVal = durHr + durMin;
 				}
 
-				if(parseInt(tblVal) <= filVal1){
+				if(parseFloat(tblVal) <= filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}
 				break;
 			case "IS LESS THAN":
-				if(parseInt(cellColl[cat].textContent) >= filVal1){
+				var tblVal = cellColl[cat].textContent;
+				if(cat == 5){ // DURATION
+					var splitH = /h/i;
+					var durArr = tblVal.split(splitH);
+					var durHr = durArr[0];
+					var durComboMin = durArr[1];
+					var splitM = /m/i;
+					var durMinArr = durComboMin.split(splitM);
+					var durMin = durMinArr[0]
+					tblVal = durHr + durMin;
+				}
+
+				if(parseFloat(tblVal) <= filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}			
