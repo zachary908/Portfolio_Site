@@ -30,6 +30,7 @@
 		<select id="operator" onchange="fillFilterVal()"></select>
 		<span id="filterVal"></span>
 		<button type="button" onclick="applyFilter()">Apply Filter</button>
+		<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
 	</div>
 	<table id="sessions">
 		<thead>
@@ -60,8 +61,6 @@
 		<tbody id="sessTableBody"></tbody>
 	</table>
 	<button type="button" onclick="parent.location='pokerAddSession.php'">Add Session</button>
-	<button type="button" onclick="showTourneys()">Show tourneys</button>
-	<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
 	<script>
 		$(document).ready(newGetSessions());
 		$(document).ready(fillOperator());
