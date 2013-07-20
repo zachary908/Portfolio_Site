@@ -1100,9 +1100,6 @@ function tblToJsDate(tblDate){
 	}
 	var tblDateMM = MMNum;
 	var tblDateDD = splitTbl[1];
-	// if(tblDateDD < 10){
-		// tblDateDD = "0" + tblDateDD;
-	// }
 	var tblDateYYYY = splitTbl[2];
 	return jsDate = new Date(tblDateYYYY, tblDateMM, tblDateDD, 0, 0, 0, 0);
 }
