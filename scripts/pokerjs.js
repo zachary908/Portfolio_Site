@@ -916,6 +916,7 @@ function fillTable(){
 	}
 	
 	// FILL TABLE WITH RESULTS
+	document.getElementById("filterErrLbl").innerHTML = "";
 	document.getElementById("sessTableBody").innerHTML = dataString;
 
 }
@@ -1054,7 +1055,7 @@ function fillFilterVal(){
 			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
 			break;
 		case "duration": // DURATION
-			filterValStr = "<input type='text' id='filterInput1' />h<input type='text' id='filterInput2' />m";
+			filterValStr = "<input type='text' id='filterInput1'  />h<input type='text' id='filterInput2' />m";
 			break;
 		case "buyin": // BUY-IN
 			filterValStr = "$<input type='text' id='filterInput1' />";

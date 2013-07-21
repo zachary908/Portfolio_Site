@@ -14,7 +14,7 @@
 			}
 		?>
 	</div><br>
-	<div id="filter">Select a category to filter...<br>
+	<div id="filter" onkeypress="checkEnter(event, 'applyFilter')">Select a category to filter...<br>
 		<select id="category" onchange="fillOperator(); fillFilterVal()">
 			<option value="start">Start Time</option>
 			<option value="location">Location</option>
@@ -32,7 +32,7 @@
 		<span id="filterVal"></span>
 		<button type="button" onclick="applyFilter()">Apply Filter</button>
 		<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
-		<div id="filterErrLbl">This is err lbl</div><br>
+		<div id="filterErrLbl"></div><br>
 	</div>
 	<table id="sessions">
 		<thead>

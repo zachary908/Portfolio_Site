@@ -33,9 +33,9 @@
 		<input id="status" name="status" type="hidden" value="" />
 	</form>
 
-	<div id="locationReturn" style="visibility:hidden; position:absolute"></div>
-	<div id="gameReturn" style="visibility:hidden; position:absolute"></div>
-	<div id="limitReturn" style="visibility:hidden; position:absolute"></div>
+	<div id="locationReturn" style="display:none"></div>
+	<div id="gameReturn" style="display:none"></div>
+	<div id="limitReturn" style="display:none"></div>
 	<div class="modalWrap" id="modalWrap2">
 	
 		<!-- ADDLOCATION MODAL -->
