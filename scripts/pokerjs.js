@@ -1329,7 +1329,7 @@ function applyFilter(){
 					tblVal = durHr + durMin;
 				}
 
-				if(parseFloat(tblVal) <= filVal1){
+				if(parseFloat(tblVal) >= filVal1){
 					filterArr[j] = rowColl[i].id;
 					j = j + 1;
 				}			
