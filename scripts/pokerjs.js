@@ -809,19 +809,49 @@ function editRow(x){
 	$('#editSession').submit();
 }
 
-function getSessions(){
-	$.post('pokerMethods.php', {method: 'getSessions'}, function (message){
-		if(message == 1){
-			$('#statusMsg').html("You have no recorded sessions. Add one now!");
+function deleteRow(x){
+	// DISPLAY CONFIRMATION DIALOG
+	
+	// DELETE TABLE ROW IMMEDIATELY, THEN MAKE AJAX ASYNC CALL TO DELETE SESSION FROM DB
+	var rowId = (x.parentNode.parentNode.id);
+	var tbl = document.getElementById('sessions').tBodies[0];
+	var rowColl = tbl.rows;
+	for(var y=0; y<rowColl.length; y++){
+		if(rowColl[y].id == rowId){
+			document.getElementById('sessions').tBodies[0].deleteRow(y);
 		}
-		else{
-			$('#sessTableBody').html(message);
+	}
+	
+	// RE-NUMBER ROWS
+	for(var y=0; y<rowColl.length; y++){
+		var z = y + 1;
+		rowColl[y].cells[0].textContent = z + "."
+	}
+	
+	if (window.XMLHttpRequest){
+		// code for IE7+, Firefox, Chrome, Opera, Safari
+		xmlhttp = new XMLHttpRequest();
+	}
+	else{
+		// code for IE6, IE5
+		xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+	}
+	
+	xmlhttp.onreadystatechange = function(){
+		if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
+			document.getElementById("statusMsg").innerHTML = xmlhttp.responseText;
+			getSessions();
 		}
-	});
+	}
+	
+	// IF ASYNC SET TO TRUE, ONLY LAST LIST REQUEST WILL APPEAR
+	xmlhttp.open("POST", "../pokerMethods.php", true);
+	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+	xmlhttp.send("method=deleteSessionAJAX&delSessId=" + rowId);
 }
 
-function newGetSessions(){
-	$.post('pokerMethods.php', {method: 'newGetSessions'}, function (message){
+function getSessions(){
+	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
 		if(message == 1){
 			$('#statusMsg').html("You have no recorded sessions. Add one now!");
 		}
@@ -880,6 +910,7 @@ function fillTable(){
 			"<td name='rate'>" + trArr[i].rate + "</td>" +		// COL 10
 			"<td name='ret'>" + trArr[i].ret + "</td>" +		// COL 11
 			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 12
+			"<td><button onclick='deleteRow(this)'>Delete</button></td>" + // COL 13
 			"</tr>";
 			x = x + 1;
 	}
@@ -1155,6 +1186,9 @@ function applyFilter(){
 				filVal2 = "0" + filVal2;
 			}
 		}
+		else if(filVal2 >= 60){
+			var error = "Duration minutes must be less than 60.";
+		}
 		filVal1 = filVal1 + filVal2;
 	}
 	
@@ -1236,14 +1270,14 @@ function applyFilter(){
 				break;
 			case "IS MORE THAN":
 				var tblVal = cellColl[colNum].textContent;
-				if(colNum == 5){ // DURATION
+				if(cat == "duration"){ // DURATION
 					var splitH = /h/i;
 					var durArr = tblVal.split(splitH);
 					var durHr = durArr[0];
 					var durComboMin = durArr[1];
 					var splitM = /m/i;
 					var durMinArr = durComboMin.split(splitM);
-					var durMin = durMinArr[0]
+					var durMin = durMinArr[0];
 					tblVal = durHr + durMin;
 				}
 
@@ -1254,7 +1288,7 @@ function applyFilter(){
 				break;
 			case "IS LESS THAN":
 				var tblVal = cellColl[colNum].textContent;
-				if(colNum == 5){ // DURATION
+				if(cat == "duration"){ // DURATION
 					var splitH = /h/i;
 					var durArr = tblVal.split(splitH);
 					var durHr = durArr[0];
@@ -1299,12 +1333,17 @@ function applyFilter(){
 		} // END SWITCH
 	} // END FOR
 
-	for(var x=0; x<filterArr.length; x++){
-		for(var y=0; y<rowColl.length; y++){
-			if(rowColl[y].id == filterArr[x]){
-				document.getElementById('sessions').tBodies[0].deleteRow(y);
+	if(error == "" || error == undefined){
+		for(var x=0; x<filterArr.length; x++){
+			for(var y=0; y<rowColl.length; y++){
+				if(rowColl[y].id == filterArr[x]){
+					document.getElementById('sessions').tBodies[0].deleteRow(y);
+				}
 			}
 		}
+	}
+	else{
+		document.getElementById('filterErrLbl').innerHTML = error;
 	}
 	
 	// RE-NUMBER ROWS

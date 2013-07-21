@@ -4,6 +4,7 @@
 	<form id="editSession" action="../pokerEditSession.php" method="POST" style="position: absolute">
 		<input id="editRowId" name="editRowId" type="hidden" value="" />
 	</form>
+	
 	<div id="data" style="position: absolute; visibility: hidden"></div>
 	<div id="statusMsg">
 		<?php
@@ -31,6 +32,7 @@
 		<span id="filterVal"></span>
 		<button type="button" onclick="applyFilter()">Apply Filter</button>
 		<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
+		<div id="filterErrLbl">This is err lbl</div><br>
 	</div>
 	<table id="sessions">
 		<thead>
@@ -62,7 +64,7 @@
 	</table>
 	<button type="button" onclick="parent.location='pokerAddSession.php'">Add Session</button>
 	<script>
-		$(document).ready(newGetSessions());
+		$(document).ready(getSessions());
 		$(document).ready(fillOperator());
 		$(document).ready(fillFilterVal());
 	</script>

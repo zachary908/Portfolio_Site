@@ -413,8 +413,7 @@
 				
 				sqlsrv_close($conn);
 				break;
-				
-			case 'getSessions':
+			case 'GetSessions':
 				// CONNECT TO DB
 				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);
 				$conn = sqlsrv_connect($myServer, $connectionInfo);
@@ -432,49 +431,6 @@
 				);
 				
 				$stmt = sqlsrv_query($conn, '{CALL GetSessions(?,?)}', $params);
-				
-				if($stmt === false){
-					echo 'Data could not be retrieved from database.';
-					die(print_r(sqlsrv_errors(), true));
-				}
-				
-				// ADD AN OUTPUT PARAM- IF OUTPUT PARAM = 1, STATUS MSG READS: "NO SESSIONS FOUND, YOU SHOULD ADD A SESSION",
-				// OTHERWISE, ENTER THIS WHILE LOOP
-				if($GetSessionsMsg == 0){
-					$i = 1;
-					while($row = sqlsrv_fetch_array($stmt, SQLSRV_FETCH_ASSOC)){
-						echo "<tr id='".$row['Id']."'><td>".$i.".</td><td>".$row['StartDate']."<br>".$row['StartTime'].
-						"</td><td>".$row['Location']."</td><td>".$row['GameType']."</td><td>".$row['Limits']."</td><td>".$row['Duration']."</td>
-						<td>".$row['BuyIn']."</td><td>".$row['CashOut']."</td><td>".$row['RingTour']."</td><td>".$row['Place']."</td><td>".$row['Rate']."</td>
-						<td>".$row['Return']."</td><td><button onclick='editRow(this)'>Edit</button></td></tr>";
-						$i = $i + 1;
-					}
-				}
-				else{
-					echo $GetSessionsMsg;
-				}
-				
-				sqlsrv_close($conn);
-				break;
-				
-			case 'newGetSessions':
-				// CONNECT TO DB
-				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);
-				$conn = sqlsrv_connect($myServer, $connectionInfo);
-				
-				if(!$conn){
-					die('Database connection failed.\n');
-				}
-				
-				$MemberId = $_SESSION['user']['id'];
-				$GetSessionsMsg = 0;
-				
-				$params = array(
-					array($MemberId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
-					array($GetSessionsMsg, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_BIT)
-				);
-				
-				$stmt = sqlsrv_query($conn, '{CALL newGetSessions(?,?)}', $params);
 				
 				if($stmt === false){
 					echo 'Data could not be retrieved from database.';
@@ -505,7 +461,35 @@
 				
 				sqlsrv_close($conn);
 				break;
+			case 'deleteSessionAJAX':
+				// CONNECT TO DB
+				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);
+				$conn = sqlsrv_connect($myServer, $connectionInfo);
+				
+				if(!$conn){
+					die('Database connection failed.\n');
+				}
+				
+				$MemberId = $_SESSION['user']['id'];
+				$DelSessId = $_POST['delSessId'];
+				
+				$params = array(
+					array($MemberId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
+					array($DelSessId, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_UNIQUEIDENTIFIER),
+				);
+				
+				$stmt = sqlsrv_query($conn, '{CALL DeleteSession(?,?)}', $params);
+				
+				if($stmt === false){
+					echo 'Data could not be retrieved from database.';
+					die(print_r(sqlsrv_errors(), true));
+				}
+				else{
+					echo 'Session deleted.';
+				}
 			
+				sqlsrv_close($conn);
+				break;
 			case 'editGetVals':
 			// CONNECT TO DB
 				$connectionInfo = array('Database'=>$myDb, 'UID'=>$myUser, 'PWD'=>$myPwd);
