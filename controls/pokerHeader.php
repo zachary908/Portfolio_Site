@@ -98,6 +98,22 @@
 			</div>
 		</div>
 		
+		<!-- CONFIRM DELETE MODAL -->
+		<div class="modalGlobal" id="confirmDltModal">
+			<div class="modalHeaderWrap">
+				<div class="modalHeader">Confirm Session Delete</div>
+			</div>
+			<div class="modalRow">
+				Are you sure you want to delete the session that started on <br>
+				<span id="dltRowStartDate"></span> ?<br>
+			</div>
+			<input type="hidden" id="dltRowId" />
+			<div class="modalBtnWrap">
+				<button class="modalBtn" onclick="deleteRow(dltRowId.value)">Submit</button>
+				<button class="modalBtn" onclick="clrCloseModal2('confirmDltModal')">Cancel</button>
+			</div>
+		</div>
+		
 	</div><!-- END modalWrap -->
 	
 	<button onclick="logout()">Log out</button><br>

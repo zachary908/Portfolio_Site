@@ -809,25 +809,53 @@ function editRow(x){
 	$('#editSession').submit();
 }
 
-function deleteRow(x){
-	// DISPLAY CONFIRMATION DIALOG
+function confirmDelete(x){
+	// DISPLAY THE CONFIRM DLT MODAL
+	var whichElement = document.getElementById('confirmDltModal');
+	whichElement.style.display = 'block';
+	whichElement.parentNode.className = 'modalWrap';
+		
+	var cover = document.getElementById('fullCover2');
+	cover.style.visibility = 'visible';
 	
-	// DELETE TABLE ROW IMMEDIATELY, THEN MAKE AJAX ASYNC CALL TO DELETE SESSION FROM DB
-	var rowId = (x.parentNode.parentNode.id);
+	var wrap = document.getElementById('modalWrap2');
+	wrap.style.display = 'block';
+	
+	var dltRowId = x.parentNode.parentNode.id;
+	document.getElementById('dltRowId').value = dltRowId;
+	
 	var tbl = document.getElementById('sessions').tBodies[0];
 	var rowColl = tbl.rows;
+	var startCol = 1; // 1 IS STARTDATE COL
+	for(var y=0; y<rowColl.length; y++){
+		if(rowColl[y].id == dltRowId){
+			var cellColl = rowColl[y].cells;
+			var rowStartDate = cellColl[startCol].textContent;
+			document.getElementById('dltRowStartDate').innerHTML = rowStartDate;
+		}
+	}
+}
+
+function deleteRow(x){
+	// DELETE TABLE ROW IMMEDIATELY 
+	// var rowId = (x.parentNode.parentNode.id);
+	var rowId = x;
+	var tbl = document.getElementById('sessions').tBodies[0];
+	var rowColl = tbl.rows;
+	clrCloseModal2('confirmDltModal');
 	for(var y=0; y<rowColl.length; y++){
 		if(rowColl[y].id == rowId){
 			document.getElementById('sessions').tBodies[0].deleteRow(y);
 		}
 	}
-	
+
 	// RE-NUMBER ROWS
 	for(var y=0; y<rowColl.length; y++){
 		var z = y + 1;
 		rowColl[y].cells[0].textContent = z + "."
 	}
 	
+	// MAKE ASYNC AJAX CALL TO DELETE SESSION FROM DB
 	if (window.XMLHttpRequest){
 		// code for IE7+, Firefox, Chrome, Opera, Safari
 		xmlhttp = new XMLHttpRequest();
@@ -839,21 +867,22 @@ function deleteRow(x){
 	
 	xmlhttp.onreadystatechange = function(){
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-			document.getElementById("statusMsg").innerHTML = xmlhttp.responseText;
 			getSessions();
+			document.getElementById("statusMsg").innerHTML = xmlhttp.responseText;
 		}
 	}
 	
 	// IF ASYNC SET TO TRUE, ONLY LAST LIST REQUEST WILL APPEAR
 	xmlhttp.open("POST", "../pokerMethods.php", true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-	xmlhttp.send("method=deleteSessionAJAX&delSessId=" + rowId);
+	xmlhttp.send("method=deleteSessionAJAX&delSessId=" + rowId);	
 }
 
 function getSessions(){
 	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
 		if(message == 1){
 			$('#statusMsg').html("You have no recorded sessions. Add one now!");
+			$('#data').html("");
 		}
 		else{
 			$('#data').html(message);
@@ -910,7 +939,7 @@ function fillTable(){
 			"<td name='rate'>" + trArr[i].rate + "</td>" +		// COL 10
 			"<td name='ret'>" + trArr[i].ret + "</td>" +		// COL 11
 			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 12
-			"<td><button onclick='deleteRow(this)'>Delete</button></td>" + // COL 13
+			"<td><button onclick='confirmDelete(this)'>Delete</button></td>" + // COL 13
 			"</tr>";
 			x = x + 1;
 	}
