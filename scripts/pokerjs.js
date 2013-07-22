@@ -958,7 +958,7 @@ function fillOperator(){
 	else if(cat == "start"){
 		document.getElementById('operator').innerHTML = "<option>IS BEFORE</option><option>IS AFTER</option><option>IS BETWEEN</option>";
 	}
-	else if(cat == "duration" || cat == "buyin" || cat == "cashout" || cat == "place" || cat == "rate" || cat == "ret"){
+	else if(cat == "duration" || cat == "buyin" || cat == "cashout" || cat == "place" || cat == "rate" || cat == "return"){
 		document.getElementById('operator').innerHTML = "<option>IS MORE THAN</option><option>IS LESS THAN</option>";
 	}
 }
@@ -976,7 +976,7 @@ function fillFilterVal(){
 	// ringTour = 8;
 	// place = 9;
 	// rate = 10;
-	// ret = 11;
+	// return = 11;
 	
 	// FILL FILTER VAL FIELD WITH OPTIONS FROM TABLE
 	switch(cat){
@@ -1102,7 +1102,7 @@ function fillFilterVal(){
 		case "rate": // RATE
 			filterValStr = "$/hr.<input type='text' id='filterInput1' />";
 			break;
-		case "ret": // RETURN
+		case "return": // RETURN
 			filterValStr = "$<input type='text' id='filterInput1' />";
 			break;	
 	} // END SWITCH
@@ -1228,9 +1228,6 @@ function applyFilter(){
 		if(oper == "IS BETWEEN"){
 			filVal1 = dpToJsDate(filVal1);
 			filVal2 = dpToJsDate(filVal2);
-			if(filVal1 > filVal2){
-				error = "2nd date must be later than the first date."
-			}
 		}
 		else{
 			filVal1 = dpToJsDate(filVal1);
@@ -1281,7 +1278,7 @@ function applyFilter(){
 			colNum = 10;
 			break;
 		case "return":
-			colNum = 2;
+			colNum = 11;
 			break;
 	}
 	//-------------------------------------------------------------------
@@ -1358,9 +1355,17 @@ function applyFilter(){
 				case "IS BETWEEN":
 					var tblDateStr = cellColl[colNum].textContent;
 					var tblDate = tblToJsDate(tblDateStr);
-					if(tblDate < filVal1 || tblDate >= filVal2){
-						filterArr[j] = rowColl[i].id;
-						j = j + 1;
+					if(filVal1 <= filVal2){
+						if(tblDate < filVal1 || tblDate >= filVal2){
+							filterArr[j] = rowColl[i].id;
+							j = j + 1;
+						}
+					}
+					else{
+						if(tblDate < filVal2 || tblDate >= filVal1){
+							filterArr[j] = rowColl[i].id;
+							j = j + 1;
+						}
 					}
 					break;
 			} // END SWITCH
