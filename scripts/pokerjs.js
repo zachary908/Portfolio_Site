@@ -1312,7 +1312,17 @@ function applyFilter(){
 						var durMin = durMinArr[0];
 						tblVal = durHr + durMin;
 					}
-					if(parseFloat(tblVal) <= filVal1){
+					if(cat == "place"){
+						if(cellColl[8].textContent == "0"){
+							filterArr[j] = rowColl[i].id;
+							j = j + 1;
+						}
+						else if(parseFloat(tblVal) <= filVal1){
+							filterArr[j] = rowColl[i].id;
+							j = j + 1;
+						}
+					}
+					else if(parseFloat(tblVal) <= filVal1){
 						filterArr[j] = rowColl[i].id;
 						j = j + 1;
 					}
@@ -1329,7 +1339,17 @@ function applyFilter(){
 						var durMin = durMinArr[0]
 						tblVal = durHr + durMin;
 					}
-					if(parseFloat(tblVal) >= filVal1){
+					if(cat == "place"){
+						if(cellColl[8].textContent == "0"){
+							filterArr[j] = rowColl[i].id;
+							j = j + 1;
+						}
+						else if(parseFloat(tblVal) >= filVal1){
+							filterArr[j] = rowColl[i].id;
+							j = j + 1;
+						}
+					}
+					else if(parseFloat(tblVal) >= filVal1){
 						filterArr[j] = rowColl[i].id;
 						j = j + 1;
 					}			
