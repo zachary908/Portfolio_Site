@@ -337,6 +337,7 @@
 				$SqlBuyin = floatval($_REQUEST['phpBuyin']);
 				$SqlCashout = floatval($_REQUEST['phpCashout']);
 				$SqlPlace = intval($_REQUEST['phpPlace']);
+				$SqlNotes = $_REQUEST['phpNotes'];
 				$AddSessionMsg = "";
 				
 				$params = array(
@@ -350,10 +351,11 @@
 					array($SqlBuyin, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
 					array($SqlCashout, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
 					array($SqlPlace, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
+					array($SqlNotes, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
 					array($AddSessionMsg, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
 				);
 				
-				$stmt = sqlsrv_query($conn, '{CALL AddSession(?,?,?,?,?,?,?,?,?,?,?)}', $params);
+				$stmt = sqlsrv_query($conn, '{CALL AddSession(?,?,?,?,?,?,?,?,?,?,?,?)}', $params);
 				
 				if($stmt == false){
 					die(print_r(sqlsrv_errors(), true));
@@ -385,6 +387,7 @@
 				$SqlBuyin = floatval($_REQUEST['phpBuyin']);
 				$SqlCashout = floatval($_REQUEST['phpCashout']);
 				$SqlPlace = intval($_REQUEST['phpPlace']);
+				$SqlNotes = $_REQUEST['phpNotes'];
 				$EditSessionMsg = "";
 				
 				$params = array(
@@ -398,10 +401,11 @@
 					array($SqlBuyin, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
 					array($SqlCashout, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_DECIMAL('18', '2')),
 					array($SqlPlace, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
+					array($SqlNotes, SQLSRV_PARAM_IN, SQLSRV_PHPTYPE_STRING(SQLSRV_ENC_CHAR), SQLSRV_SQLTYPE_VARCHAR('MAX')),
 					array($EditSessionMsg, SQLSRV_PARAM_OUT, SQLSRV_PHPTYPE_INT, SQLSRV_SQLTYPE_INT),
 				);
 				
-				$stmt = sqlsrv_query($conn, '{CALL EditSession(?,?,?,?,?,?,?,?,?,?,?)}', $params);
+				$stmt = sqlsrv_query($conn, '{CALL EditSession(?,?,?,?,?,?,?,?,?,?,?,?)}', $params);
 				
 				if($stmt == false){
 					die(print_r(sqlsrv_errors(), true));
@@ -452,7 +456,9 @@
 							.$row['RingTour']."#"
 							.$row['Place']."#"
 							.$row['Rate']."#"
-							.$row['Return']."%";
+							.$row['Return']."#"
+							.$row['LocType']."#"
+							.$row['Notes']."%";
 					}
 				}
 				else{
@@ -526,7 +532,8 @@
 						.$row['Limits']."#"
 						.$row['BuyIn']."#"
 						.$row['CashOut']."#"
-						.$row['Place']."#";
+						.$row['Place']."#"
+						.$row['Notes']."#";
 				}
 				
 				sqlsrv_close($conn);

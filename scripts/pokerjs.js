@@ -477,6 +477,8 @@ function addSession(){
 	var cashout = $('#cashout').val();
 // PLACE
 	var place = $('#place').val();
+// NOTES
+	var notes = $('#notes').val();
 	
 	if(isNaN(buyinValid)){
 		$('#addSessErrLbl').html("Buy-in entry can contain only numbers.");
@@ -615,7 +617,7 @@ function addSession(){
 							
 							// POST DATA TO DB
 							$.post('pokerMethods.php', {method: 'addSession', phpStartDate: sqlStDatetimeStr, phpEndDate: sqlEndDatetimeStr, phpLocation: location,
-								phpGameType: gameType, phpRingTour: ringTour, phpLimits: limits, phpBuyin: buyin, phpCashout: cashout, phpPlace: place}, function(message){
+								phpGameType: gameType, phpRingTour: ringTour, phpLimits: limits, phpBuyin: buyin, phpCashout: cashout, phpPlace: place, phpNotes: notes}, function(message){
 									if(message != ""){
 										$('#addSessErrLbl').html(message);
 									}
@@ -643,6 +645,8 @@ function editSession(){
 	var cashout = $('#editCashout').val();
 // PLACE
 	var place = $('#editPlace').val();
+// NOTES
+	var notes = $('#editNotes').val();
 	
 	if(isNaN(buyinValid)){
 		$('#editSessErrLbl').html("Buy-in entry can contain only numbers.");
@@ -781,7 +785,7 @@ function editSession(){
 							
 							// POST DATA TO DB
 							$.post('pokerMethods.php', {method: 'editSession', phpStartDate: sqlStDatetimeStr, phpEndDate: sqlEndDatetimeStr, phpLocation: location,
-								phpGameType: gameType, phpRingTour: ringTour, phpLimits: limits, phpBuyin: buyin, phpCashout: cashout, phpPlace: place}, function(message){
+								phpGameType: gameType, phpRingTour: ringTour, phpLimits: limits, phpBuyin: buyin, phpCashout: cashout, phpPlace: place, phpNotes: notes}, function(message){
 									if(message != ""){
 										$('#editSessErrLbl').html(message);
 									}
@@ -897,6 +901,7 @@ function fillTable(){
 	var dataStr = document.getElementById('data').innerHTML;
 	var splitRegEx = /%/g;
 	var rowArr = dataStr.split(splitRegEx);
+	var splitSpace = /\s+/g;
 	
 	// PUT EACH ROW INTO ARRAY AS OBJECT
 	// ALL DATA FOR EA. SESSION IS COLLECTED
@@ -906,7 +911,14 @@ function fillTable(){
 		var attrArr = rowArr[i].split(/#/g);
 		tr.id = "tr" + i;
 		tr.sessId = attrArr[0];
+		
+		// SPLIT THE START DATE STRING SO DATE AND TIME ARE ON 2 SEPARATE LINES		
 		tr.startDate = attrArr[1];
+		splitDate = tr.startDate.split(splitSpace);
+		tr.date = splitDate[0] + " " + splitDate[1] + " " + splitDate[2];
+		tr.time = splitDate[3];
+		tr.startDate = tr.date + " <br>" + tr.time;
+		
 		tr.location = attrArr[2];
 		tr.gameType = attrArr[3];
 		tr.limit = attrArr[4];
@@ -917,6 +929,8 @@ function fillTable(){
 		tr.place = attrArr[9];
 		tr.rate = attrArr[10];
 		tr.ret = attrArr[11];
+		tr.live = attrArr[12];
+		tr.notes = attrArr[13];
 		trArr[i] = tr;
 	}
 	
@@ -934,12 +948,14 @@ function fillTable(){
 			"<td name='duration'>" + trArr[i].duration + "</td>" +	// COL 5
 			"<td name='buyin'>" + trArr[i].buyin + "</td>" +		// COL 6
 			"<td name='cashout'>" + trArr[i].cashout + "</td>" +	// COL 7
-			"<td name='ringtour'>" + trArr[i].ringtour + "</td>" +	// COL 8
+			"<td name='ringtour' style='display:none'>" + trArr[i].ringtour + "</td>" +	// COL 8
 			"<td name='place'>" + trArr[i].place + "</td>" +		// COL 9
 			"<td name='rate'>" + trArr[i].rate + "</td>" +		// COL 10
 			"<td name='ret'>" + trArr[i].ret + "</td>" +		// COL 11
-			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 12
-			"<td><button onclick='confirmDelete(this)'>Delete</button></td>" + // COL 13
+			"<td name='live' style='display:none'>" + trArr[i].live + "</td>" +		// COL 12
+			"<td name='notes' style='max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + trArr[i].notes + "</td>" +	// COL 13
+			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 14
+			"<td><button onclick='confirmDelete(this)'>Delete</button></td>" + // COL 15
 			"</tr>";
 			x = x + 1;
 	}
@@ -952,7 +968,7 @@ function fillTable(){
 
 function fillOperator(){
 	var cat = document.getElementById('category').value;
-	if(cat == "location" || cat == "gameType" || cat == "limit" || cat == "ringTour"){
+	if(cat == "location" || cat == "gameType" || cat == "limit" || cat == "ringTour" || cat == "live"){
 		document.getElementById('operator').innerHTML = "<option>IS</option><option>IS NOT</option>";
 	}
 	else if(cat == "start"){
@@ -977,6 +993,8 @@ function fillFilterVal(){
 	// place = 9;
 	// rate = 10;
 	// return = 11;
+	// live = 12;
+	// notes = 13;
 	
 	// FILL FILTER VAL FIELD WITH OPTIONS FROM TABLE
 	switch(cat){
@@ -1104,6 +1122,10 @@ function fillFilterVal(){
 			break;
 		case "return": // RETURN
 			filterValStr = "$<input type='text' id='filterInput1' />";
+			break;
+		case "live": // RETURN
+			filterValStr = "<option>Live</option><option>Online</option>";
+			filterValStr = "<select id='filterInput1'>" + filterValStr + "</select>";
 			break;	
 	} // END SWITCH
 	
@@ -1188,7 +1210,9 @@ function applyFilter(){
 	// ringTour = 8;
 	// place = 9;
 	// rate = 10;
-	// ret = 11;
+	// return = 11;
+	// live = 12;
+	// notes = 13;
 
 	// GET FILTER CATEGORY
 	cat = $('#category').val();
@@ -1200,6 +1224,16 @@ function applyFilter(){
 	// CONVERT RING/TOUR VAL TO 0 OR 1
 	if(cat == "ringTour"){
 		if(filVal1 == "Ring"){
+			filVal1 = 0;
+		}
+		else{
+			filVal1 = 1;
+		}
+	}
+	
+	// CONVERT LIVE/ONLINE VAL TO 0 OR 1
+	if(cat == "live"){
+		if(filVal1 == "Live"){
 			filVal1 = 0;
 		}
 		else{
@@ -1279,6 +1313,8 @@ function applyFilter(){
 			break;
 		case "return":
 			colNum = 11;
+		case "live":
+			colNum = 12;
 			break;
 	}
 	//-------------------------------------------------------------------
@@ -1534,6 +1570,10 @@ function editGetVals(){
 		// PLACE
 		var editPlace = splitMsgArray[10];
 		$('#editPlace').val(editPlace);
+		
+		// NOTES
+		var editNotes = splitMsgArray[11];
+		$('#editNotes').val(editNotes);
 		
 	});
 }

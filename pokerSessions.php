@@ -27,6 +27,7 @@
 			<option value="place">Place</option>
 			<option value="rate">Rate</option>
 			<option value="return">Return</option>
+			<option value="live">Live/Online</option>
 		</select>
 		<select id="operator" onchange="fillFilterVal()"></select>
 		<span id="filterVal"></span>
@@ -45,10 +46,12 @@
 				<th>Duration</th>
 				<th>Buy In</th>
 				<th>Cash Out</th>
-				<th>R/T</th>
+				<th style="display:none">R/T</th>
 				<th>Place</th>
 				<th>Rate</th>
 				<th>Return</th>
+				<th style="display:none">Live/Online</th>
+				<th>Notes</th>
 			</tr>
 		</thead>
 		<tfoot>

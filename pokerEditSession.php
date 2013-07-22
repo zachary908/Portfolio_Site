@@ -198,6 +198,13 @@
 		-->
 	</div>
 	<!-------------------------------------->
+	<div class="modalRow">
+		<div class="modalLabelWrap">
+			<div class="modalLabel">Note:</div>
+		</div>
+		<textarea id="editNotes" rows="5" cols="38" maxlength="240"></textarea>
+	</div>
+	<!-------------------------------------->
 	<div id='editSessErrLbl'></div><br>
 	<button class="modalBtn" onclick="editSession()">Submit</button>
 	<button class="modalBtn" onclick="$('#status').val('Changes cancelled.'); $('#statusForm').submit()">Cancel</button>
