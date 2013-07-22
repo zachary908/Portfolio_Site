@@ -1195,6 +1195,7 @@ function applyFilter(){
 	oper = $('#operator').val();
 	filVal1 = $('#filterInput1').val();
 	filVal2 = $('#filterInput2').val();
+	var error = "";
 	
 	// CONVERT RING/TOUR VAL TO 0 OR 1
 	if(cat == "ringTour"){
@@ -1217,7 +1218,7 @@ function applyFilter(){
 			}
 		}
 		else if(filVal2 >= 60){
-			var error = "Duration minutes must be less than 60.";
+			error = "Duration minutes must be less than 60.";
 		}
 		filVal1 = filVal1 + filVal2;
 	}
@@ -1227,6 +1228,9 @@ function applyFilter(){
 		if(oper == "IS BETWEEN"){
 			filVal1 = dpToJsDate(filVal1);
 			filVal2 = dpToJsDate(filVal2);
+			if(filVal1 > filVal2){
+				error = "2nd date must be later than the first date."
+			}
 		}
 		else{
 			filVal1 = dpToJsDate(filVal1);
@@ -1283,87 +1287,84 @@ function applyFilter(){
 	//-------------------------------------------------------------------
 	
 	// PUT IDS OF EXCLUDED ROWS INTO FILTER ARRAY
-	for(var i=0; i<rowColl.length; i++){
-		var cellColl = rowColl[i].cells;
-		switch(oper){
-			case "IS NOT":
-				if(cellColl[colNum].textContent == filVal1){
-					filterArr[j] = rowColl[i].id;
-					j = j + 1;
-				}
-				break;
-			case "IS":
-				if(cellColl[colNum].textContent != filVal1){
-					filterArr[j] = rowColl[i].id;
-					j = j + 1;
-				}
-				break;
-			case "IS MORE THAN":
-				var tblVal = cellColl[colNum].textContent;
-				if(cat == "duration"){ // DURATION
-					var splitH = /h/i;
-					var durArr = tblVal.split(splitH);
-					var durHr = durArr[0];
-					var durComboMin = durArr[1];
-					var splitM = /m/i;
-					var durMinArr = durComboMin.split(splitM);
-					var durMin = durMinArr[0];
-					tblVal = durHr + durMin;
-				}
-
-				if(parseFloat(tblVal) <= filVal1){
-					filterArr[j] = rowColl[i].id;
-					j = j + 1;
-				}
-				break;
-			case "IS LESS THAN":
-				var tblVal = cellColl[colNum].textContent;
-				if(cat == "duration"){ // DURATION
-					var splitH = /h/i;
-					var durArr = tblVal.split(splitH);
-					var durHr = durArr[0];
-					var durComboMin = durArr[1];
-					var splitM = /m/i;
-					var durMinArr = durComboMin.split(splitM);
-					var durMin = durMinArr[0]
-					tblVal = durHr + durMin;
-				}
-
-				if(parseFloat(tblVal) >= filVal1){
-					filterArr[j] = rowColl[i].id;
-					j = j + 1;
-				}			
-				break;
-			case "IS BEFORE":
-				var tblDateStr = cellColl[colNum].textContent;
-				// CONVERT TABLE DATETIME TO JS DATE
-				var tblDate = tblToJsDate(tblDateStr);
-				if(tblDate >= filVal1){
-					filterArr[j] = rowColl[i].id;
-					j = j + 1;
-				}
-				break;
-			case "IS AFTER":
-				var tblDateStr = cellColl[colNum].textContent;
-				// CONVERT TABLE DATETIME TO JS DATE
-				var tblDate = tblToJsDate(tblDateStr);
-				if(tblDate < filVal1){
-					filterArr[j] = rowColl[i].id;
-					j = j + 1;
-				}
-				break;
-			case "IS BETWEEN":
-				var tblDateStr = cellColl[colNum].textContent;
-				var tblDate = tblToJsDate(tblDateStr);
-				if(tblDate < filVal1 || tblDate >= filVal2){
-					filterArr[j] = rowColl[i].id;
-					j = j + 1;
-				}
-				break;
-		} // END SWITCH
-	} // END FOR
-
 	if(error == "" || error == undefined){
+		for(var i=0; i<rowColl.length; i++){
+			var cellColl = rowColl[i].cells;
+			switch(oper){
+				case "IS NOT":
+					if(cellColl[colNum].textContent == filVal1){
+						filterArr[j] = rowColl[i].id;
+						j = j + 1;
+					}
+					break;
+				case "IS":
+					if(cellColl[colNum].textContent != filVal1){
+						filterArr[j] = rowColl[i].id;
+						j = j + 1;
+					}
+					break;
+				case "IS MORE THAN":
+					var tblVal = cellColl[colNum].textContent;
+					if(cat == "duration"){ // DURATION
+						var splitH = /h/i;
+						var durArr = tblVal.split(splitH);
+						var durHr = durArr[0];
+						var durComboMin = durArr[1];
+						var splitM = /m/i;
+						var durMinArr = durComboMin.split(splitM);
+						var durMin = durMinArr[0];
+						tblVal = durHr + durMin;
+					}
+					if(parseFloat(tblVal) <= filVal1){
+						filterArr[j] = rowColl[i].id;
+						j = j + 1;
+					}
+					break;
+				case "IS LESS THAN":
+					var tblVal = cellColl[colNum].textContent;
+					if(cat == "duration"){ // DURATION
+						var splitH = /h/i;
+						var durArr = tblVal.split(splitH);
+						var durHr = durArr[0];
+						var durComboMin = durArr[1];
+						var splitM = /m/i;
+						var durMinArr = durComboMin.split(splitM);
+						var durMin = durMinArr[0]
+						tblVal = durHr + durMin;
+					}
+					if(parseFloat(tblVal) >= filVal1){
+						filterArr[j] = rowColl[i].id;
+						j = j + 1;
+					}			
+					break;
+				case "IS BEFORE":
+					var tblDateStr = cellColl[colNum].textContent;
+					// CONVERT TABLE DATETIME TO JS DATE
+					var tblDate = tblToJsDate(tblDateStr);
+					if(tblDate >= filVal1){
+						filterArr[j] = rowColl[i].id;
+						j = j + 1;
+					}
+					break;
+				case "IS AFTER":
+					var tblDateStr = cellColl[colNum].textContent;
+					// CONVERT TABLE DATETIME TO JS DATE
+					var tblDate = tblToJsDate(tblDateStr);
+					if(tblDate < filVal1){
+						filterArr[j] = rowColl[i].id;
+						j = j + 1;
+					}
+					break;
+				case "IS BETWEEN":
+					var tblDateStr = cellColl[colNum].textContent;
+					var tblDate = tblToJsDate(tblDateStr);
+					if(tblDate < filVal1 || tblDate >= filVal2){
+						filterArr[j] = rowColl[i].id;
+						j = j + 1;
+					}
+					break;
+			} // END SWITCH
+		} // END FOR
 		for(var x=0; x<filterArr.length; x++){
 			for(var y=0; y<rowColl.length; y++){
 				if(rowColl[y].id == filterArr[x]){
