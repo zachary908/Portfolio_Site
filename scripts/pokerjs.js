@@ -885,11 +885,11 @@ function deleteRow(x){
 function getSessions(){
 	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
 		if(message == 1){
-			$('#statusMsg').html("You have no recorded sessions. Add one now!");
-			$('#data').html("");
+			$('#' + statusDiv).html("You have no recorded sessions. Add one now!");
+			document.getElementById(dataDiv).innerHTML = "";
 		}
 		else{
-			$('#data').html(message);
+			document.getElementById(dataDiv).innerHTML = message;
 		}
 		fillTable();
 	});
@@ -898,7 +898,7 @@ function getSessions(){
 function fillTable(){
 	// ALL THE FOLLOWING MUST BE IN SEPARATE FXN, 
 	// OTHERWISE, CALL WILL BE MADE TO DB EVERY TIME FILTER IS APPLIED
-	var dataStr = document.getElementById('data').innerHTML;
+	var dataStr = document.getElementById(dataDiv).innerHTML;
 	var splitRegEx = /%/g;
 	var rowArr = dataStr.split(splitRegEx);
 	var splitSpace = /\s+/g;

@@ -5,8 +5,8 @@
 		<input id="editRowId" name="editRowId" type="hidden" value="" />
 	</form>
 	
-	<div id="data" style="position: absolute; visibility: hidden"></div>
-	<div id="statusMsg">
+	<div id="sessData" style="position: absolute; visibility: hidden"></div>
+	<div id="sessStatus">
 		<?php
 			if(isset($_SESSION["statusMsg"])){
 				$statusMsg = $_SESSION["statusMsg"];
