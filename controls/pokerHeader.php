@@ -31,12 +31,14 @@
 		echo '<script>
 			statusDiv = "sessStatus";
 			dataDiv = "sessData";
+			tblBodyName = "sessTableBody";
 			</script>';
 	}
 	else if(basename($_SERVER['PHP_SELF']) == "pokerSummary.php"){
 		echo '<script>
 			statusDiv = "sumStatus";
 			dataDiv = "sumData";
+			tblBodyName = "sumTableBody";
 			</script>';
 	}
 ?>

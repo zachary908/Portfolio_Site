@@ -961,8 +961,10 @@ function fillTable(){
 	}
 	
 	// FILL TABLE WITH RESULTS
-	document.getElementById("filterErrLbl").innerHTML = "";
-	document.getElementById("sessTableBody").innerHTML = dataString;
+	if(document.getElementById("filterErrLbl") != null){
+		document.getElementById("filterErrLbl").innerHTML = "";
+	}
+	document.getElementById(tblBodyName).innerHTML = dataString;
 
 }
 
