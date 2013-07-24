@@ -27,22 +27,12 @@
 			limitListDest = "editLimitOptions";
 			</script>';
 	}
-	else if(basename($_SERVER['PHP_SELF']) == "pokerSessions.php"){
-		echo '<script>
-			dataDiv = "sessData";
-			tblName = "sessTbl";
-			statusDiv = "sessStatus";
-			</script>';
-	}
-	else if(basename($_SERVER['PHP_SELF']) == "pokerSummary.php"){
-		echo '<script>
-			dataDiv = "sumData";
-			tblName = "sumTbl";
-			statusDiv = "sumStatus";
-			</script>';
-	}
 ?>
 	<div id="fullCover2"></div>
+	<form id="statusForm" action="../pokerSetStatus.php" method="POST" style="position: absolute">
+		<input id="status" name="status" type="hidden" value="" />
+	</form>
+
 	<div id="locationReturn" style="display:none"></div>
 	<div id="gameReturn" style="display:none"></div>
 	<div id="limitReturn" style="display:none"></div>

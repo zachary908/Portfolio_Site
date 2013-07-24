@@ -3,10 +3,6 @@ body, html{
 	font-size: 16px;
 }
 
-td{
-	text-align:center;
-}
-
 .floatingFix:after{
 	content: ".";
 	visibility: hidden;

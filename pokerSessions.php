@@ -1,19 +1,16 @@
 <?php
 	include 'controls/pokerHeader.php';
 ?>
-	<form id="sessStatusForm" action="../pokerSetStatus.php" method="POST" style="position: absolute">
-		<input id="status" name="status" type="hidden" value="" />
-	</form>
 	<form id="editSession" action="../pokerEditSession.php" method="POST" style="position: absolute">
 		<input id="editRowId" name="editRowId" type="hidden" value="" />
 	</form>
-	<input type="button" onclick="parent.location='pokerSummary.php'" value="Summary" >
-	<div id="sessData" style="position: absolute; visibility: hidden"></div>
-	<div id="sessStatus">
+	
+	<div id="data" style="position: absolute; visibility: hidden"></div>
+	<div id="statusMsg">
 		<?php
-			if(isset($_SESSION['statusMsg'])){
-				$status = $_SESSION['statusMsg'];
-				echo $status;
+			if(isset($_SESSION["statusMsg"])){
+				$statusMsg = $_SESSION["statusMsg"];
+				echo $statusMsg;
 			}
 		?>
 	</div><br>
@@ -36,9 +33,9 @@
 		<span id="filterVal"></span>
 		<button type="button" onclick="applyFilter()">Apply Filter</button>
 		<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
-		<div id="sessFilterErr"></div><br>
+		<div id="filterErrLbl"></div><br>
 	</div>
-	<table id="sessTbl">
+	<table id="sessions">
 		<thead>
 			<tr>
 				<th></th>
@@ -59,17 +56,11 @@
 		</thead>
 		<tfoot>
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td><b>Hours Played:</b></td>
-				<td><b>Buy-In:</b></td>
-				<td><b>Cash-Out:</b></td>
-				<td></td>
-				<td><b>$/hour:</b></td>
-				<td><b>ROI:</b></td>
+				<td>Hours Played:</td>
+				<td>$/hour:</td>
+				<td>Buy-In:</td>
+				<td>Cash-Out:</td>
+				<td>ROI:</td>
 			</tr>
 		</tfoot>
 		<tbody id="sessTableBody"></tbody>

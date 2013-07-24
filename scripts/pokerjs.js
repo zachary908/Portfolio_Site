@@ -790,8 +790,8 @@ function editSession(){
 										$('#editSessErrLbl').html(message);
 									}
 									else{
-										$('#sessStatus').val("Your changes have been recorded.");
-										document.getElementById('sessStatusForm').submit();
+										$('#status').val("Your changes have been recorded.");
+										document.getElementById('statusForm').submit();
 									}
 								
 							});
@@ -828,7 +828,7 @@ function confirmDelete(x){
 	var dltRowId = x.parentNode.parentNode.id;
 	document.getElementById('dltRowId').value = dltRowId;
 	
-	var tbl = document.getElementById(tblName).tBodies[0];
+	var tbl = document.getElementById('sessions').tBodies[0];
 	var rowColl = tbl.rows;
 	var startCol = 1; // 1 IS STARTDATE COL
 	for(var y=0; y<rowColl.length; y++){
@@ -871,12 +871,12 @@ function deleteRow(x){
 	
 	xmlhttp.onreadystatechange = function(){
 		if (xmlhttp.readyState == 4 && xmlhttp.status == 200){
-			// REFRESH DATA DIV TO REFLECT SESSION DELETION
 			getSessions();
 			document.getElementById("statusMsg").innerHTML = xmlhttp.responseText;
 		}
 	}
 	
+	// IF ASYNC SET TO TRUE, ONLY LAST LIST REQUEST WILL APPEAR
 	xmlhttp.open("POST", "../pokerMethods.php", true);
 	xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
 	xmlhttp.send("method=deleteSessionAJAX&delSessId=" + rowId);	
@@ -885,11 +885,11 @@ function deleteRow(x){
 function getSessions(){
 	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
 		if(message == 1){
-			$('#' + statusDiv).html("You have no recorded sessions. Add one now!");
-			$('#' + dataDiv).html("");
+			$('#statusMsg').html("You have no recorded sessions. Add one now!");
+			$('#data').html("");
 		}
 		else{
-			$('#' + dataDiv).html(message);
+			$('#data').html(message);
 		}
 		fillTable();
 	});
@@ -898,7 +898,7 @@ function getSessions(){
 function fillTable(){
 	// ALL THE FOLLOWING MUST BE IN SEPARATE FXN, 
 	// OTHERWISE, CALL WILL BE MADE TO DB EVERY TIME FILTER IS APPLIED
-	var dataStr = document.getElementById(dataDiv).innerHTML;
+	var dataStr = document.getElementById('data').innerHTML;
 	var splitRegEx = /%/g;
 	var rowArr = dataStr.split(splitRegEx);
 	var splitSpace = /\s+/g;
@@ -961,8 +961,8 @@ function fillTable(){
 	}
 	
 	// FILL TABLE WITH RESULTS
-	document.getElementById("sessFilterErr").innerHTML = "";
-	document.getElementById(tblName).tBodies[0].innerHTML = dataString;
+	document.getElementById("filterErrLbl").innerHTML = "";
+	document.getElementById("sessTableBody").innerHTML = dataString;
 
 }
 
@@ -1435,7 +1435,7 @@ function applyFilter(){
 		}
 	}
 	else{
-		document.getElementById('sessFilterErr').innerHTML = error;
+		document.getElementById('filterErrLbl').innerHTML = error;
 	}
 	
 	// RE-NUMBER ROWS
