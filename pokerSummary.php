@@ -16,7 +16,9 @@
 
 	<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button>
 
-
+	<script>
+		$(document).ready(getSessions());
+	</script>
 
 <?php
 	include 'controls/pokerFooter.php';
