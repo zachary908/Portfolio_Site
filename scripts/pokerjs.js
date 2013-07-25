@@ -291,6 +291,66 @@ function logout(){
 	});
 }
 
+function dpToJsDate(dpDate){
+	// DATEPICKER FORMAT IS DD/MM/YYYY
+	var splitRegEx = /\//g;
+	var splitDp = dpDate.split(splitRegEx);
+	var dpDateMM = splitDp[0] - 1;
+	var dpDateDD = splitDp[1];
+	var dpDateYYYY = splitDp[2];
+	return jsDate = new Date(dpDateYYYY, dpDateMM, dpDateDD, 0, 0, 0, 0);
+}
+
+function tblToJsDate(tblDate){
+	// TABLE DATE FORMAT IS: Jul 16 2013 10:25AM
+	var splitRegEx = /\s+/g;
+	var splitTbl = tblDate.split(splitRegEx);
+	var MMStr = splitTbl[0];
+	var MMNum = 0;
+	switch(MMStr){
+		case "Jan":
+			MMNum = 0;
+			break;
+		case "Feb":
+			MMNum = 1;
+			break;
+		case "Mar":
+			MMNum = 2;
+			break;
+		case "Apr":
+			MMNum = 3;
+			break;
+		case "May":
+			MMNum = 4;
+			break;
+		case "Jun":
+			MMNum = 5;
+			break;
+		case "Jul":
+			MMNum = 6;
+			break;
+		case "Aug":
+			MMNum = 7;
+			break;
+		case "Sep":
+			MMNum = 8;
+			break;
+		case "Oct":
+			MMNum = 9;
+			break;
+		case "Nov":
+			MMNum = 10;
+			break;
+		case "Dec":
+			MMNum = 11;
+			break;
+	}
+	var tblDateMM = MMNum;
+	var tblDateDD = splitTbl[1];
+	var tblDateYYYY = splitTbl[2];
+	return jsDate = new Date(tblDateYYYY, tblDateMM, tblDateDD, 0, 0, 0, 0);
+}
+
 function getList(listType, newOptionVal){
 	if (window.XMLHttpRequest){
 		// code for IE7+, Firefox, Chrome, Opera, Safari
@@ -890,8 +950,8 @@ function getSessions(){
 		}
 		else{
 			document.getElementById(dataDiv).innerHTML = message;
+			fillTable();
 		}
-		fillTable();
 	});
 }
 
@@ -948,11 +1008,11 @@ function fillTable(){
 			"<td name='duration'>" + trArr[i].duration + "</td>" +	// COL 5
 			"<td name='buyin'>" + trArr[i].buyin + "</td>" +		// COL 6
 			"<td name='cashout'>" + trArr[i].cashout + "</td>" +	// COL 7
-			"<td name='ringtour' style='display:none'>" + trArr[i].ringtour + "</td>" +	// COL 8
+			"<td name='ringtour'>" + trArr[i].ringtour + "</td>" +	// COL 8
 			"<td name='place'>" + trArr[i].place + "</td>" +		// COL 9
 			"<td name='rate'>" + trArr[i].rate + "</td>" +		// COL 10
 			"<td name='return'>" + trArr[i].ret + "</td>" +		// COL 11
-			"<td name='live' style='display:none'>" + trArr[i].live + "</td>" +		// COL 12
+			"<td name='live'>" + trArr[i].live + "</td>" +		// COL 12
 			"<td name='notes' style='max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + trArr[i].notes + "</td>" +	// COL 13
 			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 14
 			"<td><button onclick='confirmDelete(this)'>Delete</button></td>" + // COL 15
@@ -1139,66 +1199,6 @@ function fillFilterVal(){
 		$('#filterInput2').datepicker('setDate', new Date());
 	}			
 	
-}
-
-function dpToJsDate(dpDate){
-	// DATEPICKER FORMAT IS DD/MM/YYYY
-	var splitRegEx = /\//g;
-	var splitDp = dpDate.split(splitRegEx);
-	var dpDateMM = splitDp[0] - 1;
-	var dpDateDD = splitDp[1];
-	var dpDateYYYY = splitDp[2];
-	return jsDate = new Date(dpDateYYYY, dpDateMM, dpDateDD, 0, 0, 0, 0);
-}
-
-function tblToJsDate(tblDate){
-	// TABLE DATE FORMAT IS: Jul 16 2013 10:25AM
-	var splitRegEx = /\s+/g;
-	var splitTbl = tblDate.split(splitRegEx);
-	var MMStr = splitTbl[0];
-	var MMNum = 0;
-	switch(MMStr){
-		case "Jan":
-			MMNum = 0;
-			break;
-		case "Feb":
-			MMNum = 1;
-			break;
-		case "Mar":
-			MMNum = 2;
-			break;
-		case "Apr":
-			MMNum = 3;
-			break;
-		case "May":
-			MMNum = 4;
-			break;
-		case "Jun":
-			MMNum = 5;
-			break;
-		case "Jul":
-			MMNum = 6;
-			break;
-		case "Aug":
-			MMNum = 7;
-			break;
-		case "Sep":
-			MMNum = 8;
-			break;
-		case "Oct":
-			MMNum = 9;
-			break;
-		case "Nov":
-			MMNum = 10;
-			break;
-		case "Dec":
-			MMNum = 11;
-			break;
-	}
-	var tblDateMM = MMNum;
-	var tblDateDD = splitTbl[1];
-	var tblDateYYYY = splitTbl[2];
-	return jsDate = new Date(tblDateYYYY, tblDateMM, tblDateDD, 0, 0, 0, 0);
 }
 
 function applyFilter(cat, oper, filVal1, filVal2){
@@ -1441,6 +1441,65 @@ function applyFilter(cat, oper, filVal1, filVal2){
 		var z = y + 1;
 		rowColl[y].cells[0].textContent = z + "."
 	}
+}
+
+function calc(cat, oper, srcBody, retBody){
+	var colNum = 0;
+	switch(cat){
+		case "start":
+			colNum = 1;
+			break;
+		case "location":
+			colNum = 2;
+			break;
+		case "gametype":
+			colNum = 3;
+			break;
+		case "limit":
+			colNum = 4;
+			break;
+		case "duration":
+			colNum = 5;
+			break;
+		case "buyin":
+			colNum = 6;
+			break;
+		case "cashout":
+			colNum = 7;
+			break;
+		case "ringTour":
+			colNum = 8;
+			break;
+		case "place":
+			colNum = 9;
+			break;
+		case "rate":
+			colNum = 10;
+			break;
+		case "return":
+			colNum = 11;
+			break;
+		case "live":
+			colNum = 12;
+			break;
+	}
+	
+	var srcRows;
+	srcRows = document.getElementById(srcBody).rows;
+	//retRows = document.getElementById(retBody).rows
+	var srcCells = new Array();
+	var result = 0;
+	if(oper = 'sum'){
+		for(var i=0; i<srcRows.length; i++){
+			srcCells = srcRows[i].cells;
+			result = result + parseFloat(srcCells[colNum].textContent);
+		}
+	}
+	
+	var dataString = "<tr><td>" + result + "</td></tr>";
+	
+	document.getElementById(retBody).innerHTML = dataString;
+
 }
 
 function editGetVals(){
