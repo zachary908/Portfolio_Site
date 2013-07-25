@@ -1272,7 +1272,7 @@ function applyFilter(){
 	
 	// IF USER FILTERS ON "PLACE", APPLY TOURNAMENT FILTER FIRST
 	
-	var tbl = document.getElementById('sessions').tBodies[0];
+	var tbl = document.getElementById(tblBodyName);
 	var rowColl = tbl.rows;
 	var filterArr = new Array();
 	var j = 0;
@@ -1315,13 +1315,14 @@ function applyFilter(){
 			break;
 		case "return":
 			colNum = 11;
+			break;
 		case "live":
 			colNum = 12;
 			break;
 	}
 	//-------------------------------------------------------------------
-	
 	// PUT IDS OF EXCLUDED ROWS INTO FILTER ARRAY
+	
 	if(error == "" || error == undefined){
 		for(var i=0; i<rowColl.length; i++){
 			var cellColl = rowColl[i].cells;
@@ -1431,7 +1432,7 @@ function applyFilter(){
 		for(var x=0; x<filterArr.length; x++){
 			for(var y=0; y<rowColl.length; y++){
 				if(rowColl[y].id == filterArr[x]){
-					document.getElementById('sessions').tBodies[0].deleteRow(y);
+					document.getElementById(tblBodyName).deleteRow(y);
 				}
 			}
 		}

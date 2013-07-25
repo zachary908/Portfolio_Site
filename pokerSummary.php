@@ -35,16 +35,16 @@
 				<th>Notes</th>
 			</tr>
 		</thead>
-		<tfoot>
-			<tr>
-				<td>Hours Played:</td>
-				<td>$/hour:</td>
-				<td>Buy-In:</td>
-				<td>Cash-Out:</td>
-				<td>ROI:</td>
-			</tr>
-		</tfoot>
 		<tbody id="sumTableBody"></tbody>
+	</table>
+	
+	<table id="totals">
+		<thead>
+			<tr>
+				<th>totEarnAll</th>
+			</tr>
+		</thead>
+		<tbody id="totEarnAll"></tbody>
 	</table>
 
 	<script>
