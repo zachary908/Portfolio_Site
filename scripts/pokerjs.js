@@ -951,7 +951,7 @@ function fillTable(){
 			"<td name='ringtour' style='display:none'>" + trArr[i].ringtour + "</td>" +	// COL 8
 			"<td name='place'>" + trArr[i].place + "</td>" +		// COL 9
 			"<td name='rate'>" + trArr[i].rate + "</td>" +		// COL 10
-			"<td name='ret'>" + trArr[i].ret + "</td>" +		// COL 11
+			"<td name='return'>" + trArr[i].ret + "</td>" +		// COL 11
 			"<td name='live' style='display:none'>" + trArr[i].live + "</td>" +		// COL 12
 			"<td name='notes' style='max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;'>" + trArr[i].notes + "</td>" +	// COL 13
 			"<td><button onclick='editRow(this)'>Edit</button></td>" + // COL 14
@@ -1201,7 +1201,7 @@ function tblToJsDate(tblDate){
 	return jsDate = new Date(tblDateYYYY, tblDateMM, tblDateDD, 0, 0, 0, 0);
 }
 
-function applyFilter(){
+function applyFilter(cat, oper, filVal1, filVal2){
 	// start = 1;
 	// location = 2;
 	// gameType = 3;
@@ -1216,11 +1216,6 @@ function applyFilter(){
 	// live = 12;
 	// notes = 13;
 
-	// GET FILTER CATEGORY
-	cat = $('#category').val();
-	oper = $('#operator').val();
-	filVal1 = $('#filterInput1').val();
-	filVal2 = $('#filterInput2').val();
 	var error = "";
 	
 	// CONVERT RING/TOUR VAL TO 0 OR 1

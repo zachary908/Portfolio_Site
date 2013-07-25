@@ -15,7 +15,7 @@
 		?>
 	</div><br>
 	<button type="button" onclick="parent.location='pokerSummary.php'">Summary</button>
-	<div id="filter" onkeypress="checkEnter(event, 'applyFilter')">Select a category to filter...<br>
+	<div id="filter" onkeypress="checkEnter(event, 'applyFilter($('#category').val()), $('#operator').val())">Select a category to filter...<br>
 		<select id="category" onchange="fillOperator(); fillFilterVal()">
 			<option value="start">Start Time</option>
 			<option value="location">Location</option>
@@ -32,7 +32,7 @@
 		</select>
 		<select id="operator" onchange="fillFilterVal()"></select>
 		<span id="filterVal"></span>
-		<button type="button" onclick="applyFilter()">Apply Filter</button>
+		<button type="button" onclick="applyFilter($('#category').val(), $('#operator').val(), $('#filterInput1').val(), $('#filterInput2').val())">Apply Filter</button>
 		<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
 		<div id="filterErrLbl"></div><br>
 	</div>
