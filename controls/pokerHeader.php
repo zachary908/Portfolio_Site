@@ -6,7 +6,6 @@
 	<script src="../scripts/pokerjs.js"></script>
 	<link rel="stylesheet" type="text/css" href="../styles/pokerStyle.css" />
 	<link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.css" />
-	
 </head>
 
 <body>
@@ -46,7 +45,6 @@
 	<form id="statusForm" action="../pokerSetStatus.php" method="POST" style="position: absolute">
 		<input id="status" name="status" type="hidden" value="" />
 	</form>
-
 	<div id="locationReturn" style="display:none"></div>
 	<div id="gameReturn" style="display:none"></div>
 	<div id="limitReturn" style="display:none"></div>

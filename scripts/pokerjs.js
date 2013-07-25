@@ -942,7 +942,7 @@ function deleteRow(x){
 	xmlhttp.send("method=deleteSessionAJAX&delSessId=" + rowId);	
 }
 
-function getSessions(){
+function getSessions(ret, sum, sumTableBody, totBody, callback){
 	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
 		if(message == 1){
 			$('#' + statusDiv).html("You have no recorded sessions. Add one now!");
@@ -951,7 +951,11 @@ function getSessions(){
 		else{
 			document.getElementById(dataDiv).innerHTML = message;
 			fillTable();
+			callback(ret, sum, sumTableBody, totBody);
+			// calc('return', 'sum', 'sumTableBody', 'totBody');
+			// applyFilter('live', 'IS', 'Online'); calc('return', 'sum', 'sumTableBody', 'totBodyOnline'); fillTable();
 		}
+		
 	});
 }
 

@@ -50,7 +50,7 @@
 			</tr>
 		</tbody>
 	</table>
-	<button onclick="$(document).ready(calc('return', 'sum', 'sumTableBody', 'totBody'));">calc tot</button>
+	<button onclick="calc('return', 'sum', 'sumTableBody', 'totBody');">calc tot</button>
 	
 	<table id="totalsLive">
 		<thead>
@@ -62,7 +62,7 @@
 			<!-- <td id="totEarnLive"></td> -->
 		</tbody>
 	</table>
-	<button onclick="applyFilter('live', 'IS', 'Live'); $(document).ready(calc('return', 'sum', 'sumTableBody', 'totBodyLive')); fillTable();">calc tot live</button>
+	<button onclick="applyFilter('live', 'IS', 'Live'); calc('return', 'sum', 'sumTableBody', 'totBodyLive'); fillTable();">calc tot live</button>
 	
 	<table id="totalsOnline">
 		<thead>
@@ -74,7 +74,7 @@
 			<!-- <td id="totEarnOnline"></td> -->
 		</tbody>
 	</table>
-	<button onclick="applyFilter('live', 'IS', 'Online'); $(document).ready(calc('return', 'sum', 'sumTableBody', 'totBodyOnline')); fillTable();">calc tot online</button>
+	<button onclick="applyFilter('live', 'IS', 'Online'); calc('return', 'sum', 'sumTableBody', 'totBodyOnline'); fillTable();">calc tot online</button>
 	
 	<table id="totalsCash">
 		<thead>
@@ -86,7 +86,7 @@
 			<!-- <td id="totEarnCash"></td> -->
 		</tbody>
 	</table>
-	<button onclick="applyFilter('ringTour', 'IS', 'Ring'); $(document).ready(calc('return', 'sum', 'sumTableBody', 'totBodyCash')); fillTable();">calc tot cash</button>
+	<button onclick="applyFilter('ringTour', 'IS', 'Ring'); calc('return', 'sum', 'sumTableBody', 'totBodyCash'); fillTable();">calc tot cash</button>
 	
 	<table id="totalsTourney">
 		<thead>
@@ -98,13 +98,67 @@
 			<!-- <td id="totEarnTour"></td> -->
 		</tbody>
 	</table>
-	<button onclick="applyFilter('ringTour', 'IS', 'Tournament'); $(document).ready(calc('return', 'sum', 'sumTableBody', 'totBodyTour')); fillTable();">calc tot tour</button>
+	<button onclick="applyFilter('ringTour', 'IS', 'Tournament'); calc('return', 'sum', 'sumTableBody', 'totBodyTour'); fillTable();">calc tot tour</button>
 	
 	<script>
-		$(document).ready(getSessions());
-	</script>
-	<script>
-		//$(document).ready(calc('return', 'sum', 'sumTableBody', 'totBody'));
+		getSessions('return', 'sum', 'sumTableBody', 'totBody', function calc(cat, oper, srcBody, retBody){
+			var colNum = 0;
+			switch(cat){
+				case "start":
+					colNum = 1;
+					break;
+				case "location":
+					colNum = 2;
+					break;
+				case "gametype":
+					colNum = 3;
+					break;
+				case "limit":
+					colNum = 4;
+					break;
+				case "duration":
+					colNum = 5;
+					break;
+				case "buyin":
+					colNum = 6;
+					break;
+				case "cashout":
+					colNum = 7;
+					break;
+				case "ringTour":
+					colNum = 8;
+					break;
+				case "place":
+					colNum = 9;
+					break;
+				case "rate":
+					colNum = 10;
+					break;
+				case "return":
+					colNum = 11;
+					break;
+				case "live":
+					colNum = 12;
+					break;
+			}
+			
+			var srcRows;
+			srcRows = document.getElementById(srcBody).rows;
+			//retRows = document.getElementById(retBody).rows
+			var srcCells = new Array();
+			var result = 0;
+			if(oper = 'sum'){
+				for(var i=0; i<srcRows.length; i++){
+					srcCells = srcRows[i].cells;
+					result = result + parseFloat(srcCells[colNum].textContent);
+				}
+			}
+			
+			var dataString = "<tr><td>" + result + "</td></tr>";
+			
+			document.getElementById(retBody).innerHTML = dataString;
+
+		});
 	</script>
 
 <?php

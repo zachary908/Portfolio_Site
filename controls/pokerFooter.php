@@ -6,6 +6,5 @@
 		// $_SESSION['slideNumServer'] = 99;
 	?>
 </div>
-
 </body>
 </html>

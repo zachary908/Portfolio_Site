@@ -1,7 +1,7 @@
 <?php
 	include 'controls/pokerHeader.php';
 ?>
-
+	
 	<div class="modalHeaderWrap">
 		<div class="modalHeader">
 			New Session
