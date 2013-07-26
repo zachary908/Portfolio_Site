@@ -942,23 +942,6 @@ function deleteRow(x){
 	xmlhttp.send("method=deleteSessionAJAX&delSessId=" + rowId);	
 }
 
-// function getSessions(ret, sum, sumTableBody, totEarn, callback){
-	// $.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
-		// if(message == 1){
-			// $('#' + statusDiv).html("You have no recorded sessions. Add one now!");
-			// document.getElementById(dataDiv).innerHTML = "";
-		// }
-		// else{
-			// document.getElementById(dataDiv).innerHTML = message;
-			// fillTable();
-			// callback(ret, sum, sumTableBody, totEarn);
-			// // calc('return', 'sum', 'sumTableBody', 'totEarn');
-			// // applyFilter('live', 'IS', 'Online'); calc('return', 'sum', 'sumTableBody', 'totEarnOnline'); fillTable();
-		// }
-		
-	// });
-// }
-
 function getSessions(){
 	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
 		if(message == 1){
@@ -986,21 +969,36 @@ function getSessionsAndSum(){
 			// GET DEFAULT SUMMARY VALS
 			calc('return', 'sum', 'sumTableBody', 'totEarn');
 			calc('return', 'avg', 'sumTableBody', 'avgEarn');
+			calc('duration', 'sum', 'sumTableBody', 'totHrs');
+			calc('duration', 'avg', 'sumTableBody', 'avgHrs');
+			calc('rate', 'avg', 'sumTableBody', 'avgRate');
 			applyFilter('live', 'IS', 'Live'); 
 				calc('return', 'sum', 'sumTableBody', 'totEarnLive');
 				calc('return', 'avg', 'sumTableBody', 'avgEarnLive'); 
+				calc('duration', 'sum', 'sumTableBody', 'totHrsLive');
+				calc('duration', 'avg', 'sumTableBody', 'avgHrsLive');
+				calc('rate', 'avg', 'sumTableBody', 'avgRateLive');
 			fillTable();
 			applyFilter('live', 'IS', 'Online');
 				calc('return', 'sum', 'sumTableBody', 'totEarnOnline');
 				calc('return', 'avg', 'sumTableBody', 'avgEarnOnline');
+				calc('duration', 'sum', 'sumTableBody', 'totHrsOnline');
+				calc('duration', 'avg', 'sumTableBody', 'avgHrsOnline');
+				calc('rate', 'avg', 'sumTableBody', 'avgRateOnline');
 			fillTable();
 			applyFilter('ringTour', 'IS', 'Ring');
 				calc('return', 'sum', 'sumTableBody', 'totEarnCash');
 				calc('return', 'avg', 'sumTableBody', 'avgEarnCash');
+				calc('duration', 'sum', 'sumTableBody', 'totHrsCash');
+				calc('duration', 'avg', 'sumTableBody', 'avgHrsCash');
+				calc('rate', 'avg', 'sumTableBody', 'avgRateCash');
 			fillTable();
 			applyFilter('ringTour', 'IS', 'Tournament');
 				calc('return', 'sum', 'sumTableBody', 'totEarnTour');
 				calc('return', 'avg', 'sumTableBody', 'avgEarnTour');
+				calc('duration', 'sum', 'sumTableBody', 'totHrsTour');
+				calc('duration', 'avg', 'sumTableBody', 'avgHrsTour');
+				calc('rate', 'avg', 'sumTableBody', 'avgRateTour');
 			fillTable();
 		}
 		
@@ -1495,7 +1493,7 @@ function applyFilter(cat, oper, filVal1, filVal2){
 	}
 }
 
-function calc(cat, oper, srcBody, retBody){
+function calc(cat, oper, srcBody, retRow){
 	var colNum = 0;
 	switch(cat){
 		case "start":
@@ -1538,14 +1536,24 @@ function calc(cat, oper, srcBody, retBody){
 	
 	var srcRows;
 	srcRows = document.getElementById(srcBody).rows;
-	//retRows = document.getElementById(retBody).rows
+	//retRows = document.getElementById(retRow).rows
 	var srcCells = new Array();
 	var result = 0;
 	var sum = 0;
-	
+	var data = 0;
 	for(var i=0; i<srcRows.length; i++){
 		srcCells = srcRows[i].cells;
-		sum = sum + parseFloat(srcCells[colNum].textContent);
+		
+		if(cat == "duration"){
+			data = srcCells[colNum].textContent;
+			data = toCalcDur(data);
+		}
+		else{
+			data = parseFloat(srcCells[colNum].textContent);
+		}
+		
+		sum = sum + data;
+		
 		if(oper == 'sum'){
 			result = sum;
 		}
@@ -1554,12 +1562,43 @@ function calc(cat, oper, srcBody, retBody){
 		}
 	}
 	
-	result = result.toFixed(2);
-
-	var dataString = "<tr><td>" + result + "</td></tr>";
+	// NEED TO CONVERT DURATION BACK TO TBL FORMAT
+	if(cat == "duration"){
+			result = toTblDur(result);
+	}
+	else{
+		result = result.toFixed(2);
+	}
 	
-	document.getElementById(retBody).innerHTML = dataString;
+	var dataString = "<td>" + result + "</td>";
+	
+	document.getElementById(retRow).innerHTML = dataString;
 
+}
+
+// ACCEPTS DURATION STRING IN 12H30M FORMAT, RETURNS DURATION IN MINUTES
+function toCalcDur(tblDur){
+	var splitH = /h/i;
+	var durArr = tblDur.split(splitH);
+	var durHr = durArr[0];
+	var durComboMin = durArr[1];
+	var splitM = /m/i;
+	var durMinArr = durComboMin.split(splitM);
+	var durMin = durMinArr[0];
+	var durHrToMin = durHr * 60;
+	var minutes = parseInt(durMin) + parseInt(durHrToMin);
+	return minutes;
+}
+
+// ACCEPTS DURATION IN MINUTES, RETURNS 12H30M FORMAT STRING
+function toTblDur(calcDur){
+	var durHr = parseInt(calcDur/60);
+	var durMin = parseInt(calcDur%60);
+	if(durMin < 10){
+		durMin = "0" + durMin;
+	}
+	var dur = durHr + "h" + durMin + "m";
+	return dur;
 }
 
 function editGetVals(){

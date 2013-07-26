@@ -44,8 +44,11 @@
 				<th>totEarn</th>
 			</tr>
 		</thead>
-		<tbody id="totEarn"></tbody>
-		<tbody id="avgEarn"></tbody>
+		<tr id="totEarn"></tr>
+		<tr id="avgEarn"></tr>
+		<tr id="totHrs"></tr>
+		<tr id="avgHrs"></tr>
+		<tr id="avgRate"></tr>
 	</table>
 	
 	<table id="totalsLive">
@@ -54,9 +57,11 @@
 				<th>totEarnLive</th>
 			</tr>
 		</thead>
-		<tbody id="totEarnLive"></tbody>
-		<tbody id="avgEarnLive"></tbody>
-		<tbody id="totHrsLive"></tbody>
+		<tr id="totEarnLive"></tr>
+		<tr id="avgEarnLive"></tr>
+		<tr id="totHrsLive"></tr>
+		<tr id="avgHrsLive"></tr>
+		<tr id="avgRateLive"></tr>
 	</table>
 	
 	<table id="totalsOnline">
@@ -65,9 +70,11 @@
 				<th>totEarnOnline</th>
 			</tr>
 		</thead>
-		<tbody id="totEarnOnline"></tbody>
-		<tbody id="avgEarnOnline"></tbody>
-		<tbody id="totHrsOnline"></tbody>
+		<tr id="totEarnOnline"></tr>
+		<tr id="avgEarnOnline"></tr>
+		<tr id="totHrsOnline"></tr>
+		<tr id="avgHrsOnline"></tr>
+		<tr id="avgRateOnline"></tr>
 	</table>
 	
 	<table id="totalsCash">
@@ -76,9 +83,11 @@
 				<th>totEarnCash</th>
 			</tr>
 		</thead>
-		<tbody id="totEarnCash"></tbody>
-		<tbody id="avgEarnCash"></tbody>
-		<tbody id="totHrsCash"></tbody>
+		<tr id="totEarnCash"></tr>
+		<tr id="avgEarnCash"></tr>
+		<tr id="totHrsCash"></tr>
+		<tr id="avgHrsCash"></tr>
+		<tr id="avgRateCash"></tr>
 	</table>
 	
 	<table id="totalsTourney">
@@ -87,9 +96,11 @@
 				<th>totEarnTour</th>
 			</tr>
 		</thead>
-		<tbody id="totEarnTour"></tbody>
-		<tbody id="avgEarnTour"></tbody>
-		<tbody id="totHrsTour"></tbody>
+		<tr id="totEarnTour"></tr>
+		<tr id="avgEarnTour"></tr>
+		<tr id="totHrsTour"></tr>
+		<tr id="avgHrsTour"></tr>
+		<tr id="avgRateTour"></tr>
 	</table>
 	
 	<script>
