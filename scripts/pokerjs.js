@@ -942,7 +942,24 @@ function deleteRow(x){
 	xmlhttp.send("method=deleteSessionAJAX&delSessId=" + rowId);	
 }
 
-function getSessions(ret, sum, sumTableBody, totBody, callback){
+// function getSessions(ret, sum, sumTableBody, totEarn, callback){
+	// $.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
+		// if(message == 1){
+			// $('#' + statusDiv).html("You have no recorded sessions. Add one now!");
+			// document.getElementById(dataDiv).innerHTML = "";
+		// }
+		// else{
+			// document.getElementById(dataDiv).innerHTML = message;
+			// fillTable();
+			// callback(ret, sum, sumTableBody, totEarn);
+			// // calc('return', 'sum', 'sumTableBody', 'totEarn');
+			// // applyFilter('live', 'IS', 'Online'); calc('return', 'sum', 'sumTableBody', 'totEarnOnline'); fillTable();
+		// }
+		
+	// });
+// }
+
+function getSessions(){
 	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
 		if(message == 1){
 			$('#' + statusDiv).html("You have no recorded sessions. Add one now!");
@@ -951,9 +968,40 @@ function getSessions(ret, sum, sumTableBody, totBody, callback){
 		else{
 			document.getElementById(dataDiv).innerHTML = message;
 			fillTable();
-			callback(ret, sum, sumTableBody, totBody);
-			// calc('return', 'sum', 'sumTableBody', 'totBody');
-			// applyFilter('live', 'IS', 'Online'); calc('return', 'sum', 'sumTableBody', 'totBodyOnline'); fillTable();
+			//calc('return', 'sum', 'sumTableBody', 'totEarn');
+		}
+		
+	});
+}
+
+function getSessionsAndSum(){
+	$.post('pokerMethods.php', {method: 'GetSessions'}, function (message){
+		if(message == 1){
+			$('#' + statusDiv).html("You have no recorded sessions. Add one now!");
+			document.getElementById(dataDiv).innerHTML = "";
+		}
+		else{
+			document.getElementById(dataDiv).innerHTML = message;
+			fillTable();
+			// GET DEFAULT SUMMARY VALS
+			calc('return', 'sum', 'sumTableBody', 'totEarn');
+			calc('return', 'avg', 'sumTableBody', 'avgEarn');
+			applyFilter('live', 'IS', 'Live'); 
+				calc('return', 'sum', 'sumTableBody', 'totEarnLive');
+				calc('return', 'avg', 'sumTableBody', 'avgEarnLive'); 
+			fillTable();
+			applyFilter('live', 'IS', 'Online');
+				calc('return', 'sum', 'sumTableBody', 'totEarnOnline');
+				calc('return', 'avg', 'sumTableBody', 'avgEarnOnline');
+			fillTable();
+			applyFilter('ringTour', 'IS', 'Ring');
+				calc('return', 'sum', 'sumTableBody', 'totEarnCash');
+				calc('return', 'avg', 'sumTableBody', 'avgEarnCash');
+			fillTable();
+			applyFilter('ringTour', 'IS', 'Tournament');
+				calc('return', 'sum', 'sumTableBody', 'totEarnTour');
+				calc('return', 'avg', 'sumTableBody', 'avgEarnTour');
+			fillTable();
 		}
 		
 	});
@@ -1493,13 +1541,21 @@ function calc(cat, oper, srcBody, retBody){
 	//retRows = document.getElementById(retBody).rows
 	var srcCells = new Array();
 	var result = 0;
-	if(oper = 'sum'){
-		for(var i=0; i<srcRows.length; i++){
-			srcCells = srcRows[i].cells;
-			result = result + parseFloat(srcCells[colNum].textContent);
+	var sum = 0;
+	
+	for(var i=0; i<srcRows.length; i++){
+		srcCells = srcRows[i].cells;
+		sum = sum + parseFloat(srcCells[colNum].textContent);
+		if(oper == 'sum'){
+			result = sum;
+		}
+		if(oper == 'avg'){
+			result = sum/srcRows.length;
 		}
 	}
 	
+	result = result.toFixed(2);
+
 	var dataString = "<tr><td>" + result + "</td></tr>";
 	
 	document.getElementById(retBody).innerHTML = dataString;

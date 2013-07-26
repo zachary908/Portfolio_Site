@@ -47,11 +47,11 @@
 				<th>Duration</th>
 				<th>Buy In</th>
 				<th>Cash Out</th>
-				<th style="display:none">R/T</th>
+				<th>R/T</th>
 				<th>Place</th>
 				<th>Rate</th>
 				<th>Return</th>
-				<th style="display:none">Live/Online</th>
+				<th>Live/Online</th>
 				<th>Notes</th>
 			</tr>
 		</thead>
