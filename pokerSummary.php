@@ -39,68 +39,175 @@
 	</table>
 	
 	<table id="totals">
-		<thead>
+		<tbody>
 			<tr>
-				<th>totEarn</th>
+				<td><b>Total Earnings</b></td>
 			</tr>
-		</thead>
-		<tr id="totEarn"></tr>
-		<tr id="avgEarn"></tr>
-		<tr id="totHrs"></tr>
-		<tr id="avgHrs"></tr>
-		<tr id="avgRate"></tr>
+			<tr>
+				<td id="totEarn"></td>
+			</tr>
+				<td><b>Avg. Earnings Per Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgEarn"></td>
+			</tr>
+				<td><b>Tot. Hours Played</b></td>
+			</tr>
+			<tr>
+				<td id="totHrs"></td>	
+			</tr>
+			<tr>
+				<td><b>Avg. Hours Per Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgHrs"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Rate Per Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgRate"></td>
+			</tr>
+		</tbody>
 	</table>
 	
 	<table id="totalsLive">
-		<thead>
+		<tbody>
 			<tr>
-				<th>totEarnLive</th>
+				<td><b>Total Live Earnings</b></td>
 			</tr>
-		</thead>
-		<tr id="totEarnLive"></tr>
-		<tr id="avgEarnLive"></tr>
-		<tr id="totHrsLive"></tr>
-		<tr id="avgHrsLive"></tr>
-		<tr id="avgRateLive"></tr>
+			<tr>
+				<td id="totEarnLive"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Earnings Per Live Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgEarnLive"></td>
+			</tr>
+			<tr>
+				<td><b>Tot. Hrs. Played Live</b></td>
+			</tr>
+			<tr>
+				<td id="totHrsLive"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Hrs. Played Per Live Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgHrsLive"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Rate Per Live Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgRateLive"></td>
+			</tr>
+		</tbody>
 	</table>
 	
 	<table id="totalsOnline">
-		<thead>
+		<tbody>
 			<tr>
-				<th>totEarnOnline</th>
+				<td><b>Total Online Earnings</b></td>
 			</tr>
-		</thead>
-		<tr id="totEarnOnline"></tr>
-		<tr id="avgEarnOnline"></tr>
-		<tr id="totHrsOnline"></tr>
-		<tr id="avgHrsOnline"></tr>
-		<tr id="avgRateOnline"></tr>
+			<tr>
+				<td id="totEarnOnline"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Earnings Per Online Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgEarnOnline"></td>
+			</tr>
+			<tr>
+				<td><b>Tot. Hrs. Played Online</b></td>
+			</tr>
+			<tr>
+				<td id="totHrsOnline"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Hrs. Played Per Online Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgHrsOnline"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Rate Per Online Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgRateOnline"></td>
+			</tbody>
 	</table>
 	
 	<table id="totalsCash">
-		<thead>
+		<tbody>
 			<tr>
-				<th>totEarnCash</th>
+				<td><b>Total Cash Game Earnings</b></td>
 			</tr>
-		</thead>
-		<tr id="totEarnCash"></tr>
-		<tr id="avgEarnCash"></tr>
-		<tr id="totHrsCash"></tr>
-		<tr id="avgHrsCash"></tr>
-		<tr id="avgRateCash"></tr>
+			<tr>
+				<td id="totEarnCash"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Earnings Per Cash Game Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgEarnCash"></td>
+			</tr>
+			<tr>
+				<td><b>Tot. Hrs. Played in Cash Games</b></td>
+			</tr>
+			<tr>
+				<td id="totHrsCash"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Hrs. Played Per Cash Game Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgHrsCash"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Rate Per Cash Game Session</b></td>
+			</tr>
+			<tr>
+				<td id="avgRateCash"></td>
+			</tr>
+		</tbody>
 	</table>
 	
 	<table id="totalsTourney">
-		<thead>
+		<tbody>
 			<tr>
-				<th>totEarnTour</th>
+				<td><b>Total Tournament Earnings</b></td>
 			</tr>
-		</thead>
-		<tr id="totEarnTour"></tr>
-		<tr id="avgEarnTour"></tr>
-		<tr id="totHrsTour"></tr>
-		<tr id="avgHrsTour"></tr>
-		<tr id="avgRateTour"></tr>
+			<tr>
+				<td id="totEarnTour"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Earnings Per Tournament</b></td>
+			</tr>
+			<tr>
+				<td id="avgEarnTour"></td>
+			</tr>
+			<tr>
+				<td><b>Tot. Hrs. Played in Tournaments</b></td>
+			</tr>
+			<tr>
+				<td id="totHrsTour"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Hrs. Played Per Tournament</b></td>
+			</tr>
+			<tr>
+				<td id="avgHrsTour"></td>
+			</tr>
+			<tr>
+				<td><b>Avg. Rate Per Tournament</b></td>
+			</tr>
+			<tr>
+				<td id="avgRateTour"></td>
+			</tr>
+		</tbody>
 	</table>
 	
 	<script>

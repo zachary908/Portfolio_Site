@@ -161,6 +161,31 @@ function showLocType(){
 	}
 }
 
+// ACCEPTS DURATION STRING IN 12H30M FORMAT, RETURNS DURATION IN MINUTES
+function toCalcDur(tblDur){
+	var splitH = /h/i;
+	var durArr = tblDur.split(splitH);
+	var durHr = durArr[0];
+	var durComboMin = durArr[1];
+	var splitM = /m/i;
+	var durMinArr = durComboMin.split(splitM);
+	var durMin = durMinArr[0];
+	var durHrToMin = durHr * 60;
+	var minutes = parseInt(durMin) + parseInt(durHrToMin);
+	return minutes;
+}
+
+// ACCEPTS DURATION IN MINUTES, RETURNS 12H30M FORMAT STRING
+function toTblDur(calcDur){
+	var durHr = parseInt(calcDur/60);
+	var durMin = parseInt(calcDur%60);
+	if(durMin < 10){
+		durMin = "0" + durMin;
+	}
+	var dur = durHr + "h" + durMin + "m";
+	return dur;
+}
+
 function getTime(hourOption, minOption, amPmOption){
 	var today = new Date();
 	var hour = today.getHours();
@@ -1574,31 +1599,6 @@ function calc(cat, oper, srcBody, retRow){
 	
 	document.getElementById(retRow).innerHTML = dataString;
 
-}
-
-// ACCEPTS DURATION STRING IN 12H30M FORMAT, RETURNS DURATION IN MINUTES
-function toCalcDur(tblDur){
-	var splitH = /h/i;
-	var durArr = tblDur.split(splitH);
-	var durHr = durArr[0];
-	var durComboMin = durArr[1];
-	var splitM = /m/i;
-	var durMinArr = durComboMin.split(splitM);
-	var durMin = durMinArr[0];
-	var durHrToMin = durHr * 60;
-	var minutes = parseInt(durMin) + parseInt(durHrToMin);
-	return minutes;
-}
-
-// ACCEPTS DURATION IN MINUTES, RETURNS 12H30M FORMAT STRING
-function toTblDur(calcDur){
-	var durHr = parseInt(calcDur/60);
-	var durMin = parseInt(calcDur%60);
-	if(durMin < 10){
-		durMin = "0" + durMin;
-	}
-	var dur = durHr + "h" + durMin + "m";
-	return dur;
 }
 
 function editGetVals(){
