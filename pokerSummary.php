@@ -16,7 +16,7 @@
 
 	<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button>
 	
-	<div id="sumGraphWrap">
+	
 		<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
 		<table id="summary" class="sumTbl inactive">
 			<thead>
@@ -234,6 +234,8 @@
 				</tr>
 			</tbody>
 		</table>
+	
+	<div id="sumGraphWrap">
 	</div><!-- END SUM GRAPH WRAP -->
 	
 	<script>
