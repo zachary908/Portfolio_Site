@@ -83,4 +83,18 @@ body, html{
 	padding: 2px 15px;
 }
 
+.sumTbl{
+	table-layout: fixed;
+	width: 350px;
+	border-collapse: true;
+	border: 1px solid black;
+}
+
+.inactive{
+	display: none;
+}
+
+.active{
+	display: block;
+}
 

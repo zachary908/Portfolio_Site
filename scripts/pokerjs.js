@@ -141,6 +141,80 @@ function clrCloseModal2(elementId){
 	}
 }
 
+function showSumTbl(){
+	var tblSelect = $("#tblSelect").val();
+	
+	var tblId = "";
+	
+	// EACH CASE WILL CALL A FXN THAT RETURNS CHART DATA
+	
+	switch(tblSelect){
+		case "Overall":
+			tblId = "totals";
+			break;
+		case "Live":
+			tblId = "totalsLive";
+			break;
+		case "Online":
+			tblId = "totalsOnline";
+			break;
+		case "Cash":
+			tblId = "totalsCash";
+			break;
+		case "Tournament":
+			tblId = "totalsTourney";
+			break;
+	}
+	
+	$("[name = 'sumTbl']").removeClass('active').addClass('inactive');
+	
+	$('#' + tblId).removeClass("inactive").addClass("active");
+	
+	// DISPLAY APPROPRIATE GRAPHS
+	var chartData = new Array();
+	
+	chartData = calcChart(tblId);
+	
+	alert(chartData);
+}
+
+function calcChart(tblId){
+	var data = 0;
+	var dataX = new Array();
+	var dataY = new Array();
+
+	switch(tblId){
+		case "totals":
+			dataX = [0, 1, 2, 3, 10, 20, 5];
+			dataY = [1, 2, 3, 4, 5, 6, 7];
+			break;
+		case "totalsLive":
+			dataX = [0, 1, 2, 3, 10, 20, 5];
+			dataY = [1, 2, 3, 4, 5, 6, 7];
+			break;
+		case "totalsOnline":
+			dataX = [0, 1, 2, 3, 10, 20, 5];
+			dataY = [1, 2, 3, 4, 5, 6, 7];
+			break;
+		case "totalsCash":
+			dataX = [0, 1, 2, 3, 10, 20, 5];
+			dataY = [1, 2, 3, 4, 5, 6, 7];
+			break;
+		case "totalsTourney":
+			dataX = [0, 1, 2, 3, 10, 20, 5];
+			dataY = [1, 2, 3, 4, 5, 6, 7];
+			break;
+	}
+	
+	var points = new Array();
+	
+	for(i=0; i<dataX.length; i++){
+		points[i] = dataX[i] + ", " + dataY[i];
+	}
+	
+	return points;
+}
+
 function showLocType(){
 	var x = document.getElementsByName("locType");
 	var y = document.getElementsByName("location");
