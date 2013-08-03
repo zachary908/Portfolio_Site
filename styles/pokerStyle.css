@@ -83,11 +83,51 @@ body, html{
 	padding: 2px 15px;
 }
 
-.sumTbl{
+.sumTblGraphWrap{
+	width: 850px;
+	margin: auto;
+}
+
+.sumTblWrap{
+	float: left;
+}
+
+.sumGraphWrap{
+	float: left;
+}
+
+.sumTotTbl{
 	table-layout: fixed;
 	width: 350px;
+	height: 260px;
 	border-collapse: true;
 	border: 1px solid black;
+	float: left;
+}
+
+th{
+    text-align: center;
+    border: 1px solid gray;
+    background-color: #ddd;
+    padding: 3px;
+    vertical-align: top;
+}
+
+.sumTotTbl td{
+	width: 350px;
+}
+
+.sumAvgTbl{
+	table-layout: fixed;
+	width: 350px;
+	height: 260px;
+	border-collapse: true;
+	border: 1px solid black;
+	float: left;
+}
+
+.sumAvgTbl td{
+	width: 350px;
 }
 
 .inactive{

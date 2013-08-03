@@ -68,17 +68,17 @@ pre.code span span {
     text-decoration: none;
 }
 
-th {
+/* th {
     text-align: left;
     border: 1px solid gray;
     background-color: #ddd;
     padding: 3px;
     vertical-align: top;
-}
+} */
 
-td {
+/* td {
     vertical-align: top;
-}
+} */
 
 table#message-list td {
     font-weight: normal;

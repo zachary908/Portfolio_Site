@@ -145,54 +145,99 @@ function showSumTbl(){
 	var tblSelect = $("#tblSelect").val();
 	var tblId = "";
 	
-	// EACH CASE WILL CALL A FXN THAT RETURNS CHART DATA
-	
 	switch(tblSelect){
 		case "Overall":
 			tblId = "totals";
+			tblId2 = "avgs";
 			break;
 		case "Live":
 			tblId = "totalsLive";
+			tblId2 = "avgsLive";
 			break;
 		case "Online":
 			tblId = "totalsOnline";
+			tblId2 = "avgsOnline";
 			break;
 		case "Cash":
 			tblId = "totalsCash";
+			tblId2 = "avgsCash";
 			break;
 		case "Tournament":
 			tblId = "totalsTourney";
+			tblId2 = "avgsTourney";
 			break;
 	}
 	
-	$("[name = 'sumTbl']").removeClass('active').addClass('inactive');
+	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');
+	$("[name = 'sumAvgTbl']").removeClass('active').addClass('inactive');
 	$('#' + tblId).removeClass("inactive").addClass("active");
+	$('#' + tblId2).removeClass("inactive").addClass("active");
 	
 	// DISPLAY APPROPRIATE GRAPHS
 	var chartData = new Array();
 	chartData = calcChart(tblId);
-	
+
 	// The datasets as shown on the chart. Each point is an array, described below.
         // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
         // var data2 = [ [0,78,'green'],[67,40,'green'] ];
         
         // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
         // You can have multiple sets of data if you wish
-        var sg = new RGraph.Scatter('cvs1', chartData)
+		var canvas = document.getElementById('cvs1');
+        RGraph.Reset(canvas);
+		var sg = new RGraph.Scatter('cvs1', chartData)
+            // Configure the chart to look as you want it to.
+            .Set('chart.background.barcolor1','white')
+            .Set('chart.background.barcolor2', 'white')
+            .Set('chart.grid.color', 'rgba(238,238,238,1)')
+            .Set('chart.gutter.left', 30)
+            .Set('chart.xmax', 8) // Important!
+			.Set('chart.labels', [
+				['0', 0],
+				['1', 1],
+				['2', 2],
+				['3', 3],
+				['4', 4],
+				['5', 5],
+				['6', 6],
+				['7', 7]
+				])
+			.Set('chart.line', true)
+			
+            // Now call the .Draw() method to draw the chart.
+            .Draw();
+			
+	// The datasets as shown on the chart. Each point is an array, described below.
+        // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
+        // var data2 = [ [0,78,'green'],[67,40,'green'] ];
+        
+        // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
+        // You can have multiple sets of data if you wish
+		var canvas = document.getElementById('cvs2');
+        RGraph.Reset(canvas);
+        var sg2 = new RGraph.Scatter('cvs2', chartData)
         
             // Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1','white')
             .Set('chart.background.barcolor2', 'white')
             .Set('chart.grid.color', 'rgba(238,238,238,1)')
             .Set('chart.gutter.left', 30)
-            .Set('chart.xmax', 7) // Important!
-			.Set('chart.labels', ['0', '1', '2', '3', '4', '5', '6', '7'])
+            .Set('chart.xmax', 8) // Important!
+			.Set('chart.labels', [
+				['0', 0],
+				['1', 1],
+				['2', 2],
+				['3', 3],
+				['4', 4],
+				['5', 5],
+				['6', 6],
+				['7', 7]
+				])
 			.Set('chart.line', true)
         
             // Now call the .Draw() method to draw the chart.
             .Draw();
-	
-	alert(chartData);
+
 }
 
 function calcChart(tblId){
@@ -202,24 +247,24 @@ function calcChart(tblId){
 
 	switch(tblId){
 		case "totals":
-			dataY = [8, 1, 2, 3, 10, 20, 5];
-			dataX = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [12, 8, 1, 2, 3, 10, 20, 5];
+			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsLive":
-			dataY = [8, 1, 2, 3, 10, 20, 5];
-			dataX = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [10, 4, 0, 1, 2, 7, 13, 2];
+			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsOnline":
-			dataY = [8, 1, 2, 3, 10, 20, 5];
-			dataX = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [2, 4, 1, 1, 1, 3, 7, 3];
+			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsCash":
-			dataY = [8, 1, 2, 3, 10, 20, 5];
-			dataX = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [12, 8, 1, 2, 3, 10, 20, 5];
+			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsTourney":
-			dataY = [8, 1, 2, 3, 10, 20, 5];
-			dataX = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [12, 8, 1, 2, 3, 10, 20, 5];
+			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
 			break;
 	}
 	
@@ -1122,7 +1167,7 @@ function getSessionsAndSum(){
 				calc('rate', 'avg', 'sumTableBody', 'avgRateTour');
 			fillTable();
 		}
-		
+		showSumTbl();
 	});
 }
 
