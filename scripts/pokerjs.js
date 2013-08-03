@@ -143,7 +143,6 @@ function clrCloseModal2(elementId){
 
 function showSumTbl(){
 	var tblSelect = $("#tblSelect").val();
-	
 	var tblId = "";
 	
 	// EACH CASE WILL CALL A FXN THAT RETURNS CHART DATA
@@ -167,49 +166,72 @@ function showSumTbl(){
 	}
 	
 	$("[name = 'sumTbl']").removeClass('active').addClass('inactive');
-	
 	$('#' + tblId).removeClass("inactive").addClass("active");
 	
 	// DISPLAY APPROPRIATE GRAPHS
 	var chartData = new Array();
-	
 	chartData = calcChart(tblId);
+	
+	// The datasets as shown on the chart. Each point is an array, described below.
+        // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
+        // var data2 = [ [0,78,'green'],[67,40,'green'] ];
+        
+        // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
+        // You can have multiple sets of data if you wish
+        var sg = new RGraph.Scatter('cvs1', chartData)
+        
+            // Configure the chart to look as you want it to.
+            .Set('chart.background.barcolor1','white')
+            .Set('chart.background.barcolor2', 'white')
+            .Set('chart.grid.color', 'rgba(238,238,238,1)')
+            .Set('chart.gutter.left', 30)
+            .Set('chart.xmax', 7) // Important!
+			.Set('chart.labels', ['0', '1', '2', '3', '4', '5', '6', '7'])
+			.Set('chart.line', true)
+        
+            // Now call the .Draw() method to draw the chart.
+            .Draw();
 	
 	alert(chartData);
 }
 
 function calcChart(tblId){
 	var data = 0;
-	var dataX = new Array();
 	var dataY = new Array();
+	var dataX = new Array();
 
 	switch(tblId){
 		case "totals":
-			dataX = [0, 1, 2, 3, 10, 20, 5];
-			dataY = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [8, 1, 2, 3, 10, 20, 5];
+			dataX = [1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsLive":
-			dataX = [0, 1, 2, 3, 10, 20, 5];
-			dataY = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [8, 1, 2, 3, 10, 20, 5];
+			dataX = [1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsOnline":
-			dataX = [0, 1, 2, 3, 10, 20, 5];
-			dataY = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [8, 1, 2, 3, 10, 20, 5];
+			dataX = [1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsCash":
-			dataX = [0, 1, 2, 3, 10, 20, 5];
-			dataY = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [8, 1, 2, 3, 10, 20, 5];
+			dataX = [1, 2, 3, 4, 5, 6, 7];
 			break;
 		case "totalsTourney":
-			dataX = [0, 1, 2, 3, 10, 20, 5];
-			dataY = [1, 2, 3, 4, 5, 6, 7];
+			dataY = [8, 1, 2, 3, 10, 20, 5];
+			dataX = [1, 2, 3, 4, 5, 6, 7];
 			break;
 	}
 	
 	var points = new Array();
+	var arrayName = "";
 	
-	for(i=0; i<dataX.length; i++){
-		points[i] = dataX[i] + ", " + dataY[i];
+	for(var i=0; i<dataX.length; i++){
+		var j = 0;
+		var point = new Array();
+		point[j] = dataX[i];
+		point[j+1] = dataY[i];
+		points[i] = point;
 	}
 	
 	return points;

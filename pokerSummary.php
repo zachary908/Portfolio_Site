@@ -236,6 +236,7 @@
 		</table>
 	
 	<div id="sumGraphWrap">
+		<canvas id="cvs1"  width="500" height="250"></canvas>
 	</div><!-- END SUM GRAPH WRAP -->
 	
 	<script>

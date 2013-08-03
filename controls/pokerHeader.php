@@ -10,6 +10,7 @@
 	<script src="../RGraph/libraries/RGraph.bar.js"></script>
 	<script src="../RGraph/libraries/RGraph.pie.js"></script>
 	<script src="../RGraph/libraries/RGraph.line.js"></script>
+	<script src="../RGraph/libraries/RGraph.scatter.js"></script>
 	<link rel="stylesheet" type="text/css" href="../styles/pokerStyle.css" />
 	<link rel="stylesheet" href="../css/ui-lightness/jquery-ui-1.10.3.custom.css" />
 	<link rel="stylesheet" href="../RGraph/css/animations.css" />
