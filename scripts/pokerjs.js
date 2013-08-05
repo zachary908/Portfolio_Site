@@ -226,7 +226,19 @@ function calcData(oper, cat){
 				j = j + 1;
 				break;
 			case 'runSum':
+				var cellVal = parseInt(cellColl[colNum].textContent);
+				if(isNaN(cellVal)){
+						cellVal = 0;
+				}
 				
+				if(j == 0){
+					retArr[j] = cellVal;
+					j = j + 1;
+				}
+				else{
+					retArr[j] = retArr[j-1] + cellVal;
+					j = j + 1;
+				}
 		}
 	}
 				
@@ -244,8 +256,7 @@ function showSumTbl(){
 		case "Overall":
 			fillTable();
 			totDataX = calcData('report', 'sessNum');			
-			// totDataY = calcData('runSum', 'return');
-			totDataY = calcData('report', 'sessNum');
+			totDataY = calcData('runSum', 'return');
 			tblId = "totals";
 			tblId2 = "avgs";
 			break;
@@ -298,6 +309,13 @@ function showSumTbl(){
 		}
 	}
 	
+	var ymin = 0;
+	for(var i=0; i<totDataY.length; i++){
+		if(totDataY[i] <= ymin){
+			ymin = totDataY[i];
+		}
+	}
+	
 	
 // DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.
@@ -310,11 +328,12 @@ function showSumTbl(){
         RGraph.Reset(canvas);
 		var sg = new RGraph.Scatter('cvs1', points)
             // Configure the chart to look as you want it to.
-            .Set('chart.background.barcolor1','white')
+            .Set('chart.background.barcolor1', 'white')
             .Set('chart.background.barcolor2', 'white')
             .Set('chart.grid.color', 'rgba(238,238,238,1)')
-            .Set('chart.gutter.left', 30)
+            .Set('chart.gutter.left', 50)
             .Set('chart.xmax', xmax) // Important!
+			.Set('chart.ymin', ymin)
 			.Set('chart.labels', totDataX)
 			.Set('chart.line', true)
 			
@@ -353,47 +372,6 @@ function showSumTbl(){
             .Draw();
 
 }
-
-// function calcChart(tblId){
-	// var data = 0;
-	// var dataY = new Array();
-	// var dataX = new Array();
-
-	// switch(tblId){
-		// case "totals":
-			// dataY = [12, 8, 1, 2, 3, 10, 20, 5];
-			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			// break;
-		// case "totalsLive":
-			// dataY = [10, 4, 0, 1, 2, 7, 13, 2];
-			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			// break;
-		// case "totalsOnline":
-			// dataY = [2, 4, 1, 1, 1, 3, 7, 3];
-			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			// break;
-		// case "totalsCash":
-			// dataY = [12, 8, 1, 2, 3, 10, 20, 5];
-			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			// break;
-		// case "totalsTourney":
-			// dataY = [12, 8, 1, 2, 3, 10, 20, 5];
-			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			// break;
-	// }
-	
-	// var points = new Array();
-	
-	// for(var i=0; i<dataX.length; i++){
-		// var j = 0;
-		// var point = new Array();
-		// point[j] = dataX[i];
-		// point[j+1] = dataY[i];
-		// points[i] = point;
-	// }
-	
-	// return points;
-// }
 
 function showLocType(){
 	var x = document.getElementsByName("locType");

@@ -163,7 +163,7 @@
 		</div> <!-- END sumTblWrap -->
 		
 		<div id="sumGraphWrap" style="float: left">
-			<canvas id="cvs1"  width="500" height="250"></canvas>
+			<canvas id="cvs1"  width="600" height="300"></canvas>
 		</div><!-- END sumGraphWrap -->
 	</div><!-- END sumTblGraphWrap -->
 	
@@ -301,7 +301,7 @@
 		</div><!-- END sumAvgTblWrap -->
 		
 		<div id="sumGraphWrap">
-			<canvas id="cvs2"  width="500" height="250"></canvas>
+			<canvas id="cvs2"  width="600" height="300"></canvas>
 		</div><!-- END sumGraphWrap -->
 	</div><!-- END sumTblGraphWrap -->
 	
