@@ -96,7 +96,8 @@ body, html{
 	float: left;
 }
 
-.sumTotTbl{
+.sumTotTbl,
+.sumAvgTbl{
 	table-layout: fixed;
 	width: 350px;
 	height: 260px;
@@ -113,19 +114,7 @@ th{
     vertical-align: top;
 }
 
-.sumTotTbl td{
-	width: 350px;
-}
-
-.sumAvgTbl{
-	table-layout: fixed;
-	width: 350px;
-	height: 260px;
-	border-collapse: true;
-	border: 1px solid black;
-	float: left;
-}
-
+.sumTotTbl td,
 .sumAvgTbl td{
 	width: 350px;
 }

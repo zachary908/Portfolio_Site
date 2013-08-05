@@ -1500,7 +1500,7 @@ function applyFilter(cat, oper, filVal1, filVal2){
 		case "location":
 			colNum = 2;
 			break;
-		case "gametype":
+		case "gameType":
 			colNum = 3;
 			break;
 		case "limit":
@@ -1531,9 +1531,9 @@ function applyFilter(cat, oper, filVal1, filVal2){
 			colNum = 12;
 			break;
 	}
+	
 	//-------------------------------------------------------------------
 	// PUT IDS OF EXCLUDED ROWS INTO FILTER ARRAY
-	
 	if(error == "" || error == undefined){
 		for(var i=0; i<rowColl.length; i++){
 			var cellColl = rowColl[i].cells;
@@ -1660,6 +1660,10 @@ function applyFilter(cat, oper, filVal1, filVal2){
 }
 
 function calc(cat, oper, srcBody, retRow){
+	//-------------------------------------------------------------------
+	// SET CATEGORY NAMES = THEIR COLUMN INDEX
+	// ANY CHANGES TO COLUMN ORDER MUST BE REFLECTED HERE
+	//-------------------------------------------------------------------
 	var colNum = 0;
 	switch(cat){
 		case "start":
