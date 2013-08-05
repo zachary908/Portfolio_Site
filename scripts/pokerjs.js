@@ -141,6 +141,35 @@ function clrCloseModal2(elementId){
 	}
 }
 
+function fillTblSelect2(){
+	// FILL ARRAY WITH OPTIONS FROM TBLSELECT
+	var selList1 = document.getElementById('tblSelect');
+	var selList1Val = selList1.value;
+	var optArr1 = selList1.options;
+	
+	// FILL 2nd ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
+	var j = 0;
+	var optArr2 = new Array;
+	for(var i=0; i<optArr1.length; i++){
+		if(optArr1[i].value != selList1Val){
+			var opt2 = new Option;
+			opt2.textContent = optArr1[i].textContent;
+			optArr2[j] = opt2;
+			j = j + 1;
+		}
+	}
+	
+	var defaultOpt = new Option;
+	defaultOpt.textContent = "Select a category to compare...";
+	optArr2.unshift(defaultOpt);
+	
+	var selList2 = document.getElementById('tblSelect2');
+	for(var i=0; i<optArr2.length; i++){
+		selList2.options[i] = optArr2[i];
+	}
+	
+}
+
 function showSumTbl(){
 	var tblSelect = $("#tblSelect").val();
 	var tblId = "";
@@ -1168,6 +1197,7 @@ function getSessionsAndSum(){
 			fillTable();
 		}
 		showSumTbl();
+		fillTblSelect2();
 	});
 }
 

@@ -40,15 +40,21 @@
 	</table>
 		
 	<div>
-		<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button>
+		<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>
 		
-		<select id="tblSelect" onchange="showSumTbl()">
+		<select id="tblSelect" onchange="fillTblSelect2()">
 			<option selected="true">Overall</option>
 			<option>Live</option>
 			<option>Online</option>
 			<option>Cash</option>
 			<option>Tournament</option>
 		</select>
+		
+		vs.
+		
+		<select id="tblSelect2"></select>
+		
+		<button onclick="showSumTbl()">GO</button>
 	</div>
 	
 	<div class="sumTblGraphWrap floatingFix">
