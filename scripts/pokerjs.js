@@ -167,45 +167,139 @@ function fillTblSelect2(){
 	for(var i=0; i<optArr2.length; i++){
 		selList2.options[i] = optArr2[i];
 	}
+}
+
+function calcData(oper, cat){
+	var colNum;
+	switch(cat){
+		case "sessNum":
+			colNum = 0;
+			break;
+		case "start":
+			colNum = 1;
+			break;
+		case "location":
+			colNum = 2;
+			break;
+		case "gameType":
+			colNum = 3;
+			break;
+		case "limit":
+			colNum = 4;
+			break;
+		case "duration":
+			colNum = 5;
+			break;
+		case "buyin":
+			colNum = 6;
+			break;
+		case "cashout":
+			colNum = 7;
+			break;
+		case "ringTour":
+			colNum = 8;
+			break;
+		case "place":
+			colNum = 9;
+			break;
+		case "rate":
+			colNum = 10;
+			break;
+		case "return":
+			colNum = 11;
+			break;
+		case "live":
+			colNum = 12;
+			break;
+	}
+	// tblBodyName IS A GLOBAL VAR EQUAL TO THE NAME OF TABLE BODY CONTAINING FILTERED DATA
+	var tbl = document.getElementById(tblBodyName);
+	var rowColl = tbl.rows;
+	var retArr = new Array;
+	var j = 0;
 	
+	for(var i=0; i<rowColl.length; i++){
+		var cellColl = rowColl[i].cells;
+		switch(oper){
+			case 'report':
+				retArr[j] = parseInt(cellColl[colNum].textContent);
+				j = j + 1;
+				break;
+			case 'runSum':
+				
+		}
+	}
+				
+	return retArr
 }
 
 function showSumTbl(){
 	var tblSelect = $("#tblSelect").val();
 	var tblId = "";
+	var totDataX = new Array;
+	var totDataY = new Array;
 	
+	// DISPLAY SELECTED TABLES, CALCULATE CHARTS
 	switch(tblSelect){
 		case "Overall":
+			fillTable();
+			totDataX = calcData('report', 'sessNum');			
+			// totDataY = calcData('runSum', 'return');
+			totDataY = calcData('report', 'sessNum');
 			tblId = "totals";
 			tblId2 = "avgs";
 			break;
 		case "Live":
+			fillTable();
+			applyFilter('live', 'IS', 'Live');
 			tblId = "totalsLive";
 			tblId2 = "avgsLive";
 			break;
 		case "Online":
+			fillTable();
+			applyFilter('live', 'IS', 'Online');
 			tblId = "totalsOnline";
 			tblId2 = "avgsOnline";
 			break;
 		case "Cash":
+			fillTable();
+			applyFilter('ringTour', 'IS', 'Ring');
 			tblId = "totalsCash";
 			tblId2 = "avgsCash";
 			break;
 		case "Tournament":
+			fillTable();
+			applyFilter('ringTour', 'IS', 'Tour');
 			tblId = "totalsTourney";
 			tblId2 = "avgsTourney";
 			break;
 	}
 	
+	// DISPLAY TABLES FOR SELECTED CATEGORY
 	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');
 	$("[name = 'sumAvgTbl']").removeClass('active').addClass('inactive');
 	$('#' + tblId).removeClass("inactive").addClass("active");
 	$('#' + tblId2).removeClass("inactive").addClass("active");
 	
-	// DISPLAY APPROPRIATE GRAPHS
-	var chartData = new Array();
-	chartData = calcChart(tblId);
-
+	// CALCULATE CHART ARRAYS, XMAX
+	var points = new Array();
+	for(var i=0; i<totDataX.length; i++){
+		var j = 0;
+		var point = new Array();
+		point[j] = totDataX[i];
+		point[j+1] = totDataY[i];
+		points[i] = point;
+	}
+	
+	var xmax = 0;
+	for(var i=0; i<totDataX.length; i++){
+		if(totDataX[i] >= xmax){
+			xmax = totDataX[i];
+		}
+	}
+	
+	
+// DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.
         // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
         // var data2 = [ [0,78,'green'],[67,40,'green'] ];
@@ -214,23 +308,14 @@ function showSumTbl(){
         // You can have multiple sets of data if you wish
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
-		var sg = new RGraph.Scatter('cvs1', chartData)
+		var sg = new RGraph.Scatter('cvs1', points)
             // Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1','white')
             .Set('chart.background.barcolor2', 'white')
             .Set('chart.grid.color', 'rgba(238,238,238,1)')
             .Set('chart.gutter.left', 30)
-            .Set('chart.xmax', 8) // Important!
-			.Set('chart.labels', [
-				['0', 0],
-				['1', 1],
-				['2', 2],
-				['3', 3],
-				['4', 4],
-				['5', 5],
-				['6', 6],
-				['7', 7]
-				])
+            .Set('chart.xmax', xmax) // Important!
+			.Set('chart.labels', totDataX)
 			.Set('chart.line', true)
 			
             // Now call the .Draw() method to draw the chart.
@@ -269,47 +354,46 @@ function showSumTbl(){
 
 }
 
-function calcChart(tblId){
-	var data = 0;
-	var dataY = new Array();
-	var dataX = new Array();
+// function calcChart(tblId){
+	// var data = 0;
+	// var dataY = new Array();
+	// var dataX = new Array();
 
-	switch(tblId){
-		case "totals":
-			dataY = [12, 8, 1, 2, 3, 10, 20, 5];
-			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			break;
-		case "totalsLive":
-			dataY = [10, 4, 0, 1, 2, 7, 13, 2];
-			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			break;
-		case "totalsOnline":
-			dataY = [2, 4, 1, 1, 1, 3, 7, 3];
-			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			break;
-		case "totalsCash":
-			dataY = [12, 8, 1, 2, 3, 10, 20, 5];
-			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			break;
-		case "totalsTourney":
-			dataY = [12, 8, 1, 2, 3, 10, 20, 5];
-			dataX = [0, 1, 2, 3, 4, 5, 6, 7];
-			break;
-	}
+	// switch(tblId){
+		// case "totals":
+			// dataY = [12, 8, 1, 2, 3, 10, 20, 5];
+			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
+			// break;
+		// case "totalsLive":
+			// dataY = [10, 4, 0, 1, 2, 7, 13, 2];
+			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
+			// break;
+		// case "totalsOnline":
+			// dataY = [2, 4, 1, 1, 1, 3, 7, 3];
+			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
+			// break;
+		// case "totalsCash":
+			// dataY = [12, 8, 1, 2, 3, 10, 20, 5];
+			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
+			// break;
+		// case "totalsTourney":
+			// dataY = [12, 8, 1, 2, 3, 10, 20, 5];
+			// dataX = [0, 1, 2, 3, 4, 5, 6, 7];
+			// break;
+	// }
 	
-	var points = new Array();
-	var arrayName = "";
+	// var points = new Array();
 	
-	for(var i=0; i<dataX.length; i++){
-		var j = 0;
-		var point = new Array();
-		point[j] = dataX[i];
-		point[j+1] = dataY[i];
-		points[i] = point;
-	}
+	// for(var i=0; i<dataX.length; i++){
+		// var j = 0;
+		// var point = new Array();
+		// point[j] = dataX[i];
+		// point[j+1] = dataY[i];
+		// points[i] = point;
+	// }
 	
-	return points;
-}
+	// return points;
+// }
 
 function showLocType(){
 	var x = document.getElementsByName("locType");

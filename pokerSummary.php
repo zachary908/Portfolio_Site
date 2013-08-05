@@ -17,27 +17,29 @@
 	<div>This page will show summary results.</div><br>
 
 	<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
-	<table id="summary" class="sumTotTbl inactive">
-		<thead>
-			<tr>
-				<th></th>
-				<th>Start Time</th>
-				<th>Location</th>
-				<th>Game Type</th>
-				<th>Limits</th>
-				<th>Duration</th>
-				<th>Buy In</th>
-				<th>Cash Out</th>
-				<th>R/T</th>
-				<th>Place</th>
-				<th>Rate</th>
-				<th>Return</th>
-				<th>Live/Online</th>
-				<th>Notes</th>
-			</tr>
-		</thead>
-		<tbody id="sumTableBody"></tbody>
-	</table>
+	<div class="floatingFix">
+		<table id="summary" class="active">
+			<thead>
+				<tr>
+					<th></th>
+					<th>Start Time</th>
+					<th>Location</th>
+					<th>Game Type</th>
+					<th>Limits</th>
+					<th>Duration</th>
+					<th>Buy In</th>
+					<th>Cash Out</th>
+					<th>R/T</th>
+					<th>Place</th>
+					<th>Rate</th>
+					<th>Return</th>
+					<th>Live/Online</th>
+					<th>Notes</th>
+				</tr>
+			</thead>
+			<tbody id="sumTableBody"></tbody>
+		</table>
+	</div>
 		
 	<div>
 		<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>
