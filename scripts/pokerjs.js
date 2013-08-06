@@ -247,16 +247,15 @@ function calcData(oper, cat){
 	else if(oper == 'runAvg'){
 		// IF OPER = RUNAVG, CALC AVG OF LAST 5 SESSIONS
 		var row = 4;
-		// var sum = 0;
 		// GIVE ERROR IF USER HAS RECORDED <5 SESSIONS
 		for(var m=4; m<rowColl.length; m++){
 			var sum = 0;
 			for(var k=row; k>=row-4; k--){
 				var cellColl = rowColl[k].cells;
 				var cellVal = parseInt(cellColl[colNum].textContent);
-					if(isNaN(cellVal)){
-							cellVal = 0;
-					}
+				if(isNaN(cellVal)){
+						cellVal = 0;
+				}
 				sum = sum + cellVal;
 			}
 			avg = sum/5;
