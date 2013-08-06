@@ -142,31 +142,31 @@ function clrCloseModal2(elementId){
 }
 
 function fillTblSelect2(){
-	// FILL ARRAY WITH OPTIONS FROM TBLSELECT
-	var selList1 = document.getElementById('tblSelect');
-	var selList1Val = selList1.value;
-	var optArr1 = selList1.options;
+	// // FILL ARRAY WITH OPTIONS FROM TBLSELECT
+	// var selList1 = document.getElementById('tblSelect');
+	// var selList1Val = selList1.value;
+	// var optArr1 = selList1.options;
 	
-	// FILL 2nd ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
-	var j = 0;
-	var optArr2 = new Array;
-	for(var i=0; i<optArr1.length; i++){
-		if(optArr1[i].value != selList1Val){
-			var opt2 = new Option;
-			opt2.textContent = optArr1[i].textContent;
-			optArr2[j] = opt2;
-			j = j + 1;
-		}
-	}
+	// // FILL 2nd ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
+	// var j = 0;
+	// var optArr2 = new Array;
+	// for(var i=0; i<optArr1.length; i++){
+		// if(optArr1[i].value != selList1Val){
+			// var opt2 = new Option;
+			// opt2.textContent = optArr1[i].textContent;
+			// optArr2[j] = opt2;
+			// j = j + 1;
+		// }
+	// }
 	
-	var defaultOpt = new Option;
-	defaultOpt.textContent = "Select a category to compare...";
-	optArr2.unshift(defaultOpt);
+	// var defaultOpt = new Option;
+	// defaultOpt.textContent = "Select a category to compare...";
+	// optArr2.unshift(defaultOpt);
 	
-	var selList2 = document.getElementById('tblSelect2');
-	for(var i=0; i<optArr2.length; i++){
-		selList2.options[i] = optArr2[i];
-	}
+	// var selList2 = document.getElementById('tblSelect2');
+	// for(var i=0; i<optArr2.length; i++){
+		// selList2.options[i] = optArr2[i];
+	// }
 }
 
 function calcData(oper, cat){
@@ -218,31 +218,58 @@ function calcData(oper, cat){
 	var retArr = new Array;
 	var j = 0;
 	
-	for(var i=0; i<rowColl.length; i++){
-		var cellColl = rowColl[i].cells;
-		switch(oper){
-			case 'report':
-				retArr[j] = parseInt(cellColl[colNum].textContent);
-				j = j + 1;
-				break;
-			case 'runSum':
-				var cellVal = parseInt(cellColl[colNum].textContent);
-				if(isNaN(cellVal)){
-						cellVal = 0;
-				}
-				
-				if(j == 0){
-					retArr[j] = cellVal;
+	if(oper == 'report' || oper == 'runSum'){
+		for(var i=0; i<rowColl.length; i++){
+			var cellColl = rowColl[i].cells;
+			switch(oper){
+				case 'report':
+					retArr[j] = parseInt(cellColl[colNum].textContent);
 					j = j + 1;
-				}
-				else{
-					retArr[j] = retArr[j-1] + cellVal;
-					j = j + 1;
-				}
+					break;
+				case 'runSum':
+					var cellVal = parseInt(cellColl[colNum].textContent);
+					if(isNaN(cellVal)){
+							cellVal = 0;
+					}
+					
+					if(j == 0){
+						retArr[j] = cellVal;
+						j = j + 1;
+					}
+					else{
+						retArr[j] = retArr[j-1] + cellVal;
+						j = j + 1;
+					}
+					break;
+			}
 		}
 	}
-				
-	return retArr
+	else if(oper == 'runAvg'){
+		// IF OPER = RUNAVG, CALC AVG OF LAST 5 SESSIONS
+		var row = 4;
+		// var sum = 0;
+		// GIVE ERROR IF USER HAS RECORDED <5 SESSIONS
+		for(var m=4; m<rowColl.length; m++){
+			var sum = 0;
+			for(var k=row; k>=row-4; k--){
+				var cellColl = rowColl[k].cells;
+				var cellVal = parseInt(cellColl[colNum].textContent);
+					if(isNaN(cellVal)){
+							cellVal = 0;
+					}
+				sum = sum + cellVal;
+			}
+			avg = sum/5;
+			for(var n=0; n<4; n++){
+				retArr[n] = 0;
+			}
+			retArr[m] = avg;
+			row = row + 1;
+		}
+	}
+	
+	
+	return retArr;
 }
 
 function showSumTbl(){
@@ -257,30 +284,40 @@ function showSumTbl(){
 			fillTable();
 			totDataX = calcData('report', 'sessNum');			
 			totDataY = calcData('runSum', 'return');
+			avgDataX = calcData('report', 'sessNum');			
+			avgDataY = calcData('runAvg', 'return');
 			tblId = "totals";
 			tblId2 = "avgs";
 			break;
 		case "Live":
 			fillTable();
 			applyFilter('live', 'IS', 'Live');
+			totDataX = calcData('report', 'sessNum');			
+			totDataY = calcData('runSum', 'return');
 			tblId = "totalsLive";
 			tblId2 = "avgsLive";
 			break;
 		case "Online":
 			fillTable();
 			applyFilter('live', 'IS', 'Online');
+			totDataX = calcData('report', 'sessNum');			
+			totDataY = calcData('runSum', 'return');
 			tblId = "totalsOnline";
 			tblId2 = "avgsOnline";
 			break;
 		case "Cash":
 			fillTable();
 			applyFilter('ringTour', 'IS', 'Ring');
+			totDataX = calcData('report', 'sessNum');			
+			totDataY = calcData('runSum', 'return');
 			tblId = "totalsCash";
 			tblId2 = "avgsCash";
 			break;
 		case "Tournament":
 			fillTable();
 			applyFilter('ringTour', 'IS', 'Tour');
+			totDataX = calcData('report', 'sessNum');			
+			totDataY = calcData('runSum', 'return');
 			tblId = "totalsTourney";
 			tblId2 = "avgsTourney";
 			break;
@@ -292,15 +329,17 @@ function showSumTbl(){
 	$('#' + tblId).removeClass("inactive").addClass("active");
 	$('#' + tblId2).removeClass("inactive").addClass("active");
 	
-	// CALCULATE CHART ARRAYS, XMAX
-	var points = new Array();
-	for(var i=0; i<totDataX.length; i++){
-		var j = 0;
-		var point = new Array();
-		point[j] = totDataX[i];
-		point[j+1] = totDataY[i];
-		points[i] = point;
-	}
+	// // COMBINE X & Y DATA INTO SCATTER CHART ARRAY
+	// var points = new Array();
+	// for(var i=0; i<totDataX.length; i++){
+		// var j = 0;
+		// var point = new Array();
+		// point[j] = totDataX[i];
+		// point[j+1] = totDataY[i];
+		// points[i] = point;
+	// }
+	
+	
 	
 	var xmax = 0;
 	for(var i=0; i<totDataX.length; i++){
@@ -316,6 +355,20 @@ function showSumTbl(){
 		}
 	}
 	
+	var xmaxAvg = 0;
+	for(var i=0; i<avgDataX.length; i++){
+		if(avgDataX[i] >= xmaxAvg){
+			xmaxAvg = avgDataX[i];
+		}
+	}
+	
+	var yminAvg = 0;
+	for(var i=0; i<avgDataY.length; i++){
+		if(avgDataY[i] <= yminAvg){
+			yminAvg = avgDataY[i];
+		}
+	}
+	
 	
 // DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.
@@ -326,7 +379,8 @@ function showSumTbl(){
         // You can have multiple sets of data if you wish
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
-		var sg = new RGraph.Scatter('cvs1', points)
+		
+		var lg = new RGraph.Line('cvs1', totDataY)
             // Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1', 'white')
             .Set('chart.background.barcolor2', 'white')
@@ -334,25 +388,83 @@ function showSumTbl(){
 			// .Set('chart.xaxis', true)
 			.Set('chart.xaxispos', 'center')
 			.Set('chart.axis.linewidth', 1)
-			.Set('chart.line.linewidth', 3)
+			.Set('chart.linewidth', 3)
             .Set('chart.gutter.left', 50)
 			// .Set('chart.xscale', true)
 			.Set('chart.yscale', true)
 			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmax)
+			.Set('chart.background.grid.autofit.numvlines', xmax-1)
 			// .Set('chart.xmin', 1)
-            .Set('chart.xmax', xmax) // Important!
-			.Set('chart.ticksize', 3)
+            // .Set('chart.xmax', xmax) // Important!
+			.Set('chart.ticksize', 2)
 			.Set('chart.labels', totDataX)
 			// .Set('chart.labels.specific.align', 'center')
 			// .Set('chart.scale.round', true)
 			// .Set('chart.ymin', -2500)
 			.Set('chart.tickmarks', 'circle')
 			.Set('chart.units.pre', '$')
-			.Set('chart.line', true)
+			// .Set('chart.line', true)
 			
             // Now call the .Draw() method to draw the chart.
             .Draw();
+		
+		var canvas = document.getElementById('cvs2');
+        RGraph.Reset(canvas);		
+		var lg2 = new RGraph.Line('cvs2', avgDataY)
+            // Configure the chart to look as you want it to.
+            .Set('chart.background.barcolor1', 'white')
+            .Set('chart.background.barcolor2', 'white')
+            .Set('chart.grid.color', 'rgba(238,238,238,1)')
+			// .Set('chart.xaxis', true)
+			.Set('chart.xaxispos', 'center')
+			.Set('chart.axis.linewidth', 1)
+			.Set('chart.linewidth', 3)
+            .Set('chart.gutter.left', 50)
+			// .Set('chart.xscale', true)
+			.Set('chart.yscale', true)
+			.Set('chart.background.grid.autofit.numhlines', 10)
+			.Set('chart.background.grid.autofit.numvlines', xmaxAvg-1)
+			// .Set('chart.xmin', 1)
+            // .Set('chart.xmax', xmax) // Important!
+			.Set('chart.ticksize', 2)
+			.Set('chart.labels', avgDataX)
+			// .Set('chart.labels.specific.align', 'center')
+			// .Set('chart.scale.round', true)
+			// .Set('chart.ymin', -2500)
+			.Set('chart.tickmarks', 'circle')
+			.Set('chart.units.pre', '$')
+			// .Set('chart.line', true)
+			
+            // Now call the .Draw() method to draw the chart.
+            .Draw();
+		
+		// var sg = new RGraph.Scatter('cvs1', points)
+            // // Configure the chart to look as you want it to.
+            // .Set('chart.background.barcolor1', 'white')
+            // .Set('chart.background.barcolor2', 'white')
+            // .Set('chart.grid.color', 'rgba(238,238,238,1)')
+			// // .Set('chart.xaxis', true)
+			// .Set('chart.xaxispos', 'center')
+			// .Set('chart.axis.linewidth', 1)
+			// .Set('chart.line.linewidth', 3)
+            // .Set('chart.gutter.left', 50)
+			// // .Set('chart.xscale', true)
+			// .Set('chart.yscale', true)
+			// .Set('chart.background.grid.autofit.numhlines', 10)
+			// .Set('chart.background.grid.autofit.numvlines', xmax)
+			// // .Set('chart.xmin', 1)
+            // .Set('chart.xmax', xmax) // Important!
+			// .Set('chart.ticksize', 3)
+			// .Set('chart.labels', totDataX)
+			// // .Set('chart.labels.specific.align', 'center')
+			// // .Set('chart.scale.round', true)
+			// // .Set('chart.ymin', -2500)
+			// .Set('chart.tickmarks', 'circle')
+			// .Set('chart.units.pre', '$')
+			// .Set('chart.line', true)
+			
+            // // Now call the .Draw() method to draw the chart.
+            // .Draw();
 			
 	// The datasets as shown on the chart. Each point is an array, described below.
         // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
@@ -360,30 +472,8 @@ function showSumTbl(){
         
         // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
         // You can have multiple sets of data if you wish
-		var canvas = document.getElementById('cvs2');
-        RGraph.Reset(canvas);
-        var sg2 = new RGraph.Scatter('cvs2', chartData)
-        
-            // Configure the chart to look as you want it to.
-            .Set('chart.background.barcolor1','white')
-            .Set('chart.background.barcolor2', 'white')
-            .Set('chart.grid.color', 'rgba(238,238,238,1)')
-            .Set('chart.gutter.left', 30)
-            .Set('chart.xmax', 8) // Important!
-			.Set('chart.labels', [
-				['0', 0],
-				['1', 1],
-				['2', 2],
-				['3', 3],
-				['4', 4],
-				['5', 5],
-				['6', 6],
-				['7', 7]
-				])
-			.Set('chart.line', true)
-        
-            // Now call the .Draw() method to draw the chart.
-            .Draw();
+		
+
 
 }
 
