@@ -331,10 +331,20 @@ function showSumTbl(){
             .Set('chart.background.barcolor1', 'white')
             .Set('chart.background.barcolor2', 'white')
             .Set('chart.grid.color', 'rgba(238,238,238,1)')
+			.Set('chart.xaxis', true)
+			.Set('chart.xaxispos', 'center')
+			.Set('chart.axis.linewidth', 1)
+			.Set('chart.line.linewidth', 3)
             .Set('chart.gutter.left', 50)
+			.Set('chart.background.grid.autofit.numhlines', 10)
+			.Set('chart.background.grid.autofit.numvlines', xmax)
             .Set('chart.xmax', xmax) // Important!
-			.Set('chart.ymin', ymin)
-			.Set('chart.labels', totDataX)
+			.Set('chart.xscale', true)
+			.Set('chart.yscale', true)
+			// .Set('chart.scale.round', true)
+			// .Set('chart.ymin', -2500)
+			// .Set('chart.labels', totDataX)
+			.Set('chart.tickmarks', 'circle')
 			.Set('chart.line', true)
 			
             // Now call the .Draw() method to draw the chart.
