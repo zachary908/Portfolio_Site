@@ -142,31 +142,31 @@ function clrCloseModal2(elementId){
 }
 
 function fillTblSelect2(){
-	// // FILL ARRAY WITH OPTIONS FROM TBLSELECT
-	// var selList1 = document.getElementById('tblSelect');
-	// var selList1Val = selList1.value;
-	// var optArr1 = selList1.options;
+	// FILL ARRAY WITH OPTIONS FROM TBLSELECT
+	var selList1 = document.getElementById('tblSelect');
+	var selList1Val = selList1.value;
+	var optArr1 = selList1.options;
 	
-	// // FILL 2nd ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
-	// var j = 0;
-	// var optArr2 = new Array;
-	// for(var i=0; i<optArr1.length; i++){
-		// if(optArr1[i].value != selList1Val){
-			// var opt2 = new Option;
-			// opt2.textContent = optArr1[i].textContent;
-			// optArr2[j] = opt2;
-			// j = j + 1;
-		// }
-	// }
+	// FILL 2nd ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
+	var j = 0;
+	var optArr2 = new Array;
+	for(var i=0; i<optArr1.length; i++){
+		if(optArr1[i].value != selList1Val){
+			var opt2 = new Option;
+			opt2.textContent = optArr1[i].textContent;
+			optArr2[j] = opt2;
+			j = j + 1;
+		}
+	}
 	
-	// var defaultOpt = new Option;
-	// defaultOpt.textContent = "Select a category to compare...";
-	// optArr2.unshift(defaultOpt);
+	var defaultOpt = new Option;
+	defaultOpt.textContent = "Select a category to compare...";
+	optArr2.unshift(defaultOpt);
 	
-	// var selList2 = document.getElementById('tblSelect2');
-	// for(var i=0; i<optArr2.length; i++){
-		// selList2.options[i] = optArr2[i];
-	// }
+	var selList2 = document.getElementById('tblSelect2');
+	for(var i=0; i<optArr2.length; i++){
+		selList2.options[i] = optArr2[i];
+	}
 }
 
 function calcData(oper, cat){
@@ -213,11 +213,19 @@ function calcData(oper, cat){
 			break;
 	}
 	// tblBodyName IS A GLOBAL VAR EQUAL TO THE NAME OF TABLE BODY CONTAINING FILTERED DATA
+	// TO GET DATA TO APPEAR IN CORRECT ORDER, REVERSE THE ORDER OF ROWCOLL,
+	// THAT SHOULD REVERSE THE ORDER OF ALL ARRAYS, INCLUDING DATAX
 	var tbl = document.getElementById(tblBodyName);
-	var rowColl = tbl.rows;
+	var rowCollAll = tbl.rows;
+	var rowColl = new Array;
+	var y = 0;
+	for(var x=rowCollAll.length-1; x>=0; x--){
+		rowColl[y] = rowCollAll[x];
+		y = y + 1;
+	}
+	
 	var retArr = new Array;
 	var j = 0;
-	
 	if(oper == 'report' || oper == 'runSum'){
 		for(var i=0; i<rowColl.length; i++){
 			var cellColl = rowColl[i].cells;
@@ -245,26 +253,43 @@ function calcData(oper, cat){
 		}
 	}
 	else if(oper == 'runAvg'){
-		// IF OPER = RUNAVG, CALC AVG OF LAST 5 SESSIONS
-		var row = 4;
-		// GIVE ERROR IF USER HAS RECORDED <5 SESSIONS
-		for(var m=4; m<rowColl.length; m++){
-			var sum = 0;
-			for(var k=row; k>=row-4; k--){
-				var cellColl = rowColl[k].cells;
-				var cellVal = parseInt(cellColl[colNum].textContent);
-				if(isNaN(cellVal)){
-						cellVal = 0;
-				}
-				sum = sum + cellVal;
+		//------------------------------------------------------------
+		// THE FOLLOWING GIVES A CUMULATIVE AVG CALCULATED FOR EACH SESSION
+		var n = 0;
+		var sum = 0;
+		for(var m=0; m<rowColl.length; m++){
+			var cellColl = rowColl[m].cells;
+			var cellVal = parseInt(cellColl[colNum].textContent);
+			if(isNaN(cellVal)){
+				cellVal = 0;
 			}
-			avg = sum/5;
-			for(var n=0; n<4; n++){
-				retArr[n] = 0;
-			}
-			retArr[m] = avg;
-			row = row + 1;
+			sum = sum + cellVal;
+			retArr[n] = sum/(m+1);
+			n = n + 1;
 		}
+		//------------------------------------------------------------
+		// THE FOLLOWING GIVES A RUNNING AVG OF LAST 5 SESSIONS
+		// // IF OPER = RUNAVG, CALC AVG OF LAST 5 SESSIONS
+		// var row = 4;
+		// // GIVE ERROR IF USER HAS RECORDED <5 SESSIONS
+		// for(var m=4; m<rowColl.length; m++){
+			// var sum = 0;
+			// for(var k=row; k>=row-4; k--){
+				// var cellColl = rowColl[k].cells;
+				// var cellVal = parseInt(cellColl[colNum].textContent);
+				// if(isNaN(cellVal)){
+						// cellVal = 0;
+				// }
+			// sum = sum + cellVal;
+		// }
+		// avg = sum/5;
+		// for(var n=0; n<4; n++){
+			// retArr[n] = null;
+		// }
+		// retArr[m] = avg;
+		// row = row + 1;
+		// }
+		//------------------------------------------------------------
 	}
 	
 	
@@ -293,6 +318,8 @@ function showSumTbl(){
 			applyFilter('live', 'IS', 'Live');
 			totDataX = calcData('report', 'sessNum');			
 			totDataY = calcData('runSum', 'return');
+			avgDataX = calcData('report', 'sessNum');			
+			avgDataY = calcData('runAvg', 'return');
 			tblId = "totalsLive";
 			tblId2 = "avgsLive";
 			break;
@@ -301,6 +328,8 @@ function showSumTbl(){
 			applyFilter('live', 'IS', 'Online');
 			totDataX = calcData('report', 'sessNum');			
 			totDataY = calcData('runSum', 'return');
+			avgDataX = calcData('report', 'sessNum');			
+			avgDataY = calcData('runAvg', 'return');
 			tblId = "totalsOnline";
 			tblId2 = "avgsOnline";
 			break;
@@ -309,6 +338,8 @@ function showSumTbl(){
 			applyFilter('ringTour', 'IS', 'Ring');
 			totDataX = calcData('report', 'sessNum');			
 			totDataY = calcData('runSum', 'return');
+			avgDataX = calcData('report', 'sessNum');			
+			avgDataY = calcData('runAvg', 'return');
 			tblId = "totalsCash";
 			tblId2 = "avgsCash";
 			break;
@@ -317,6 +348,8 @@ function showSumTbl(){
 			applyFilter('ringTour', 'IS', 'Tour');
 			totDataX = calcData('report', 'sessNum');			
 			totDataY = calcData('runSum', 'return');
+			avgDataX = calcData('report', 'sessNum');			
+			avgDataY = calcData('runAvg', 'return');
 			tblId = "totalsTourney";
 			tblId2 = "avgsTourney";
 			break;
