@@ -219,7 +219,8 @@ function calcData(oper, cat){
 	var j = 0;
 	
 	if(oper == 'report' || oper == 'runSum'){
-		for(var i=0; i<rowColl.length; i++){
+		for(var i=rowColl.length-1; i>=0; i--){
+		// for(var i=0; i<rowColl.length; i++){
 			var cellColl = rowColl[i].cells;
 			switch(oper){
 				case 'report':
@@ -246,11 +247,14 @@ function calcData(oper, cat){
 	}
 	else if(oper == 'runAvg'){
 		// IF OPER = RUNAVG, CALC AVG OF LAST 5 SESSIONS
-		var row = 4;
+		var row = rowColl.length - 1
+		// var row = 4;
 		// GIVE ERROR IF USER HAS RECORDED <5 SESSIONS
-		for(var m=4; m<rowColl.length; m++){
+		for(var m=rowColl.length; m>rowColl.length-4; m--){
+		// for(var m=4; m<rowColl.length; m++){
 			var sum = 0;
 			for(var k=row; k>=row-4; k--){
+			// for(var k=row; k>=row-4; k--){
 				var cellColl = rowColl[k].cells;
 				var cellVal = parseInt(cellColl[colNum].textContent);
 				if(isNaN(cellVal)){
@@ -259,7 +263,7 @@ function calcData(oper, cat){
 				sum = sum + cellVal;
 			}
 			avg = sum/5;
-			for(var n=0; n<4; n++){
+			for(var n=retArr.length; n>retArr.length-4; n--){
 				retArr[n] = 0;
 			}
 			retArr[m] = avg;
