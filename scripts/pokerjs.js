@@ -226,47 +226,57 @@ function calcData(oper, cat){
 	
 	var retArr = new Array;
 	var j = 0;
-	if(oper == 'report' || oper == 'runSum'){
-		for(var i=0; i<rowColl.length; i++){
-			var cellColl = rowColl[i].cells;
-			switch(oper){
-				case 'report':
-					retArr[j] = parseInt(cellColl[colNum].textContent);
+	var n = 0;
+	var sum = 0;
+	for(var i=0; i<rowColl.length; i++){
+		var cellColl = rowColl[i].cells;
+		switch(oper){
+			case 'report':
+				retArr[j] = parseInt(cellColl[colNum].textContent);
+				j = j + 1;
+				break;
+			case 'runSum':
+				var cellVal = parseInt(cellColl[colNum].textContent);
+				if(isNaN(cellVal)){
+						cellVal = 0;
+				}
+				
+				if(j == 0){
+					retArr[j] = cellVal;
 					j = j + 1;
-					break;
-				case 'runSum':
-					var cellVal = parseInt(cellColl[colNum].textContent);
-					if(isNaN(cellVal)){
-							cellVal = 0;
-					}
-					
-					if(j == 0){
-						retArr[j] = cellVal;
-						j = j + 1;
-					}
-					else{
-						retArr[j] = retArr[j-1] + cellVal;
-						j = j + 1;
-					}
-					break;
-			}
+				}
+				else{
+					retArr[j] = retArr[j-1] + cellVal;
+					j = j + 1;
+				}
+				break;
+			case 'runAvg':
+				var cellVal = parseInt(cellColl[colNum].textContent);
+				if(isNaN(cellVal)){
+					cellVal = 0;
+				}
+				sum = sum + cellVal;
+				retArr[n] = sum/(i+1);
+				n = n + 1;
+				break;
 		}
 	}
-	else if(oper == 'runAvg'){
-		//------------------------------------------------------------
-		// THE FOLLOWING GIVES A CUMULATIVE AVG CALCULATED FOR EACH SESSION
-		var n = 0;
-		var sum = 0;
-		for(var m=0; m<rowColl.length; m++){
-			var cellColl = rowColl[m].cells;
-			var cellVal = parseInt(cellColl[colNum].textContent);
-			if(isNaN(cellVal)){
-				cellVal = 0;
-			}
-			sum = sum + cellVal;
-			retArr[n] = sum/(m+1);
-			n = n + 1;
-		}
+
+	// else if(oper == 'runAvg'){
+		// // ------------------------------------------------------------
+		// // THE FOLLOWING GIVES A CUMULATIVE AVG CALCULATED FOR EACH SESSION
+		// var n = 0;
+		// var sum = 0;
+		// for(var m=0; m<rowColl.length; m++){
+			// var cellColl = rowColl[m].cells;
+			// var cellVal = parseInt(cellColl[colNum].textContent);
+			// if(isNaN(cellVal)){
+				// cellVal = 0;
+			// }
+			// sum = sum + cellVal;
+			// retArr[n] = sum/(m+1);
+			// n = n + 1;
+		// }
 		//------------------------------------------------------------
 		// THE FOLLOWING GIVES A RUNNING AVG OF LAST 5 SESSIONS
 		// // IF OPER = RUNAVG, CALC AVG OF LAST 5 SESSIONS
@@ -290,8 +300,7 @@ function calcData(oper, cat){
 		// row = row + 1;
 		// }
 		//------------------------------------------------------------
-	}
-	
+	// }
 	
 	return retArr;
 }
