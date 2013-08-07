@@ -316,58 +316,43 @@ function showSumTbl(){
 	// ADDED TO ONE BIG ARRAY ?
 	// MIGHT BE ABLE TO PASS ONE BIG ARRAY TO GRAPHING FXN ?
 	
-	// DISPLAY SELECTED TABLES, CALCULATE CHARTS
+		// DISPLAY SELECTED TABLES, CALCULATE CHARTS
 	switch(tblSelect){
 		case "Overall":
 			fillTable();
-			totDataX = calcData('report', 'sessNum');			
-			totDataY = calcData('runSum', 'return');
-			avgDataX = calcData('report', 'sessNum');			
-			avgDataY = calcData('runAvg', 'return');
 			totTblId = "totals";
 			avgTblId = "avgs";
 			break;
 		case "Live":
 			fillTable();
 			applyFilter('live', 'IS', 'Live');
-			totDataX = calcData('report', 'sessNum');			
-			totDataY = calcData('runSum', 'return');
-			avgDataX = calcData('report', 'sessNum');			
-			avgDataY = calcData('runAvg', 'return');
 			totTblId = "totalsLive";
 			avgTblId = "avgsLive";
 			break;
 		case "Online":
 			fillTable();
 			applyFilter('live', 'IS', 'Online');
-			totDataX = calcData('report', 'sessNum');			
-			totDataY = calcData('runSum', 'return');
-			avgDataX = calcData('report', 'sessNum');			
-			avgDataY = calcData('runAvg', 'return');
 			totTblId = "totalsOnline";
 			avgTblId = "avgsOnline";
 			break;
 		case "Cash":
 			fillTable();
 			applyFilter('ringTour', 'IS', 'Ring');
-			totDataX = calcData('report', 'sessNum');			
-			totDataY = calcData('runSum', 'return');
-			avgDataX = calcData('report', 'sessNum');			
-			avgDataY = calcData('runAvg', 'return');
 			totTblId = "totalsCash";
 			avgTblId = "avgsCash";
 			break;
 		case "Tournament":
 			fillTable();
 			applyFilter('ringTour', 'IS', 'Tour');
-			totDataX = calcData('report', 'sessNum');			
-			totDataY = calcData('runSum', 'return');
-			avgDataX = calcData('report', 'sessNum');			
-			avgDataY = calcData('runAvg', 'return');
 			totTblId = "totalsTourney";
 			avgTblId = "avgsTourney";
 			break;
 	}
+	
+	totDataX = calcData('report', 'sessNum');			
+	totDataY = calcData('runSum', 'return');
+	avgDataX = calcData('report', 'sessNum');			
+	avgDataY = calcData('runAvg', 'return');
 	
 	// DISPLAY TABLES FOR SELECTED CATEGORY
 	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');
