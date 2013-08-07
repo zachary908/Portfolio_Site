@@ -307,9 +307,14 @@ function calcData(oper, cat){
 
 function showSumTbl(){
 	var tblSelect = $("#tblSelect").val();
-	var tblId = "";
+	var totTblId = "";
+	var avgTblId = "";
 	var totDataX = new Array;
 	var totDataY = new Array;
+	// MAYBE PUT TBL SELECT VALS INTO ARRAY, THEN LOOP THRU ARRAY
+	// AND USE SWITCH STMT BELOW TO CREATE DATA ARRAYS THAT ARE 
+	// ADDED TO ONE BIG ARRAY ?
+	// MIGHT BE ABLE TO PASS ONE BIG ARRAY TO GRAPHING FXN ?
 	
 	// DISPLAY SELECTED TABLES, CALCULATE CHARTS
 	switch(tblSelect){
@@ -319,8 +324,8 @@ function showSumTbl(){
 			totDataY = calcData('runSum', 'return');
 			avgDataX = calcData('report', 'sessNum');			
 			avgDataY = calcData('runAvg', 'return');
-			tblId = "totals";
-			tblId2 = "avgs";
+			totTblId = "totals";
+			avgTblId = "avgs";
 			break;
 		case "Live":
 			fillTable();
@@ -329,8 +334,8 @@ function showSumTbl(){
 			totDataY = calcData('runSum', 'return');
 			avgDataX = calcData('report', 'sessNum');			
 			avgDataY = calcData('runAvg', 'return');
-			tblId = "totalsLive";
-			tblId2 = "avgsLive";
+			totTblId = "totalsLive";
+			avgTblId = "avgsLive";
 			break;
 		case "Online":
 			fillTable();
@@ -339,8 +344,8 @@ function showSumTbl(){
 			totDataY = calcData('runSum', 'return');
 			avgDataX = calcData('report', 'sessNum');			
 			avgDataY = calcData('runAvg', 'return');
-			tblId = "totalsOnline";
-			tblId2 = "avgsOnline";
+			totTblId = "totalsOnline";
+			avgTblId = "avgsOnline";
 			break;
 		case "Cash":
 			fillTable();
@@ -349,8 +354,8 @@ function showSumTbl(){
 			totDataY = calcData('runSum', 'return');
 			avgDataX = calcData('report', 'sessNum');			
 			avgDataY = calcData('runAvg', 'return');
-			tblId = "totalsCash";
-			tblId2 = "avgsCash";
+			totTblId = "totalsCash";
+			avgTblId = "avgsCash";
 			break;
 		case "Tournament":
 			fillTable();
@@ -359,16 +364,16 @@ function showSumTbl(){
 			totDataY = calcData('runSum', 'return');
 			avgDataX = calcData('report', 'sessNum');			
 			avgDataY = calcData('runAvg', 'return');
-			tblId = "totalsTourney";
-			tblId2 = "avgsTourney";
+			totTblId = "totalsTourney";
+			avgTblId = "avgsTourney";
 			break;
 	}
 	
 	// DISPLAY TABLES FOR SELECTED CATEGORY
 	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');
 	$("[name = 'sumAvgTbl']").removeClass('active').addClass('inactive');
-	$('#' + tblId).removeClass("inactive").addClass("active");
-	$('#' + tblId2).removeClass("inactive").addClass("active");
+	$('#' + totTblId).removeClass("inactive").addClass("active");
+	$('#' + avgTblId).removeClass("inactive").addClass("active");
 	
 	// // COMBINE X & Y DATA INTO SCATTER CHART ARRAY
 	// var points = new Array();
