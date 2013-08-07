@@ -141,33 +141,60 @@ function clrCloseModal2(elementId){
 	}
 }
 
-function fillTblSelect2(){
-	// FILL ARRAY WITH OPTIONS FROM TBLSELECT
-	var selList1 = document.getElementById('tblSelect');
-	var selList1Val = selList1.value;
-	var optArr1 = selList1.options;
+function fillTblSelect(changedSelectField){
+	// eg: changedSelectField = 'tblSelect'
+	// changedSelectField = "select#" + changedSelectField;
+	// PUT ALL SELECT FIELDS INTO AN ARRAY
+	var selFldArr = document.getElementsByName('tblCompareFld');
 	
-	// FILL 2nd ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
-	var j = 0;
-	var optArr2 = new Array;
-	for(var i=0; i<optArr1.length; i++){
-		if(optArr1[i].value != selList1Val){
-			var opt2 = new Option;
-			opt2.textContent = optArr1[i].textContent;
-			optArr2[j] = opt2;
-			j = j + 1;
+	// GET THE INDEX OF THE FIELD THAT WAS CHANGED
+	// var changedFieldIndex = selFldArr.indexOf(changedSelectField);
+	for(var i=0; i<selFldArr.length; i++){
+		if(selFldArr[i].id == changedSelectField){
+			changedFieldIndex = i;
 		}
 	}
 	
-	var defaultOpt = new Option;
-	defaultOpt.textContent = "Select a category to compare...";
-	optArr2.unshift(defaultOpt);
+	// GET THE NEW VALUE OF THE FIELD THAT WAS CHANGED
+	var selFldVal = selFldArr[changedFieldIndex].value;
 	
-	var selList2 = document.getElementById('tblSelect2');
-	for(var i=0; i<optArr2.length; i++){
-		selList2.options[i] = optArr2[i];
-	}
+	// PUT THE OPTIONS CURRENTLY LISTED IN THE CHANGED FIELD INTO AN ARRAY
+	
+	// TAKE THE NEW VAL OF THE FIELD THAT WAS CHANGED OUT OF THE OPTIONS ARRAY
+	
+	// PUT THE RESULTANT OPTIONS ARRAY INTO ALL DOWNSTREAM FIELDS
+	// SELECT DEFAULT VAL (I.E.: "Compare to...") FOR ALL DOWNSTREAM FIELDS
+	
 }
+
+// function fillTblSelect(srcList, destList){
+	// // FILL ARRAY WITH OPTIONS FROM TBLSELECT
+	// var selList1Val = srcList.value;
+	// var optArr1 = srcList.options;
+	
+	// // FILL DEST ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
+	// var j = 0;
+	// var optArr2 = new Array;
+	// for(var i=0; i<optArr1.length; i++){
+		// if(optArr1[i].value != selList1Val){
+			// var opt2 = new Option;
+			// opt2.textContent = optArr1[i].textContent;
+			// optArr2[j] = opt2;
+			// j = j + 1;
+		// }
+	// }
+	
+	// if(destList.id == 'tblSelect2'){
+		// var defaultOpt = new Option;
+		// defaultOpt.textContent = "Compare to...";
+		// optArr2.unshift(defaultOpt);
+	// }
+	
+	// for(var i=0; i<optArr2.length; i++){
+		// destList.options[i] = optArr2[i];
+	// }
+	// //destList.options[0].selected = true;
+// }
 
 function calcData(oper, cat){
 	var colNum;
@@ -315,6 +342,7 @@ function showSumTbl(){
 	// AND USE SWITCH STMT BELOW TO CREATE DATA ARRAYS THAT ARE 
 	// ADDED TO ONE BIG ARRAY ?
 	// MIGHT BE ABLE TO PASS ONE BIG ARRAY TO GRAPHING FXN ?
+	var tblSelArr = document.getElementsByName('chartNames');
 	
 		// DISPLAY SELECTED TABLES, CALCULATE CHARTS
 	switch(tblSelect){
@@ -369,8 +397,6 @@ function showSumTbl(){
 		// point[j+1] = totDataY[i];
 		// points[i] = point;
 	// }
-	
-	
 	
 	var xmax = 0;
 	for(var i=0; i<totDataX.length; i++){
@@ -1394,7 +1420,7 @@ function getSessionsAndSum(){
 			fillTable();
 		}
 		showSumTbl();
-		fillTblSelect2();
+		fillTblSelect('tblSelect');
 	});
 }
 

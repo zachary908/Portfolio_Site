@@ -44,17 +44,27 @@
 	<div>
 		<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>
 		
-		<select id="tblSelect" onchange="fillTblSelect2()">
+		<select id="tblSelect" name="tblCompareFld" onchange="fillTblSelect(this)">
 			<option selected="true">Overall</option>
 			<option>Live</option>
 			<option>Online</option>
 			<option>Cash</option>
 			<option>Tournament</option>
 		</select>
-		
 		vs.
-		
-		<select id="tblSelect2"></select>
+		<select id="tblSelect2" name="tblCompareFld" onchange="fillTblSelect(this, tblSelect3)"></select>
+		vs.
+		<select id="tblSelect3" name="tblCompareFld" onchange="fillTblSelect(this, tblSelect4)">
+			<!--<option>Compare to...</option>-->
+		</select>
+		vs.
+		<select id="tblSelect4" name="tblCompareFld" onchange="fillTblSelect(this, tblSelect5)">
+			<!--<option>Compare to...</option>-->
+		</select>
+		vs.
+		<select id="tblSelect5" name="tblCompareFld">
+			<!--<option>Compare to...</option>-->
+		</select>
 		
 		<button onclick="showSumTbl()">GO</button>
 	</div>
