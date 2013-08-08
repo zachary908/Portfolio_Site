@@ -317,6 +317,11 @@ function calcData(oper, cat){
 	// }
 
 function showSumTbl(){
+	// COMBINE COMPARETBL SELECTION(S) AND BASETBL SELECTION INTO 1 ARRAY
+	// LOOP THRU SELECTION ARRAYS, GETTING X AND Y DATA ARRAYS
+	// PUT Y DATA ARRAYS INTO 1 ARRAY
+	// FIND THE LARGEST X ARRAY TO USE AS X AXIS
+	// DRAW GRAPHS USING COMBINED Y DATA AND LARGEST X DATA
 	var tblSelect = $("#baseTbl").val();
 	var totTblId = "";
 	var avgTblId = "";
