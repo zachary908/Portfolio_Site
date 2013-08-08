@@ -137,7 +137,7 @@
 					</tr>
 					<tr>
 						<td class="tblLbl">Avg. Earnings Per Session:</td><td id="avgEarnLive" class="tblData"></td>
-						<td class="tblLbl">Avg. Hrs. Played Per Session:</td><td id="avgHrsLive" class="tblData"></td>
+						<td class="tblLbl">Avg. Hours Per Session:</td><td id="avgHrsLive" class="tblData"></td>
 						<td class="tblLbl">Avg. Rate Per Session:</td><td id="avgRateLive" class="tblData"></td>
 					</tr>
 				</tbody>
@@ -150,7 +150,7 @@
 					</tr>
 					<tr>
 						<td class="tblLbl">Avg. Earnings Per Session:</td><td id="avgEarnOnline" class="tblData"></td>
-						<td class="tblLbl">Avg. Hrs. Played Per Session:</td><td id="avgHrsOnline" class="tblData"></td>
+						<td class="tblLbl">Avg. Hours Per Session:</td><td id="avgHrsOnline" class="tblData"></td>
 						<td class="tblLbl">Avg. Rate Per Session:</td><td id="avgRateOnline" class="tblData"></td>
 					</tr>
 				</tbody>
@@ -163,7 +163,7 @@
 					</tr>
 					<tr>
 						<td class="tblLbl">Avg. Earnings Per Session:</td><td id="avgEarnCash" class="tblData"></td>
-						<td class="tblLbl">Avg. Hrs. Played Per Session:</td><td id="avgHrsCash" class="tblData"></td>
+						<td class="tblLbl">Avg. Hours Per Session:</td><td id="avgHrsCash" class="tblData"></td>
 						<td class="tblLbl">Avg. Rate Per Session:</td><td id="avgRateCash" class="tblData"></td>
 					</tr>
 				</tbody>
@@ -176,7 +176,7 @@
 					</tr>
 					<tr>
 						<td class="tblLbl">Avg. Earnings Per Tournament:</td><td id="avgEarnTour" class="tblData"></td>
-						<td class="tblLbl">Avg. Hrs. Played Per Tournament:</td><td id="avgHrsTour" class="tblData"></td>
+						<td class="tblLbl">Avg. Hours Per Tournament:</td><td id="avgHrsTour" class="tblData"></td>
 						<td class="tblLbl">Avg. Rate Per Tournament:</td><td id="avgRateTour" class="tblData"></td>
 					</tr>
 				</tbody>

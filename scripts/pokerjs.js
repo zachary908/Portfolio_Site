@@ -335,8 +335,7 @@ function showSumTbl(){
 	
 	var totTblId = "";
 	var avgTblId = "";
-	var totDataX = new Array;
-	var totDataY = new Array;
+	
 	// MAYBE PUT TBL SELECT VALS INTO ARRAY, THEN LOOP THRU ARRAY
 	// AND USE SWITCH STMT BELOW TO CREATE DATA ARRAYS THAT ARE 
 	// ADDED TO ONE BIG ARRAY ?
@@ -345,6 +344,11 @@ function showSumTbl(){
 	// HIDE ALL TBLS
 	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');	
 	$("[name = 'sumAvgTbl']").removeClass('active').addClass('inactive');
+	
+	var totDataXArr = new Array;
+	var totDataYArr = new Array;
+	var avgDataXArr = new Array;
+	var avgDataYArr = new Array;
 	
 	// GET CHART DATA AND DISPLAY TABLES FOR ALL SELECTED CATEGORIES
 	for(var i=0; i<tblSelArr.length; i++){
@@ -381,16 +385,16 @@ function showSumTbl(){
 				break;
 		}
 		
+		var totDataX = new Array;
+		var totDataY = new Array;
+		var avgDataX = new Array;
+		var avgDataY = new Array;
 		totDataX = calcData('report', 'sessNum');			
 		totDataY = calcData('runSum', 'return');
 		avgDataX = calcData('report', 'sessNum');			
 		avgDataY = calcData('runAvg', 'return');
 		
 		// SAVE EACH DATA SET IN AN ARRAY
-		var totDataXArr = new Array;
-		var totDataYArr = new Array;
-		var avgDataXArr = new Array;
-		var avgDataYArr = new Array;
 		totDataXArr[i] = totDataX;
 		totDataYArr[i] = totDataY;
 		avgDataXArr[i] = avgDataX;
@@ -402,41 +406,46 @@ function showSumTbl(){
 	
 	}
 	
-	// // COMBINE X & Y DATA INTO SCATTER CHART ARRAY
-	// var points = new Array();
-	// for(var i=0; i<totDataX.length; i++){
-		// var j = 0;
-		// var point = new Array();
-		// point[j] = totDataX[i];
-		// point[j+1] = totDataY[i];
-		// points[i] = point;
-	// }
-	
 	var xmax = 0;
-	for(var i=0; i<totDataX.length; i++){
-		if(totDataX[i] >= xmax){
-			xmax = totDataX[i];
+	for(var j=0; j<totDataXArr.length; j++){
+		var currArr = totDataXArr[j];
+		for(var i=0; i<currArr.length; i++){
+			if(currArr[i] >= xmax){
+				xmax = currArr[i];
+				// SAVE THE ARRAY IN WHICH THE XMAX OCCURS
+				var totXmaxArr = totDataXArr[j]
+			}
 		}
 	}
 	
 	var ymin = 0;
-	for(var i=0; i<totDataY.length; i++){
-		if(totDataY[i] <= ymin){
-			ymin = totDataY[i];
+	for(var j=0; j<totDataYArr.length; j++){
+		var currArr = totDataYArr[j];
+		for(var i=0; i<currArr.length; i++){
+			if(currArr[i] <= ymin){
+				ymin = currArr[i];
+			}
 		}
 	}
 	
-	var xmaxAvg = 0;
-	for(var i=0; i<avgDataX.length; i++){
-		if(avgDataX[i] >= xmaxAvg){
-			xmaxAvg = avgDataX[i];
-		}
-	}
+	// BOTH GRAPHS USE SAME X SCALE, SO SEPARATE XMAXAVG NOT NEEDED
+	// var xmaxAvg = 0;
+	// for(var j=0; j<avgDataXArr.length; j++){
+		// var currArr = avgDataXArr[j];
+		// for(var i=0; i<currArr.length; i++){
+			// if(currArr[i] >= xmaxAvg){
+				// xmaxAvg = currArr[i];
+			// }
+		// }
+	// }
 	
 	var yminAvg = 0;
-	for(var i=0; i<avgDataY.length; i++){
-		if(avgDataY[i] <= yminAvg){
-			yminAvg = avgDataY[i];
+	for(var j=0; j<avgDataYArr.length; j++){
+		var currArr = avgDataYArr[j];
+		for(var i=0; i<currArr.length; i++){
+			if(currArr[i] <= yminAvg){
+				yminAvg = currArr[i];
+			}
 		}
 	}
 	
@@ -450,7 +459,7 @@ function showSumTbl(){
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
 		
-		var lg = new RGraph.Line('cvs1', totDataY)
+		var lg = new RGraph.Line('cvs1', totDataYArr)
             // Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1', 'white')
             .Set('chart.background.barcolor2', 'white')
@@ -467,7 +476,7 @@ function showSumTbl(){
 			// .Set('chart.xmin', 1)
             // .Set('chart.xmax', xmax) // Important!
 			.Set('chart.ticksize', 2)
-			.Set('chart.labels', totDataX)
+			.Set('chart.labels', totXmaxArr)
 			// .Set('chart.labels.specific.align', 'center')
 			// .Set('chart.scale.round', true)
 			// .Set('chart.ymin', -2500)
@@ -480,7 +489,7 @@ function showSumTbl(){
 		
 		var canvas = document.getElementById('cvs2');
         RGraph.Reset(canvas);		
-		var lg2 = new RGraph.Line('cvs2', avgDataY)
+		var lg2 = new RGraph.Line('cvs2', avgDataYArr)
             // Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1', 'white')
             .Set('chart.background.barcolor2', 'white')
@@ -497,7 +506,7 @@ function showSumTbl(){
 			// .Set('chart.xmin', 1)
             // .Set('chart.xmax', xmax) // Important!
 			.Set('chart.ticksize', 2)
-			.Set('chart.labels', avgDataX)
+			.Set('chart.labels', totXmaxArr)
 			// .Set('chart.labels.specific.align', 'center')
 			// .Set('chart.scale.round', true)
 			// .Set('chart.ymin', -2500)
