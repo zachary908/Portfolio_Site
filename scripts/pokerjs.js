@@ -142,64 +142,43 @@ function clrCloseModal2(elementId){
 }
 
 function fillTblSelect(){	
-	// PUT THE OPTIONS CURRENTLY LISTED IN THE CHANGED FIELD INTO AN ARRAY
-	var selOptArr = selFldArr[changedFieldIndex].options
-	
-	//EACH OPTIONS LIST CONTAINS THE OPTIONS NOT YET SELECTED IN ANY OTHER FIELDS
-	// EVERY OPTIONS LIST MUST BE CHANGED WHENEVER A SELECTION IS MADE
+	// PUT THE OPTIONS CURRENTLY LISTED IN THE BASE FIELD INTO AN ARRAY
+	var baseSelect = document.getElementById('baseTbl');
+	var selOptArr = baseSelect.options;
+	var selFldVal = baseSelect.value;
 
-	// TAKE THE VALS OF ALL FIELDS WHERE A SELECTION HAS BEEN MADE OUT OF THE OPTIONS ARRAY
+	// TAKE THE SELECTED VAL OF THE BASETBL FIELD OUT OF THE OPTIONS ARRAY
 	var k = 0;
 	var nextSelOptArr = new Array;
-	
 	for(var i=0; i<selOptArr.length; i++){
 		if(selOptArr[i].value != selFldVal){
-			var nextSelOpt = new Option;
-			nextSelOpt.text = selOptArr[i].text;
-			nextSelOptArr[k] = nextSelOpt;
+			var nextOptObj = new Option;
+			nextOptObj.text = selOptArr[i].text;
+			nextSelOptArr[k] = nextOptObj;
 			k = k + 1;
 		}
 	}
-	// PUT THE RESULTANT OPTIONS ARRAY INTO ALL DOWNSTREAM FIELDS
-	for(var i=changedFieldIndex+1; i<selFldArr.length; i++){
-		for(var m=0; m<nextSelOptArr.length; m++){
-			var nextOpt = new Option
-			nextOpt.text = nextSelOptArr[m].text;
-			selFldArr[i].options[m] = nextOpt;
-		}
+	
+	// PUT THE RESULTANT OPTIONS ARRAY INTO THE COMPARETBL SELECT
+	var destList = new Array;
+	for(var i=0; i<nextSelOptArr.length; i++){
+		var nextOptObj = nextSelOptArr[i];
+		destList[i] = nextOptObj;
 	}
-	// SELECT DEFAULT VAL (I.E.: "Compare to...") FOR ALL DOWNSTREAM FIELDS
 	
+	// CLEAR THE PREVIOUS LIST
+	var oldOptArr = new Array;
+	oldOptArr = document.getElementById('compareTbl').options;
+	var oldOptArrLen = oldOptArr.length;
+	for(var i=oldOptArrLen; i>0; i--){
+		document.getElementById('compareTbl').remove(oldOptArr[i]);
+	}
+	
+	// ADD THE NEW LIST OF OPTIONS TO COMPARETBL
+	for(var i=0; i<destList.length; i++){
+		document.getElementById('compareTbl').add(destList[i]);
+	}
 }
-
-// function fillTblSelect(srcList, destList){
-	// // FILL ARRAY WITH OPTIONS FROM TBLSELECT
-	// var selList1Val = srcList.value;
-	// var optArr1 = srcList.options;
-	
-	// // FILL DEST ARRAY WITH OPTIONS NOT SELECTED IN TBLSELECT
-	// var j = 0;
-	// var optArr2 = new Array;
-	// for(var i=0; i<optArr1.length; i++){
-		// if(optArr1[i].value != selList1Val){
-			// var opt2 = new Option;
-			// opt2.textContent = optArr1[i].textContent;
-			// optArr2[j] = opt2;
-			// j = j + 1;
-		// }
-	// }
-	
-	// if(destList.id == 'tblSelect2'){
-		// var defaultOpt = new Option;
-		// defaultOpt.textContent = "Compare to...";
-		// optArr2.unshift(defaultOpt);
-	// }
-	
-	// for(var i=0; i<optArr2.length; i++){
-		// destList.options[i] = optArr2[i];
-	// }
-	// //destList.options[0].selected = true;
-// }
 
 function calcData(oper, cat){
 	var colNum;
@@ -293,6 +272,9 @@ function calcData(oper, cat){
 				break;
 		}
 	}
+	
+	return retArr;
+}
 
 	// else if(oper == 'runAvg'){
 		// // ------------------------------------------------------------
@@ -333,9 +315,6 @@ function calcData(oper, cat){
 		// }
 		//------------------------------------------------------------
 	// }
-	
-	return retArr;
-}
 
 function showSumTbl(){
 	var tblSelect = $("#baseTbl").val();
@@ -431,7 +410,6 @@ function showSumTbl(){
 		}
 	}
 	
-	
 // DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.
         // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
@@ -499,7 +477,7 @@ function showSumTbl(){
 			
             // Now call the .Draw() method to draw the chart.
             .Draw();
-		
+}		
 		// var sg = new RGraph.Scatter('cvs1', points)
             // // Configure the chart to look as you want it to.
             // .Set('chart.background.barcolor1', 'white')
@@ -534,10 +512,6 @@ function showSumTbl(){
         
         // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
         // You can have multiple sets of data if you wish
-		
-
-
-}
 
 function showLocType(){
 	var x = document.getElementsByName("locType");

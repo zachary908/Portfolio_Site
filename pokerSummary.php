@@ -31,11 +31,10 @@
 		
 	Welcome, <?php echo $_SESSION['user']['name'] ?><br>
 	<div>This page will show summary results.</div><br>
-		
+	<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>	
 	<div>
-		<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>
 		<div style="float: left">Select a category to see results...</div>
-		<select id="baseTbl" onchange="showSumTbl()">
+		<select id="baseTbl" onchange="fillTblSelect(); showSumTbl()">
 			<option selected="true">Overall</option>
 			<option>Live</option>
 			<option>Online</option>
@@ -44,14 +43,8 @@
 		</select><br><br>
 	</div>
 	<div>
-		<div style="float: left">Select up to 5 categories to compare...</div>
-		<select id="compareTbl">
-			<option selected="true">Overall</option>
-			<option>Live</option>
-			<option>Online</option>
-			<option>Cash</option>
-			<option>Tournament</option>
-		</select>
+		<div style="float: left">Select up to 4 categories to compare...</div>
+		<select id="compareTbl" multiple></select>
 		<button onclick="showSumTbl()">GO</button>
 	</div>
 	
