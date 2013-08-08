@@ -141,28 +141,33 @@ function clrCloseModal2(elementId){
 	}
 }
 
-function fillTblSelect(changedSelectField){
-	// eg: changedSelectField = 'tblSelect'
-	// changedSelectField = "select#" + changedSelectField;
-	// PUT ALL SELECT FIELDS INTO AN ARRAY
-	var selFldArr = document.getElementsByName('tblCompareFld');
+function fillTblSelect(){	
+	// PUT THE OPTIONS CURRENTLY LISTED IN THE CHANGED FIELD INTO AN ARRAY
+	var selOptArr = selFldArr[changedFieldIndex].options
 	
-	// GET THE INDEX OF THE FIELD THAT WAS CHANGED
-	// var changedFieldIndex = selFldArr.indexOf(changedSelectField);
-	for(var i=0; i<selFldArr.length; i++){
-		if(selFldArr[i].id == changedSelectField){
-			changedFieldIndex = i;
+	//EACH OPTIONS LIST CONTAINS THE OPTIONS NOT YET SELECTED IN ANY OTHER FIELDS
+	// EVERY OPTIONS LIST MUST BE CHANGED WHENEVER A SELECTION IS MADE
+
+	// TAKE THE VALS OF ALL FIELDS WHERE A SELECTION HAS BEEN MADE OUT OF THE OPTIONS ARRAY
+	var k = 0;
+	var nextSelOptArr = new Array;
+	
+	for(var i=0; i<selOptArr.length; i++){
+		if(selOptArr[i].value != selFldVal){
+			var nextSelOpt = new Option;
+			nextSelOpt.text = selOptArr[i].text;
+			nextSelOptArr[k] = nextSelOpt;
+			k = k + 1;
 		}
 	}
-	
-	// GET THE NEW VALUE OF THE FIELD THAT WAS CHANGED
-	var selFldVal = selFldArr[changedFieldIndex].value;
-	
-	// PUT THE OPTIONS CURRENTLY LISTED IN THE CHANGED FIELD INTO AN ARRAY
-	
-	// TAKE THE NEW VAL OF THE FIELD THAT WAS CHANGED OUT OF THE OPTIONS ARRAY
-	
 	// PUT THE RESULTANT OPTIONS ARRAY INTO ALL DOWNSTREAM FIELDS
+	for(var i=changedFieldIndex+1; i<selFldArr.length; i++){
+		for(var m=0; m<nextSelOptArr.length; m++){
+			var nextOpt = new Option
+			nextOpt.text = nextSelOptArr[m].text;
+			selFldArr[i].options[m] = nextOpt;
+		}
+	}
 	// SELECT DEFAULT VAL (I.E.: "Compare to...") FOR ALL DOWNSTREAM FIELDS
 	
 }
@@ -333,7 +338,7 @@ function calcData(oper, cat){
 }
 
 function showSumTbl(){
-	var tblSelect = $("#tblSelect").val();
+	var tblSelect = $("#baseTbl").val();
 	var totTblId = "";
 	var avgTblId = "";
 	var totDataX = new Array;

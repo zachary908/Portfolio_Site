@@ -36,10 +36,10 @@
 		<button type="button" onclick="fillTable(); fillOperator(); fillFilterVal()">Clear Filter</button>
 		<div id="filterErrLbl"></div><br>
 	</div>
-	<table id="sessions">
+	<table id="sessions" style="margin: auto">
 		<thead>
 			<tr>
-				<th></th>
+				<td></td>
 				<th>Start Time</th>
 				<th>Location</th>
 				<th>Game Type</th>
@@ -47,21 +47,23 @@
 				<th>Duration</th>
 				<th>Buy In</th>
 				<th>Cash Out</th>
-				<th>R/T</th>
+				<th class="hide">R/T</th>
 				<th>Place</th>
 				<th>Rate</th>
 				<th>Return</th>
-				<th>Live/Online</th>
+				<th class="hide">Live/Online</th>
 				<th>Notes</th>
 			</tr>
 		</thead>
 		<tfoot>
 			<tr>
+				<td></td><td></td><td></td><td></td>
 				<td>Hours Played:</td>
-				<td>$/hour:</td>
+				<td></td>
 				<td>Buy-In:</td>
 				<td>Cash-Out:</td>
 				<td>ROI:</td>
+				<td>$/hour:</td>
 			</tr>
 		</tfoot>
 		<tbody id="sessTableBody"></tbody>

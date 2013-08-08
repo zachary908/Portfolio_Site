@@ -3,18 +3,6 @@
 ?>
 
 	<div id="sumData" style="position: absolute; visibility: hidden"></div>
-	
-	<div id="sumStatus">
-		<?php
-			if(isset($_SESSION["statusMsg"])){
-				$statusMsg = $_SESSION["statusMsg"];
-				echo $statusMsg;
-			}
-		?>
-	</div><br>
-	
-	Welcome, <?php echo $_SESSION['user']['name'] ?><br>
-	<div>This page will show summary results.</div><br>
 
 	<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
 	<div class="floatingFix">
@@ -41,31 +29,29 @@
 		</table>
 	</div>
 		
+	Welcome, <?php echo $_SESSION['user']['name'] ?><br>
+	<div>This page will show summary results.</div><br>
+		
 	<div>
 		<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>
-		
-		<select id="tblSelect" name="tblCompareFld" onchange="fillTblSelect(this)">
+		<div style="float: left">Select a category to see results...</div>
+		<select id="baseTbl" onchange="showSumTbl()">
+			<option selected="true">Overall</option>
+			<option>Live</option>
+			<option>Online</option>
+			<option>Cash</option>
+			<option>Tournament</option>
+		</select><br><br>
+	</div>
+	<div>
+		<div style="float: left">Select up to 5 categories to compare...</div>
+		<select id="compareTbl">
 			<option selected="true">Overall</option>
 			<option>Live</option>
 			<option>Online</option>
 			<option>Cash</option>
 			<option>Tournament</option>
 		</select>
-		vs.
-		<select id="tblSelect2" name="tblCompareFld" onchange="fillTblSelect(this, tblSelect3)"></select>
-		vs.
-		<select id="tblSelect3" name="tblCompareFld" onchange="fillTblSelect(this, tblSelect4)">
-			<!--<option>Compare to...</option>-->
-		</select>
-		vs.
-		<select id="tblSelect4" name="tblCompareFld" onchange="fillTblSelect(this, tblSelect5)">
-			<!--<option>Compare to...</option>-->
-		</select>
-		vs.
-		<select id="tblSelect5" name="tblCompareFld">
-			<!--<option>Compare to...</option>-->
-		</select>
-		
 		<button onclick="showSumTbl()">GO</button>
 	</div>
 	
@@ -74,19 +60,11 @@
 			<table class="sumTotTbl active" id="totals" name="sumTotTbl">
 				<tbody>
 					<tr>
-						<th>Overall Totals</th>
+						<th colspan="4">Overall Totals</th>
 					</tr>
 					<tr>
-						<td><b>Total Earnings</b></td>
-					</tr>
-					<tr>
-						<td id="totEarn"></td>
-					</tr>
-					<tr>
-						<td><b>Tot. Hours Played</b></td>
-					</tr>
-					<tr>
-						<td id="totHrs"></td>	
+						<td class="tblLbl">Total Earnings:</td><td id="totEarn" class="tblData"></td>
+						<td class="tblLbl">Tot. Hours Played:</td><td id="totHrs" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -94,19 +72,11 @@
 			<table class="sumTotTbl inactive" id="totalsLive" name="sumTotTbl">
 				<tbody>
 					<tr>
-						<th>Live Totals</th>
+						<th colspan="4">Live Totals</th>
 					</tr>
 					<tr>
-						<td><b>Total Live Earnings</b></td>
-					</tr>
-					<tr>
-						<td id="totEarnLive"></td>
-					</tr>
-					<tr>
-						<td><b>Tot. Hrs. Played Live</b></td>
-					</tr>
-					<tr>
-						<td id="totHrsLive"></td>
+						<td class="tblLbl">Total Live Earnings</td><td id="totEarnLive" class="tblData"></td>
+						<td class="tblLbl">Tot. Hrs. Played Live</td><td id="totHrsLive" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -114,19 +84,11 @@
 			<table class="sumTotTbl inactive" id="totalsOnline" name="sumTotTbl">
 				<tbody>
 					<tr>
-						<th>Online Totals</th>
+						<th colspan="4">Online Totals</th>
 					</tr>
 					<tr>
-						<td><b>Total Online Earnings</b></td>
-					</tr>
-					<tr>
-						<td id="totEarnOnline"></td>
-					</tr>
-					<tr>
-						<td><b>Tot. Hrs. Played Online</b></td>
-					</tr>
-					<tr>
-						<td id="totHrsOnline"></td>
+						<td class="tblLbl">Total Online Earnings</td><td id="totEarnOnline" class="tblData"></td>
+						<td class="tblLbl">Tot. Hrs. Played Online</td><td id="totHrsOnline" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -134,46 +96,29 @@
 			<table class="sumTotTbl inactive" id="totalsCash" name="sumTotTbl">
 				<tbody>
 					<tr>
-						<th>Cash Totals</th>
+						<th colspan="4">Cash Totals</th>
 					</tr>
 					<tr>
-						<td><b>Total Cash Game Earnings</b></td>
-					</tr>
-					<tr>
-						<td id="totEarnCash"></td>
-					</tr>
-					<tr>
-						<td><b>Tot. Hrs. Played in Cash Games</b></td>
-					</tr>
-					<tr>
-						<td id="totHrsCash"></td>
-					</tr>
+						<td class="tblLbl">Total Cash Game Earnings</td><td id="totEarnCash" class="tblData"></td>
+						<td class="tblLbl">Tot. Hrs. Played in Cash Games</td><td id="totHrsCash" class="tblData"></td>
 				</tbody>
 			</table>
 			
 			<table class="sumTotTbl inactive" id="totalsTourney" name="sumTotTbl">
 				<tbody>
 					<tr>
-						<th>Tournament Totals</th>
+						<th colspan="4">Tournament Totals</th>
 					</tr>
 					<tr>
-						<td><b>Total Tournament Earnings</b></td>
-					</tr>
-					<tr>
-						<td id="totEarnTour"></td>
-					</tr>
-					<tr>
-						<td><b>Tot. Hrs. Played in Tournaments</b></td>
-					</tr>
-					<tr>
-						<td id="totHrsTour"></td>
+						<td class="tblLbl">Total Tournament Earnings</td><td id="totEarnTour" class="tblData"></td>
+						<td class="tblLbl">Tot. Hrs. Played in Tournaments</td><td id="totHrsTour" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
 		</div> <!-- END sumTblWrap -->
 		
-		<div id="sumGraphWrap" style="float: left">
-			<canvas id="cvs1"  width="600" height="300"></canvas>
+		<div class="sumGraphWrap">
+			<canvas id="cvs1" width="600" height="300px"></canvas>
 		</div><!-- END sumGraphWrap -->
 	</div><!-- END sumTblGraphWrap -->
 	
@@ -182,25 +127,12 @@
 			<table class="sumAvgTbl active" id="avgs" name="sumAvgTbl">
 				<tbody>
 					<tr>
-						<th>Overall Averages</th>
+						<th colspan="6">Overall Averages</th>
 					</tr>
 					<tr>
-						<td><b>Avg. Earnings Per Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgEarn"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Hours Per Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgHrs"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Rate Per Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgRate"></td>
+						<td class="tblLbl">Avg. Earnings Per Session:</td><td id="avgEarn" class="tblData"></td>
+						<td class="tblLbl">Avg. Hours Per Session:</td><td id="avgHrs" class="tblData"></td>
+						<td class="tblLbl">Avg. Rate Per Session:</td><td id="avgRate" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -208,25 +140,12 @@
 			<table class="sumAvgTbl inactive" id="avgsLive" name="sumAvgTbl">
 				<tbody>
 					<tr>
-						<th>Live Averages</th>
+						<th colspan="6">Live Averages</th>
 					</tr>
 					<tr>
-						<td><b>Avg. Earnings Per Live Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgEarnLive"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Hrs. Played Per Live Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgHrsLive"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Rate Per Live Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgRateLive"></td>
+						<td class="tblLbl">Avg. Earnings Per Session:</td><td id="avgEarnLive" class="tblData"></td>
+						<td class="tblLbl">Avg. Hrs. Played Per Session:</td><td id="avgHrsLive" class="tblData"></td>
+						<td class="tblLbl">Avg. Rate Per Session:</td><td id="avgRateLive" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -234,25 +153,12 @@
 			<table class="sumAvgTbl inactive" id="avgsOnline" name="sumAvgTbl">
 				<tbody>
 					<tr>
-						<th>Online Averages</th>
+						<th colspan="6">Online Averages</th>
 					</tr>
 					<tr>
-						<td><b>Avg. Earnings Per Online Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgEarnOnline"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Hrs. Played Per Online Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgHrsOnline"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Rate Per Online Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgRateOnline"></td>
+						<td class="tblLbl">Avg. Earnings Per Session:</td><td id="avgEarnOnline" class="tblData"></td>
+						<td class="tblLbl">Avg. Hrs. Played Per Session:</td><td id="avgHrsOnline" class="tblData"></td>
+						<td class="tblLbl">Avg. Rate Per Session:</td><td id="avgRateOnline" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -260,25 +166,12 @@
 			<table class="sumAvgTbl inactive" id="avgsCash" name="sumAvgTbl">
 				<tbody>
 					<tr>
-						<th>Cash Averages</th>
+						<th colspan="6">Cash Averages</th>
 					</tr>
 					<tr>
-						<td><b>Avg. Earnings Per Cash Game Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgEarnCash"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Hrs. Played Per Cash Game Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgHrsCash"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Rate Per Cash Game Session</b></td>
-					</tr>
-					<tr>
-						<td id="avgRateCash"></td>
+						<td class="tblLbl">Avg. Earnings Per Session:</td><td id="avgEarnCash" class="tblData"></td>
+						<td class="tblLbl">Avg. Hrs. Played Per Session:</td><td id="avgHrsCash" class="tblData"></td>
+						<td class="tblLbl">Avg. Rate Per Session:</td><td id="avgRateCash" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -286,32 +179,19 @@
 			<table class="sumAvgTbl inactive" id="avgsTourney" name="sumAvgTbl">
 				<tbody>
 					<tr>
-						<th>Tournament Averages</th>
+						<th colspan="6">Tournament Averages</th>
 					</tr>
 					<tr>
-						<td><b>Avg. Earnings Per Tournament</b></td>
-					</tr>
-					<tr>
-						<td id="avgEarnTour"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Hrs. Played Per Tournament</b></td>
-					</tr>
-					<tr>
-						<td id="avgHrsTour"></td>
-					</tr>
-					<tr>
-						<td><b>Avg. Rate Per Tournament</b></td>
-					</tr>
-					<tr>
-						<td id="avgRateTour"></td>
+						<td class="tblLbl">Avg. Earnings Per Tournament:</td><td id="avgEarnTour" class="tblData"></td>
+						<td class="tblLbl">Avg. Hrs. Played Per Tournament:</td><td id="avgHrsTour" class="tblData"></td>
+						<td class="tblLbl">Avg. Rate Per Tournament:</td><td id="avgRateTour" class="tblData"></td>
 					</tr>
 				</tbody>
 			</table>
 		</div><!-- END sumAvgTblWrap -->
 		
-		<div id="sumGraphWrap">
-			<canvas id="cvs2"  width="600" height="300"></canvas>
+		<div class="sumGraphWrap">
+			<canvas id="cvs2" width="600" height="300px" margin="auto"></canvas>
 		</div><!-- END sumGraphWrap -->
 	</div><!-- END sumTblGraphWrap -->
 	
