@@ -317,12 +317,22 @@ function calcData(oper, cat){
 	// }
 
 function showSumTbl(){
-	// COMBINE COMPARETBL SELECTION(S) AND BASETBL SELECTION INTO 1 ARRAY
+	// PUT COMPARETBL SELECTION(S) AND BASETBL SELECTION INTO ARRAY
+	var tblSelArr = new Array;
+	tblSelArr[0] = $("#baseTbl").val();
 	// LOOP THRU SELECTION ARRAYS, GETTING X AND Y DATA ARRAYS
 	// PUT Y DATA ARRAYS INTO 1 ARRAY
 	// FIND THE LARGEST X ARRAY TO USE AS X AXIS
 	// DRAW GRAPHS USING COMBINED Y DATA AND LARGEST X DATA
-	var tblSelect = $("#baseTbl").val();
+	var tblSelect = tblSelArr[0];
+	var tblCompSelArr = $("#compareTbl").val();
+
+	if(tblCompSelArr){
+		for(var i=0; i<tblCompSelArr.length; i++){
+			tblSelArr.push(tblCompSelArr[i]);
+		}
+	}
+	
 	var totTblId = "";
 	var avgTblId = "";
 	var totDataX = new Array;
@@ -331,51 +341,66 @@ function showSumTbl(){
 	// AND USE SWITCH STMT BELOW TO CREATE DATA ARRAYS THAT ARE 
 	// ADDED TO ONE BIG ARRAY ?
 	// MIGHT BE ABLE TO PASS ONE BIG ARRAY TO GRAPHING FXN ?
-	var tblSelArr = document.getElementsByName('chartNames');
 	
-		// DISPLAY SELECTED TABLES, CALCULATE CHARTS
-	switch(tblSelect){
-		case "Overall":
-			fillTable();
-			totTblId = "totals";
-			avgTblId = "avgs";
-			break;
-		case "Live":
-			fillTable();
-			applyFilter('live', 'IS', 'Live');
-			totTblId = "totalsLive";
-			avgTblId = "avgsLive";
-			break;
-		case "Online":
-			fillTable();
-			applyFilter('live', 'IS', 'Online');
-			totTblId = "totalsOnline";
-			avgTblId = "avgsOnline";
-			break;
-		case "Cash":
-			fillTable();
-			applyFilter('ringTour', 'IS', 'Ring');
-			totTblId = "totalsCash";
-			avgTblId = "avgsCash";
-			break;
-		case "Tournament":
-			fillTable();
-			applyFilter('ringTour', 'IS', 'Tour');
-			totTblId = "totalsTourney";
-			avgTblId = "avgsTourney";
-			break;
-	}
-	
-	totDataX = calcData('report', 'sessNum');			
-	totDataY = calcData('runSum', 'return');
-	avgDataX = calcData('report', 'sessNum');			
-	avgDataY = calcData('runAvg', 'return');
-	
-	// DISPLAY TABLES FOR SELECTED CATEGORY
-	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');
+	// HIDE ALL TBLS
+	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');	
 	$("[name = 'sumAvgTbl']").removeClass('active').addClass('inactive');
-	$('#' + totTblId).removeClass("inactive").addClass("active");
-	$('#' + avgTblId).removeClass("inactive").addClass("active");
+	
+	// GET CHART DATA AND DISPLAY TABLES FOR ALL SELECTED CATEGORIES
+	for(var i=0; i<tblSelArr.length; i++){
+		var tblSelect = tblSelArr[i];
+		switch(tblSelect){
+			case "Overall":
+				fillTable();
+				totTblId = "totals";
+				avgTblId = "avgs";
+				break;
+			case "Live":
+				fillTable();
+				applyFilter('live', 'IS', 'Live');
+				totTblId = "totalsLive";
+				avgTblId = "avgsLive";
+				break;
+			case "Online":
+				fillTable();
+				applyFilter('live', 'IS', 'Online');
+				totTblId = "totalsOnline";
+				avgTblId = "avgsOnline";
+				break;
+			case "Cash":
+				fillTable();
+				applyFilter('ringTour', 'IS', 'Ring');
+				totTblId = "totalsCash";
+				avgTblId = "avgsCash";
+				break;
+			case "Tournament":
+				fillTable();
+				applyFilter('ringTour', 'IS', 'Tour');
+				totTblId = "totalsTourney";
+				avgTblId = "avgsTourney";
+				break;
+		}
+		
+		totDataX = calcData('report', 'sessNum');			
+		totDataY = calcData('runSum', 'return');
+		avgDataX = calcData('report', 'sessNum');			
+		avgDataY = calcData('runAvg', 'return');
+		
+		// SAVE EACH DATA SET IN AN ARRAY
+		var totDataXArr = new Array;
+		var totDataYArr = new Array;
+		var avgDataXArr = new Array;
+		var avgDataYArr = new Array;
+		totDataXArr[i] = totDataX;
+		totDataYArr[i] = totDataY;
+		avgDataXArr[i] = avgDataX;
+		avgDataYArr[i] = avgDataY;
+		
+		// DISPLAY TABLES FOR SELECTED CATEGORY
+		$('#' + totTblId).removeClass("inactive").addClass("active");
+		$('#' + avgTblId).removeClass("inactive").addClass("active");
+	
+	}
 	
 	// // COMBINE X & Y DATA INTO SCATTER CHART ARRAY
 	// var points = new Array();
