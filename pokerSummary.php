@@ -1,7 +1,7 @@
 <?php
 	include 'controls/pokerHeader.php';
 ?>
-
+	<!-- THIS HIDDEN TABLE HOLDS ALL DATA FOR CURRENT USER -->
 	<div id="sumData" style="position: absolute; visibility: hidden"></div>
 
 	<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
