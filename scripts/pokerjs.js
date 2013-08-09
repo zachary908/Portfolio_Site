@@ -243,7 +243,12 @@ function calcData(oper, cat){
 		var cellColl = rowColl[i].cells;
 		switch(oper){
 			case 'report':
-				retArr[j] = parseInt(cellColl[colNum].textContent);
+				if(cat == 'start'){
+					retArr[j] = (cellColl[colNum].textContent);
+				}
+				else{
+					retArr[j] = parseInt(cellColl[colNum].textContent);
+				}
 				j = j + 1;
 				break;
 			case 'runSum':
@@ -344,6 +349,8 @@ function showSumTbl(byX){
 	var totDataYArr = new Array;
 	var avgDataXArr = new Array;
 	var avgDataYArr = new Array;
+	var totPtsArr = new Array;
+	var avgPtsArr = new Array;
 	var totTblId = "";
 	var avgTblId = "";
 	
@@ -386,16 +393,50 @@ function showSumTbl(byX){
 		var totDataY = new Array;
 		var avgDataX = new Array;
 		var avgDataY = new Array;
-		totDataX = calcData('report', 'sessNum');			
-		totDataY = calcData('runSum', 'return');
-		avgDataX = calcData('report', 'sessNum');			
-		avgDataY = calcData('runAvg', 'return');
+		
+		// IF BYX NOT SET, DEFAULT TO BYSESS
+		if(!byX){
+			var byX = 'bySess';
+		}
+		
+		switch(byX){
+			case 'bySess':
+				totDataX = calcData('report', 'sessNum');			
+				totDataY = calcData('runSum', 'return');
+				avgDataX = calcData('report', 'sessNum');			
+				avgDataY = calcData('runAvg', 'return');
+				break;
+			case 'byDate':
+				totDataX = calcData('report', 'start');			
+				totDataY = calcData('runSum', 'return');
+				avgDataX = calcData('report', 'start');			
+				avgDataY = calcData('runAvg', 'return');
+				break;
+		
+		}
 		
 		// SAVE EACH DATA SET IN AN ARRAY
-		totDataXArr[i] = totDataX;
-		totDataYArr[i] = totDataY;
-		avgDataXArr[i] = avgDataX;
-		avgDataYArr[i] = avgDataY;
+		// totDataXArr[i] = totDataX;
+		// totDataYArr[i] = totDataY;
+		// avgDataXArr[i] = avgDataX;
+		// avgDataYArr[i] = avgDataY;
+		
+		// COMBINE DATA SETS INTO POINT ARRAYS FOR SCATTER PLOTS
+		var totPtArr = new Array;
+		for(var j=0; j<totDataX.length; j++){
+			// IF THE X DATA IS A DATE, CONVERT IT TO RGRAPH FORMAT
+			if(byX == 'byDate'){
+				totDataX[j] = tblToRGraphDate(totDataX[j]);
+			}
+			totPtArr[j] = totDataX[j] + "," + totDataY[j];
+		}
+		totPtsArr[i] = totPtArr;
+		
+		var avgPtArr = new Array;
+		for(var j=0; j<avgDataX.length; j++){
+			avgPtArr[j] = avgDataX[j] + "," + avgDataY[j];
+		}
+		avgPtsArr[i] = avgPtArr;
 		
 		// DISPLAY TABLES FOR SELECTED CATEGORY
 		$('#' + totTblId).removeClass("inactive").addClass("active");
@@ -458,68 +499,70 @@ function showSumTbl(byX){
         // You can have multiple sets of data if you wish
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
-		// var sg = new RGraph.Scatter('cvs1', totPtsArr)
-		var lg = new RGraph.Line('cvs1', totDataYArr)
-            // Configure the chart to look as you want it to.
-            .Set('chart.background.barcolor1', 'white')
-            .Set('chart.background.barcolor2', 'white')
-            .Set('chart.grid.color', 'rgba(238,238,238,1)')
-			// .Set('chart.xaxis', true)
-			.Set('chart.axis.linewidth', 1)
-			.Set('chart.linewidth', 3)
-            .Set('chart.gutter.left', 50)
-			// .Set('chart.xscale', true)
-			.Set('chart.yscale', true)
-			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmax-1)
-			// .Set('chart.xmin', 1)
-            // .Set('chart.xmax', xmax) // Important!
-			.Set('chart.ticksize', 2)
-			.Set('chart.labels', totXmaxArr)
-			// .Set('chart.labels.specific.align', 'center')
-			// .Set('chart.scale.round', true)
-			// .Set('chart.ymin', -2500)
-			.Set('chart.tickmarks', 'circle')
-			.Set('chart.units.pre', '$')
-			// .Set('chart.line', true)
-			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
-			if(ymin < 0){
-				lg.Set('chart.xaxispos', 'center')
-			}
-            // Now call the .Draw() method to draw the chart.
-            lg.Draw();
+		var sg = new RGraph.Scatter('cvs1', totPtsArr)
+		
+		// var lg = new RGraph.Line('cvs1', totDataYArr)
+            // // Configure the chart to look as you want it to.
+            // .Set('chart.background.barcolor1', 'white')
+            // .Set('chart.background.barcolor2', 'white')
+            // .Set('chart.grid.color', 'rgba(238,238,238,1)')
+			// // .Set('chart.xaxis', true)
+			// .Set('chart.axis.linewidth', 1)
+			// .Set('chart.linewidth', 3)
+            // .Set('chart.gutter.left', 50)
+			// // .Set('chart.xscale', true)
+			// .Set('chart.yscale', true)
+			// .Set('chart.background.grid.autofit.numhlines', 10)
+			// .Set('chart.background.grid.autofit.numvlines', xmax-1)
+			// // .Set('chart.xmin', 1)
+            // // .Set('chart.xmax', xmax) // Important!
+			// .Set('chart.ticksize', 2)
+			// .Set('chart.labels', totXmaxArr)
+			// // .Set('chart.labels.specific.align', 'center')
+			// // .Set('chart.scale.round', true)
+			// // .Set('chart.ymin', -2500)
+			// .Set('chart.tickmarks', 'circle')
+			// .Set('chart.units.pre', '$')
+			// // .Set('chart.line', true)
+			// // IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
+			// if(ymin < 0){
+				// lg.Set('chart.xaxispos', 'center')
+			// }
+            // // Now call the .Draw() method to draw the chart.
+            // lg.Draw();
 		
 		var canvas = document.getElementById('cvs2');
         RGraph.Reset(canvas);
-		var lg2 = new RGraph.Line('cvs2', avgDataYArr)
-            // Configure the chart to look as you want it to.
-            .Set('chart.background.barcolor1', 'white')
-            .Set('chart.background.barcolor2', 'white')
-            .Set('chart.grid.color', 'rgba(238,238,238,1)')
-			// .Set('chart.xaxis', true)
-			.Set('chart.axis.linewidth', 1)
-			.Set('chart.linewidth', 3)
-            .Set('chart.gutter.left', 50)
-			// .Set('chart.xscale', true)
-			.Set('chart.yscale', true)
-			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmax-1)
-			// .Set('chart.xmin', 1)
-            // .Set('chart.xmax', xmax) // Important!
-			.Set('chart.ticksize', 2)
-			.Set('chart.labels', totXmaxArr)
-			// .Set('chart.labels.specific.align', 'center')
-			// .Set('chart.scale.round', true)
-			// .Set('chart.ymin', -2500)
-			.Set('chart.tickmarks', 'circle')
-			.Set('chart.units.pre', '$')
-			// .Set('chart.line', true)
-			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
-			if(ymin < 0){
-				lg2.Set('chart.xaxispos', 'center')
-			}
-            // Now call the .Draw() method to draw the chart.
-            lg2.Draw();
+		var sg = new RGraph.Scatter('cvs2', avgPtsArr)
+		// var lg2 = new RGraph.Line('cvs2', avgDataYArr)
+            // // Configure the chart to look as you want it to.
+            // .Set('chart.background.barcolor1', 'white')
+            // .Set('chart.background.barcolor2', 'white')
+            // .Set('chart.grid.color', 'rgba(238,238,238,1)')
+			// // .Set('chart.xaxis', true)
+			// .Set('chart.axis.linewidth', 1)
+			// .Set('chart.linewidth', 3)
+            // .Set('chart.gutter.left', 50)
+			// // .Set('chart.xscale', true)
+			// .Set('chart.yscale', true)
+			// .Set('chart.background.grid.autofit.numhlines', 10)
+			// .Set('chart.background.grid.autofit.numvlines', xmax-1)
+			// // .Set('chart.xmin', 1)
+            // // .Set('chart.xmax', xmax) // Important!
+			// .Set('chart.ticksize', 2)
+			// .Set('chart.labels', totXmaxArr)
+			// // .Set('chart.labels.specific.align', 'center')
+			// // .Set('chart.scale.round', true)
+			// // .Set('chart.ymin', -2500)
+			// .Set('chart.tickmarks', 'circle')
+			// .Set('chart.units.pre', '$')
+			// // .Set('chart.line', true)
+			// // IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
+			// if(ymin < 0){
+				// lg2.Set('chart.xaxispos', 'center')
+			// }
+            // // Now call the .Draw() method to draw the chart.
+            // lg2.Draw();
 }		
 		// var sg = new RGraph.Scatter('cvs1', points)
             // // Configure the chart to look as you want it to.
@@ -556,6 +599,92 @@ function showSumTbl(byX){
         // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
         // You can have multiple sets of data if you wish
 
+function tblToRGraphDate(tblDate){
+	// TBL DATE FORMAT IS 'Jul 26 2013<BR>12:30PM'
+	// RGRAPH DATE FORMAT IS '2012/12/31 23:59:59'
+	var splitRegEx = /\s+/g;
+	var splitTbl = tblDate.split(splitRegEx);
+	
+	if(splitTbl[1] < 10){
+		splitTbl[1] = "0" + splitTbl[1];
+	}
+	var tblDateDD = splitTbl[1];
+	var tblDateYYYY = splitTbl[2];
+	var tblTime = splitTbl[3];
+	var splitTimeRegEx = /:/;
+	var tblHrMinAMPM = tblTime.split(splitTimeRegEx);
+	var tblHour = parseInt(tblHrMinAMPM[0]);
+	var tblMin = tblHrMinAMPM[1].slice(0,2);
+	var tblAMPM = tblHrMinAMPM[1].slice(-2);
+	
+	var tbl24Hour = 0;
+	if(tblAMPM == 'AM'){
+		if(tblHour == 12){
+			tbl24Hour = 0;
+		}
+		else{
+			tbl24Hour = tblHour;
+		}
+	}
+	else if(tblAMPM == 'PM'){
+		if(tblHour < 12){
+			tbl24Hour = tblHour + 12;
+		}
+		else{
+			tbl24Hour = tblHour;
+		}
+	}
+	
+	if(tbl24Hour < 10){
+		tbl24Hour = "0" + tbl24Hour;
+	}
+	
+	var MMStr = splitTbl[0];
+	var MMNum = "";
+	switch(MMStr){
+		case "Jan":
+			MMNum = "01";
+			break;
+		case "Feb":
+			MMNum = "02";
+			break;
+		case "Mar":
+			MMNum = "03";
+			break;
+		case "Apr":
+			MMNum = "04";
+			break;
+		case "May":
+			MMNum = "05";
+			break;
+		case "Jun":
+			MMNum = "06";
+			break;
+		case "Jul":
+			MMNum = "07";
+			break;
+		case "Aug":
+			MMNum = "08";
+			break;
+		case "Sep":
+			MMNum = "09";
+			break;
+		case "Oct":
+			MMNum = "10";
+			break;
+		case "Nov":
+			MMNum = "11";
+			break;
+		case "Dec":
+			MMNum = "12";
+			break;
+	}
+	
+	var tblDateMM = MMNum;
+	
+	return RGraphDateTime = tblDateYYYY + "/" + tblDateMM + "/" + tblDateDD + " " + tbl24Hour + ":" + tblMin + ":00";
+}
+		
 function showLocType(){
 	var x = document.getElementsByName("locType");
 	var y = document.getElementsByName("location");
@@ -1441,7 +1570,7 @@ function getSessionsAndSum(){
 				calc('rate', 'avg', 'sumTableBody', 'avgRateTour');
 			fillTable();
 		}
-		showSumTbl();
+		showSumTbl('byDate');
 		fillTblSelect('tblSelect');
 	});
 }
@@ -1462,14 +1591,12 @@ function fillTable(){
 		var attrArr = rowArr[i].split(/#/g);
 		tr.id = "tr" + i;
 		tr.sessId = attrArr[0];
-		
 		// SPLIT THE START DATE STRING SO DATE AND TIME ARE ON 2 SEPARATE LINES		
 		tr.startDate = attrArr[1];
 		splitDate = tr.startDate.split(splitSpace);
 		tr.date = splitDate[0] + " " + splitDate[1] + " " + splitDate[2];
 		tr.time = splitDate[3];
 		tr.startDate = tr.date + " <br>" + tr.time;
-		
 		tr.location = attrArr[2];
 		tr.gameType = attrArr[3];
 		tr.limit = attrArr[4];

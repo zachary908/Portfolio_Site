@@ -34,7 +34,7 @@
 	<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>	
 	<div>
 		<div style="float: left">Select a category to see results...</div>
-		<select id="baseTbl" onchange="fillTblSelect(); showSumTbl()">
+		<select id="baseTbl" onchange="fillTblSelect(); showSumTbl('byDate')">
 			<option selected="true">Overall</option>
 			<option>Live</option>
 			<option>Online</option>
