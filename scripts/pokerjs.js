@@ -316,30 +316,25 @@ function calcData(oper, cat){
 		//------------------------------------------------------------
 	// }
 
-function showSumTbl(){
+function showSumTbl(byX){
+	// byX IS THE XAXIS TYPE (EG: byDate, bySession, byWeek, byMon, byLoc, byDayOfWk...)
+	
 	// PUT COMPARETBL SELECTION(S) AND BASETBL SELECTION INTO ARRAY
 	var tblSelArr = new Array;
 	tblSelArr[0] = $("#baseTbl").val();
-	// LOOP THRU SELECTION ARRAYS, GETTING X AND Y DATA ARRAYS
-	// PUT Y DATA ARRAYS INTO 1 ARRAY
-	// FIND THE LARGEST X ARRAY TO USE AS X AXIS
-	// DRAW GRAPHS USING COMBINED Y DATA AND LARGEST X DATA
+	
+	// GET COMPARISON TABLES, IF ANY SELECTED
 	var tblSelect = tblSelArr[0];
 	var tblCompSelArr = $("#compareTbl").val();
-
 	if(tblCompSelArr){
 		for(var i=0; i<tblCompSelArr.length; i++){
 			tblSelArr.push(tblCompSelArr[i]);
 		}
 	}
 	
-	var totTblId = "";
-	var avgTblId = "";
-	
-	// MAYBE PUT TBL SELECT VALS INTO ARRAY, THEN LOOP THRU ARRAY
-	// AND USE SWITCH STMT BELOW TO CREATE DATA ARRAYS THAT ARE 
-	// ADDED TO ONE BIG ARRAY ?
-	// MIGHT BE ABLE TO PASS ONE BIG ARRAY TO GRAPHING FXN ?
+	// ----------------------------------------------------------------------------------
+	// TABLES
+	// ----------------------------------------------------------------------------------
 	
 	// HIDE ALL TBLS
 	$("[name = 'sumTotTbl']").removeClass('active').addClass('inactive');	
@@ -349,6 +344,8 @@ function showSumTbl(){
 	var totDataYArr = new Array;
 	var avgDataXArr = new Array;
 	var avgDataYArr = new Array;
+	var totTblId = "";
+	var avgTblId = "";
 	
 	// GET CHART DATA AND DISPLAY TABLES FOR ALL SELECTED CATEGORIES
 	for(var i=0; i<tblSelArr.length; i++){
@@ -406,6 +403,9 @@ function showSumTbl(){
 	
 	}
 	
+	// ----------------------------------------------------------------------------------
+	// GRAPHS
+	// ----------------------------------------------------------------------------------
 	var xmax = 0;
 	for(var j=0; j<totDataXArr.length; j++){
 		var currArr = totDataXArr[j];
@@ -418,7 +418,6 @@ function showSumTbl(){
 		}
 	}
 	
-	// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
 	var ymin = 0;
 	for(var j=0; j<totDataYArr.length; j++){
 		var currArr = totDataYArr[j];
@@ -459,7 +458,7 @@ function showSumTbl(){
         // You can have multiple sets of data if you wish
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
-		
+		// var sg = new RGraph.Scatter('cvs1', totPtsArr)
 		var lg = new RGraph.Line('cvs1', totDataYArr)
             // Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1', 'white')
@@ -483,6 +482,7 @@ function showSumTbl(){
 			.Set('chart.tickmarks', 'circle')
 			.Set('chart.units.pre', '$')
 			// .Set('chart.line', true)
+			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
 			if(ymin < 0){
 				lg.Set('chart.xaxispos', 'center')
 			}
@@ -490,7 +490,7 @@ function showSumTbl(){
             lg.Draw();
 		
 		var canvas = document.getElementById('cvs2');
-        RGraph.Reset(canvas);		
+        RGraph.Reset(canvas);
 		var lg2 = new RGraph.Line('cvs2', avgDataYArr)
             // Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1', 'white')
@@ -514,6 +514,7 @@ function showSumTbl(){
 			.Set('chart.tickmarks', 'circle')
 			.Set('chart.units.pre', '$')
 			// .Set('chart.line', true)
+			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
 			if(ymin < 0){
 				lg2.Set('chart.xaxispos', 'center')
 			}
