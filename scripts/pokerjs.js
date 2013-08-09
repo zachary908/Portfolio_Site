@@ -418,6 +418,7 @@ function showSumTbl(){
 		}
 	}
 	
+	// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
 	var ymin = 0;
 	for(var j=0; j<totDataYArr.length; j++){
 		var currArr = totDataYArr[j];
@@ -465,7 +466,6 @@ function showSumTbl(){
             .Set('chart.background.barcolor2', 'white')
             .Set('chart.grid.color', 'rgba(238,238,238,1)')
 			// .Set('chart.xaxis', true)
-			.Set('chart.xaxispos', 'center')
 			.Set('chart.axis.linewidth', 1)
 			.Set('chart.linewidth', 3)
             .Set('chart.gutter.left', 50)
@@ -483,9 +483,11 @@ function showSumTbl(){
 			.Set('chart.tickmarks', 'circle')
 			.Set('chart.units.pre', '$')
 			// .Set('chart.line', true)
-			
+			if(ymin < 0){
+				lg.Set('chart.xaxispos', 'center')
+			}
             // Now call the .Draw() method to draw the chart.
-            .Draw();
+            lg.Draw();
 		
 		var canvas = document.getElementById('cvs2');
         RGraph.Reset(canvas);		
@@ -495,14 +497,13 @@ function showSumTbl(){
             .Set('chart.background.barcolor2', 'white')
             .Set('chart.grid.color', 'rgba(238,238,238,1)')
 			// .Set('chart.xaxis', true)
-			.Set('chart.xaxispos', 'center')
 			.Set('chart.axis.linewidth', 1)
 			.Set('chart.linewidth', 3)
             .Set('chart.gutter.left', 50)
 			// .Set('chart.xscale', true)
 			.Set('chart.yscale', true)
 			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmaxAvg-1)
+			.Set('chart.background.grid.autofit.numvlines', xmax-1)
 			// .Set('chart.xmin', 1)
             // .Set('chart.xmax', xmax) // Important!
 			.Set('chart.ticksize', 2)
@@ -513,9 +514,11 @@ function showSumTbl(){
 			.Set('chart.tickmarks', 'circle')
 			.Set('chart.units.pre', '$')
 			// .Set('chart.line', true)
-			
+			if(ymin < 0){
+				lg2.Set('chart.xaxispos', 'center')
+			}
             // Now call the .Draw() method to draw the chart.
-            .Draw();
+            lg2.Draw();
 }		
 		// var sg = new RGraph.Scatter('cvs1', points)
             // // Configure the chart to look as you want it to.
