@@ -416,10 +416,10 @@ function showSumTbl(byX){
 		}
 		
 		// SAVE EACH DATA SET IN AN ARRAY
-		// totDataXArr[i] = totDataX;
-		// totDataYArr[i] = totDataY;
-		// avgDataXArr[i] = avgDataX;
-		// avgDataYArr[i] = avgDataY;
+		totDataXArr[i] = totDataX;
+		totDataYArr[i] = totDataY;
+		avgDataXArr[i] = avgDataX;
+		avgDataYArr[i] = avgDataY;
 		
 		// COMBINE DATA SETS INTO POINT ARRAYS FOR SCATTER PLOTS
 		var totPtArr = new Array;
@@ -427,16 +427,21 @@ function showSumTbl(byX){
 			// IF THE X DATA IS A DATE, CONVERT IT TO RGRAPH FORMAT
 			if(byX == 'byDate'){
 				totDataX[j] = tblToRGraphDate(totDataX[j]);
+				totDataX[j] = new Date(totDataX[j]);
 			}
-			totPtArr[j] = totDataX[j] + "," + totDataY[j];
+			// totDataX[j] AND totDataY[j] MUST BE ELEMENTS 0 AND 1, RESPECTIVELY, OF A NEW ARRAY
+			var pt = new Array;
+			pt[0] = totDataX[j];
+			pt[1] = totDataY[j];
+			totPtArr[j] = pt;
 		}
 		totPtsArr[i] = totPtArr;
 		
-		var avgPtArr = new Array;
-		for(var j=0; j<avgDataX.length; j++){
-			avgPtArr[j] = avgDataX[j] + "," + avgDataY[j];
-		}
-		avgPtsArr[i] = avgPtArr;
+		// var avgPtArr = new Array;
+		// for(var j=0; j<avgDataX.length; j++){
+			// avgPtArr[j] = avgDataX[j] + "," + avgDataY[j];
+		// }
+		// avgPtsArr[i] = avgPtArr;
 		
 		// DISPLAY TABLES FOR SELECTED CATEGORY
 		$('#' + totTblId).removeClass("inactive").addClass("active");
@@ -447,7 +452,7 @@ function showSumTbl(byX){
 	// ----------------------------------------------------------------------------------
 	// GRAPHS
 	// ----------------------------------------------------------------------------------
-	var xmax = 0;
+	var xmax = new Date("October 13, 1975 11:13:00");
 	for(var j=0; j<totDataXArr.length; j++){
 		var currArr = totDataXArr[j];
 		for(var i=0; i<currArr.length; i++){
@@ -455,6 +460,18 @@ function showSumTbl(byX){
 				xmax = currArr[i];
 				// SAVE THE ARRAY IN WHICH THE XMAX OCCURS
 				var totXmaxArr = totDataXArr[j]
+			}
+		}
+	}
+	
+	var xmin = new Date();
+	for(var j=0; j<totDataXArr.length; j++){
+		var currArr = totDataXArr[j];
+		for(var i=0; i<currArr.length; i++){
+			if(currArr[i] <= xmin){
+				xmin = currArr[i];
+				// SAVE THE ARRAY IN WHICH THE XMAX OCCURS
+				var totXminArr = totDataXArr[j]
 			}
 		}
 	}
@@ -490,6 +507,56 @@ function showSumTbl(byX){
 		}
 	}
 	
+	var timeStr = "";
+	var newStr1 = "";
+	var newStr2 = "";
+	for(var i=0; i<totPtArr.length; i++){
+		timeStr = totPtArr[i][0].toString();
+		timeStr = timeStr.slice(4,15);
+		newStr1 = timeStr.substr(0,6);
+		newStr1 = newStr1.replace("01", "1");
+		newStr1 = newStr1.replace("02", "2");
+		newStr1 = newStr1.replace("03", "3");
+		newStr1 = newStr1.replace("04", "4");
+		newStr1 = newStr1.replace("05", "5");
+		newStr1 = newStr1.replace("06", "6");
+		newStr1 = newStr1.replace("07", "7");
+		newStr1 = newStr1.replace("08", "8");
+		newStr1 = newStr1.replace("09", "9");
+		newStr2 = "," + timeStr.substr(6);
+		totPtArr[i][0] = newStr1 + newStr2;
+	}
+	
+	xmax = xmax.toString();
+	xmax = xmax.slice(4,15);
+	newStr1 = xmax.substr(0,6);
+	newStr1 = newStr1.replace("01", "1");
+	newStr1 = newStr1.replace("02", "2");
+	newStr1 = newStr1.replace("03", "3");
+	newStr1 = newStr1.replace("04", "4");
+	newStr1 = newStr1.replace("05", "5");
+	newStr1 = newStr1.replace("06", "6");
+	newStr1 = newStr1.replace("07", "7");
+	newStr1 = newStr1.replace("08", "8");
+	newStr1 = newStr1.replace("09", "9");
+	newStr2 = "," + xmax.substr(6);
+	xmax = newStr1 + newStr2;
+	
+	xmin = xmin.toString();
+	xmin = xmin.slice(4,15);
+	newStr1 = xmin.substr(0,6)
+	newStr1 = newStr1.replace("01", "1");
+	newStr1 = newStr1.replace("02", "2");
+	newStr1 = newStr1.replace("03", "3");
+	newStr1 = newStr1.replace("04", "4");
+	newStr1 = newStr1.replace("05", "5");
+	newStr1 = newStr1.replace("06", "6");
+	newStr1 = newStr1.replace("07", "7");
+	newStr1 = newStr1.replace("08", "8");
+	newStr1 = newStr1.replace("09", "9");
+	newStr2 = "," + xmin.substr(6);
+	xmin = newStr1 + newStr2;
+	
 // DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.
         // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
@@ -499,8 +566,41 @@ function showSumTbl(byX){
         // You can have multiple sets of data if you wish
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
-		var sg = new RGraph.Scatter('cvs1', totPtsArr)
-		
+		var sg = new RGraph.Scatter('cvs1', totPtArr)
+		// Configure the chart to look as you want it to.
+            .Set('chart.background.barcolor1', 'white')
+            .Set('chart.background.barcolor2', 'white')
+            .Set('chart.grid.color', 'rgba(238,238,238,1)')
+			.Set('chart.xaxis', true)
+			.Set('chart.axis.linewidth', 1)
+			.Set('chart.line.linewidth', 3)
+            .Set('chart.gutter.left', 50)
+			.Set('chart.xscale', true)
+			.Set('chart.yscale', true)
+			.Set('chart.background.grid.autofit.numhlines', 10)
+			//.Set('chart.background.grid.autofit.numvlines', xmax)
+			// .Set('chart.xmin', 1)
+            // .Set('chart.xmax', xmax) // Important!
+			// .Set('xmin', '2012/01/01') // Start of year
+			// .Set('xmax', '2012/12/31 23:59:59') // End of year 
+			.Set('xmin', xmin) // Start of year
+			.Set('xmax', xmax) // End of year 
+			.Set('chart.ticksize', 3)
+			//.Set('chart.labels', totXmaxArr)
+			// .Set('chart.labels.specific.align', 'center')
+			// .Set('chart.scale.round', true)
+			// .Set('chart.ymin', -2500)
+			.Set('chart.tickmarks', 'circle')
+			.Set('chart.units.pre', '$')
+			.Set('chart.line', true)
+			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
+			if(ymin < 0){
+				sg.Set('chart.xaxispos', 'center')
+			}
+			
+            // Now call the .Draw() method to draw the chart.
+            sg.Draw();
+			
 		// var lg = new RGraph.Line('cvs1', totDataYArr)
             // // Configure the chart to look as you want it to.
             // .Set('chart.background.barcolor1', 'white')
@@ -531,9 +631,10 @@ function showSumTbl(byX){
             // // Now call the .Draw() method to draw the chart.
             // lg.Draw();
 		
-		var canvas = document.getElementById('cvs2');
-        RGraph.Reset(canvas);
-		var sg = new RGraph.Scatter('cvs2', avgPtsArr)
+		// var canvas = document.getElementById('cvs2');
+        // RGraph.Reset(canvas);
+		// var sg = new RGraph.Scatter('cvs2', avgPtArr)
+		
 		// var lg2 = new RGraph.Line('cvs2', avgDataYArr)
             // // Configure the chart to look as you want it to.
             // .Set('chart.background.barcolor1', 'white')
