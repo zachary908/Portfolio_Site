@@ -7,6 +7,8 @@
 	<script src="../RGraph/libraries/RGraph.common.core.js"></script>
 	<script src="../RGraph/libraries/RGraph.common.tooltips.js"></script>
 	<script src="../RGraph/libraries/RGraph.common.dynamic.js"></script>
+	<script src="../RGraph/libraries/RGraph.common.key.js"></script>
+	<script src="../RGraph/libraries/RGraph.drawing.rect.js"></script>
 	<script src="../RGraph/libraries/RGraph.bar.js"></script>
 	<script src="../RGraph/libraries/RGraph.pie.js"></script>
 	<script src="../RGraph/libraries/RGraph.line.js"></script>
@@ -139,4 +141,6 @@
 	</div><!-- END modalWrap -->
 	
 	<button onclick="logout()">Log out</button><br>
+	<button onclick="showModal('registerModal', 'regEmail')">show reg modal</button><br>
+	<button onclick="showModal('loginModal', 'logUsername')">show log modal</button><br>
 	End of pokerHeader<br>

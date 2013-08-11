@@ -6,7 +6,7 @@
 
 	<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
 	<div class="floatingFix">
-		<table id="summary" class="active">
+		<table id="summary" class="inactive">
 			<thead>
 				<tr>
 					<th></th>

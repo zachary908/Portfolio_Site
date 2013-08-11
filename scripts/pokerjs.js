@@ -351,6 +351,7 @@ function showSumTbl(byX){
 	var avgDataYArr = new Array;
 	var totPtsArr = new Array;
 	var avgPtsArr = new Array;
+	var lineColors = new Array;
 	var totTblId = "";
 	var avgTblId = "";
 	
@@ -362,30 +363,35 @@ function showSumTbl(byX){
 				fillTable();
 				totTblId = "totals";
 				avgTblId = "avgs";
+				lineColors[i] = 'green';
 				break;
 			case "Live":
 				fillTable();
 				applyFilter('live', 'IS', 'Live');
 				totTblId = "totalsLive";
 				avgTblId = "avgsLive";
+				lineColors[i] = 'blue';
 				break;
 			case "Online":
 				fillTable();
 				applyFilter('live', 'IS', 'Online');
 				totTblId = "totalsOnline";
 				avgTblId = "avgsOnline";
+				lineColors[i] = 'red';
 				break;
 			case "Cash":
 				fillTable();
 				applyFilter('ringTour', 'IS', 'Ring');
 				totTblId = "totalsCash";
 				avgTblId = "avgsCash";
+				lineColors[i] = 'yellow';
 				break;
 			case "Tournament":
 				fillTable();
 				applyFilter('ringTour', 'IS', 'Tour');
 				totTblId = "totalsTourney";
 				avgTblId = "avgsTourney";
+				lineColors[i] = 'black';
 				break;
 		}
 		
@@ -437,11 +443,20 @@ function showSumTbl(byX){
 		}
 		totPtsArr[i] = totPtArr;
 		
-		// var avgPtArr = new Array;
-		// for(var j=0; j<avgDataX.length; j++){
-			// avgPtArr[j] = avgDataX[j] + "," + avgDataY[j];
-		// }
-		// avgPtsArr[i] = avgPtArr;
+		var avgPtArr = new Array;
+		for(var j=0; j<avgDataX.length; j++){
+			// IF THE X DATA IS A DATE, CONVERT IT TO RGRAPH FORMAT
+			if(byX == 'byDate'){
+				avgDataX[j] = tblToRGraphDate(avgDataX[j]);
+				avgDataX[j] = new Date(avgDataX[j]);
+			}
+			// totDataX[j] AND totDataY[j] MUST BE ELEMENTS 0 AND 1, RESPECTIVELY, OF A NEW ARRAY
+			var pt = new Array;
+			pt[0] = avgDataX[j];
+			pt[1] = avgDataY[j];
+			avgPtArr[j] = pt;
+		}
+		avgPtsArr[i] = avgPtArr;
 		
 		// DISPLAY TABLES FOR SELECTED CATEGORY
 		$('#' + totTblId).removeClass("inactive").addClass("active");
@@ -590,7 +605,7 @@ function showSumTbl(byX){
 		newStr2 = "," + xmin.substr(6);
 		xmin = newStr1 + newStr2;
 	}
-	
+
 // DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.
         // var data1 = [ [67,78,null, 'The winner!'],[67,40,'red'] ];
@@ -598,6 +613,8 @@ function showSumTbl(byX){
         
         // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
         // You can have multiple sets of data if you wish
+		// SINCE GRAPH DOESN'T DISPLAY FIRST LABEL, REMOVE IT FROM LABEL ARRAY
+		totXmaxArr.shift();
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
 		var sg = new RGraph.Scatter('cvs1', totPtsArr)
@@ -605,24 +622,24 @@ function showSumTbl(byX){
             .Set('chart.background.barcolor1', 'white')
             .Set('chart.background.barcolor2', 'white')
             .Set('chart.grid.color', 'rgba(238,238,238,1)')
-			.Set('chart.xaxis', true)
 			.Set('chart.axis.linewidth', 1)
 			.Set('chart.line.linewidth', 3)
             .Set('chart.gutter.left', 50)
-			//.Set('chart.xscale', true)
 			.Set('chart.yscale', true)
+			.Set('chart.tickmarks', null)
+			.Set('chart.units.pre', '$')
 			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmax)
-			.Set('xmin', xmax) // Start of year
-			.Set('xmax', xmin) // End of year 
+			.Set('chart.background.grid.autofit.numvlines', xmax-1)
+			.Set('chart.xaxis', true)
+			.Set('xmin', xmax)
+			.Set('xmax', xmin)
 			.Set('chart.ticksize', 3)
 			.Set('chart.labels', totXmaxArr)
-			// .Set('chart.labels.specific.align', 'center')
-			// .Set('chart.scale.round', true)
-			// .Set('chart.ymin', -2500)
-			.Set('chart.tickmarks', 'circle')
-			.Set('chart.units.pre', '$')
 			.Set('chart.line', true)
+			.Set('chart.line.colors', lineColors)
+			.Set('key', tblSelArr)
+			.Set('key.interactive', true)
+			.Set('key.halign', 'left')
 			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
 			if(ymin < 0){
 				sg.Set('chart.xaxispos', 'center')
@@ -630,7 +647,38 @@ function showSumTbl(byX){
 			
             // Now call the .Draw() method to draw the chart.
             sg.Draw();
-}
+			
+		var canvas = document.getElementById('cvs2');
+        RGraph.Reset(canvas);
+		var sg2 = new RGraph.Scatter('cvs2', avgPtsArr)
+            // Configure the chart to look as you want it to.
+            .Set('chart.background.barcolor1', 'white')
+            .Set('chart.background.barcolor2', 'white')
+            .Set('chart.grid.color', 'rgba(238,238,238,1)')
+			.Set('chart.axis.linewidth', 1)
+			.Set('chart.line.linewidth', 3)
+            .Set('chart.gutter.left', 50)
+			.Set('chart.yscale', true)
+			.Set('chart.tickmarks', null)
+			.Set('chart.units.pre', '$')
+			.Set('chart.background.grid.autofit.numhlines', 10)
+			.Set('chart.background.grid.autofit.numvlines', xmax-1)
+			.Set('chart.xaxis', true)
+			.Set('xmin', xmax)
+			.Set('xmax', xmin)
+			.Set('chart.ticksize', 3)
+			.Set('chart.labels', totXmaxArr)
+			.Set('chart.line', true)
+			.Set('chart.line.colors', lineColors)
+			.Set('key', tblSelArr)
+			.Set('key.interactive', true)
+			.Set('key.halign', 'left')
+			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
+			if(yminAvg < 0){
+				sg2.Set('chart.xaxispos', 'center')
+			}
+            // Now call the .Draw() method to draw the chart.
+            sg2.Draw();
 			
 		// var lg = new RGraph.Line('cvs1', totDataYArr)
             // // Configure the chart to look as you want it to.
@@ -661,40 +709,6 @@ function showSumTbl(byX){
 			// }
             // // Now call the .Draw() method to draw the chart.
             // lg.Draw();
-		
-		// var canvas = document.getElementById('cvs2');
-        // RGraph.Reset(canvas);
-		// var sg = new RGraph.Scatter('cvs2', avgPtArr)
-		
-		// var lg2 = new RGraph.Line('cvs2', avgDataYArr)
-            // // Configure the chart to look as you want it to.
-            // .Set('chart.background.barcolor1', 'white')
-            // .Set('chart.background.barcolor2', 'white')
-            // .Set('chart.grid.color', 'rgba(238,238,238,1)')
-			// // .Set('chart.xaxis', true)
-			// .Set('chart.axis.linewidth', 1)
-			// .Set('chart.linewidth', 3)
-            // .Set('chart.gutter.left', 50)
-			// // .Set('chart.xscale', true)
-			// .Set('chart.yscale', true)
-			// .Set('chart.background.grid.autofit.numhlines', 10)
-			// .Set('chart.background.grid.autofit.numvlines', xmax-1)
-			// // .Set('chart.xmin', 1)
-            // // .Set('chart.xmax', xmax) // Important!
-			// .Set('chart.ticksize', 2)
-			// .Set('chart.labels', totXmaxArr)
-			// // .Set('chart.labels.specific.align', 'center')
-			// // .Set('chart.scale.round', true)
-			// // .Set('chart.ymin', -2500)
-			// .Set('chart.tickmarks', 'circle')
-			// .Set('chart.units.pre', '$')
-			// // .Set('chart.line', true)
-			// // IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
-			// if(ymin < 0){
-				// lg2.Set('chart.xaxispos', 'center')
-			// }
-            // // Now call the .Draw() method to draw the chart.
-            // lg2.Draw();
 		
 		// var sg = new RGraph.Scatter('cvs1', points)
             // // Configure the chart to look as you want it to.
@@ -730,6 +744,7 @@ function showSumTbl(byX){
         
         // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
         // You can have multiple sets of data if you wish
+}
 
 function tblToRGraphDate(tblDate){
 	// TBL DATE FORMAT IS 'Jul 26 2013<BR>12:30PM'
