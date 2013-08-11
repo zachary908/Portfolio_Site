@@ -279,6 +279,7 @@ function calcData(oper, cat){
 	}
 	
 	return retArr;
+}
 
 	// else if(oper == 'runAvg'){
 		// // ------------------------------------------------------------
@@ -319,7 +320,6 @@ function calcData(oper, cat){
 		// }
 		//------------------------------------------------------------
 	// }
-}
 
 function showSumTbl(byX){
 	// byX IS THE XAXIS TYPE (EG: byDate, bySession, byWeek, byMon, byLoc, byDayOfWk...)
@@ -452,11 +452,7 @@ function showSumTbl(byX){
 	// ----------------------------------------------------------------------------------
 	// GRAPHS
 	// ----------------------------------------------------------------------------------
-	
-	// ----------------------------------------------------------------------------------
-	// XAXIS IS SESSION
-	// ----------------------------------------------------------------------------------	
-	var xmax = 0;
+	var xmax = new Date("October 13, 1975 11:13:00");
 	for(var j=0; j<totDataXArr.length; j++){
 		var currArr = totDataXArr[j];
 		for(var i=0; i<currArr.length; i++){
@@ -468,56 +464,17 @@ function showSumTbl(byX){
 		}
 	}
 	
-	var xmin = xmax;
+	var xmin = new Date();
 	for(var j=0; j<totDataXArr.length; j++){
 		var currArr = totDataXArr[j];
 		for(var i=0; i<currArr.length; i++){
 			if(currArr[i] <= xmin){
 				xmin = currArr[i];
-				// SAVE THE ARRAY IN WHICH THE XMIN OCCURS
+				// SAVE THE ARRAY IN WHICH THE XMAX OCCURS
 				var totXminArr = totDataXArr[j]
 			}
 		}
 	}
-	// ----------------------------------------------------------------------------------
-
-	// // ----------------------------------------------------------------------------------
-	// // XAXIS IS DATE
-	// // ----------------------------------------------------------------------------------	
-	// var xmax = new Date("October 13, 1975 11:13:00");
-	// for(var j=0; j<totDataXArr.length; j++){
-		// var currArr = totDataXArr[j];
-		// for(var i=0; i<currArr.length; i++){
-			// if(currArr[i] >= xmax){
-				// xmax = currArr[i];
-				// // SAVE THE ARRAY IN WHICH THE XMAX OCCURS
-				// var totXmaxArr = totDataXArr[j]
-			// }
-		// }
-	// }
-	
-	// var xmin = new Date();
-	// for(var j=0; j<totDataXArr.length; j++){
-		// var currArr = totDataXArr[j];
-		// for(var i=0; i<currArr.length; i++){
-			// if(currArr[i] <= xmin){
-				// xmin = currArr[i];
-				// // SAVE THE ARRAY IN WHICH THE XMAX OCCURS
-				// var totXminArr = totDataXArr[j]
-			// }
-		// }
-	// }
-	// // BOTH GRAPHS USE SAME X SCALE, SO SEPARATE XMAXAVG NOT NEEDED
-	// var xmaxAvg = 0;
-	// for(var j=0; j<avgDataXArr.length; j++){
-		// var currArr = avgDataXArr[j];
-		// for(var i=0; i<currArr.length; i++){
-			// if(currArr[i] >= xmaxAvg){
-				// xmaxAvg = currArr[i];
-			// }
-		// }
-	// }
-	// // ----------------------------------------------------------------------------------
 	
 	var ymin = 0;
 	for(var j=0; j<totDataYArr.length; j++){
@@ -529,6 +486,17 @@ function showSumTbl(byX){
 		}
 	}
 	
+	// BOTH GRAPHS USE SAME X SCALE, SO SEPARATE XMAXAVG NOT NEEDED
+	// var xmaxAvg = 0;
+	// for(var j=0; j<avgDataXArr.length; j++){
+		// var currArr = avgDataXArr[j];
+		// for(var i=0; i<currArr.length; i++){
+			// if(currArr[i] >= xmaxAvg){
+				// xmaxAvg = currArr[i];
+			// }
+		// }
+	// }
+	
 	var yminAvg = 0;
 	for(var j=0; j<avgDataYArr.length; j++){
 		var currArr = avgDataYArr[j];
@@ -539,30 +507,13 @@ function showSumTbl(byX){
 		}
 	}
 	
-	if(byX == 'byDate'){
-		var timeStr = "";
-		var newStr1 = "";
-		var newStr2 = "";
-		for(var i=0; i<totPtArr.length; i++){
-			timeStr = totPtArr[i][0].toString();
-			timeStr = timeStr.slice(4,15);
-			newStr1 = timeStr.substr(0,6);
-			newStr1 = newStr1.replace("01", "1");
-			newStr1 = newStr1.replace("02", "2");
-			newStr1 = newStr1.replace("03", "3");
-			newStr1 = newStr1.replace("04", "4");
-			newStr1 = newStr1.replace("05", "5");
-			newStr1 = newStr1.replace("06", "6");
-			newStr1 = newStr1.replace("07", "7");
-			newStr1 = newStr1.replace("08", "8");
-			newStr1 = newStr1.replace("09", "9");
-			newStr2 = "," + timeStr.substr(6);
-			totPtArr[i][0] = newStr1 + newStr2;
-		}
-		
-		xmax = xmax.toString();
-		xmax = xmax.slice(4,15);
-		newStr1 = xmax.substr(0,6);
+	var timeStr = "";
+	var newStr1 = "";
+	var newStr2 = "";
+	for(var i=0; i<totPtArr.length; i++){
+		timeStr = totPtArr[i][0].toString();
+		timeStr = timeStr.slice(4,15);
+		newStr1 = timeStr.substr(0,6);
 		newStr1 = newStr1.replace("01", "1");
 		newStr1 = newStr1.replace("02", "2");
 		newStr1 = newStr1.replace("03", "3");
@@ -572,24 +523,39 @@ function showSumTbl(byX){
 		newStr1 = newStr1.replace("07", "7");
 		newStr1 = newStr1.replace("08", "8");
 		newStr1 = newStr1.replace("09", "9");
-		newStr2 = "," + xmax.substr(6);
-		xmax = newStr1 + newStr2;
-		
-		xmin = xmin.toString();
-		xmin = xmin.slice(4,15);
-		newStr1 = xmin.substr(0,6)
-		newStr1 = newStr1.replace("01", "1");
-		newStr1 = newStr1.replace("02", "2");
-		newStr1 = newStr1.replace("03", "3");
-		newStr1 = newStr1.replace("04", "4");
-		newStr1 = newStr1.replace("05", "5");
-		newStr1 = newStr1.replace("06", "6");
-		newStr1 = newStr1.replace("07", "7");
-		newStr1 = newStr1.replace("08", "8");
-		newStr1 = newStr1.replace("09", "9");
-		newStr2 = "," + xmin.substr(6);
-		xmin = newStr1 + newStr2;
+		newStr2 = "," + timeStr.substr(6);
+		totPtArr[i][0] = newStr1 + newStr2;
 	}
+	
+	xmax = xmax.toString();
+	xmax = xmax.slice(4,15);
+	newStr1 = xmax.substr(0,6);
+	newStr1 = newStr1.replace("01", "1");
+	newStr1 = newStr1.replace("02", "2");
+	newStr1 = newStr1.replace("03", "3");
+	newStr1 = newStr1.replace("04", "4");
+	newStr1 = newStr1.replace("05", "5");
+	newStr1 = newStr1.replace("06", "6");
+	newStr1 = newStr1.replace("07", "7");
+	newStr1 = newStr1.replace("08", "8");
+	newStr1 = newStr1.replace("09", "9");
+	newStr2 = "," + xmax.substr(6);
+	xmax = newStr1 + newStr2;
+	
+	xmin = xmin.toString();
+	xmin = xmin.slice(4,15);
+	newStr1 = xmin.substr(0,6)
+	newStr1 = newStr1.replace("01", "1");
+	newStr1 = newStr1.replace("02", "2");
+	newStr1 = newStr1.replace("03", "3");
+	newStr1 = newStr1.replace("04", "4");
+	newStr1 = newStr1.replace("05", "5");
+	newStr1 = newStr1.replace("06", "6");
+	newStr1 = newStr1.replace("07", "7");
+	newStr1 = newStr1.replace("08", "8");
+	newStr1 = newStr1.replace("09", "9");
+	newStr2 = "," + xmin.substr(6);
+	xmin = newStr1 + newStr2;
 	
 // DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.
@@ -600,7 +566,7 @@ function showSumTbl(byX){
         // You can have multiple sets of data if you wish
 		var canvas = document.getElementById('cvs1');
         RGraph.Reset(canvas);
-		var sg = new RGraph.Scatter('cvs1', totPtsArr)
+		var sg = new RGraph.Scatter('cvs1', totPtArr)
 		// Configure the chart to look as you want it to.
             .Set('chart.background.barcolor1', 'white')
             .Set('chart.background.barcolor2', 'white')
@@ -609,14 +575,14 @@ function showSumTbl(byX){
 			.Set('chart.axis.linewidth', 1)
 			.Set('chart.line.linewidth', 3)
             .Set('chart.gutter.left', 50)
-			//.Set('chart.xscale', true)
+			.Set('chart.xscale', true)
 			.Set('chart.yscale', true)
 			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmax)
-			.Set('xmin', xmax) // Start of year
-			.Set('xmax', xmin) // End of year 
+			//.Set('chart.background.grid.autofit.numvlines', xmax)
+			.Set('xmin', xmin) // Start of year
+			.Set('xmax', xmax) // End of year 
 			.Set('chart.ticksize', 3)
-			.Set('chart.labels', totXmaxArr)
+			// .Set('chart.labels', totXmaxArr)
 			// .Set('chart.labels.specific.align', 'center')
 			// .Set('chart.scale.round', true)
 			// .Set('chart.ymin', -2500)
@@ -1702,7 +1668,7 @@ function getSessionsAndSum(){
 				calc('rate', 'avg', 'sumTableBody', 'avgRateTour');
 			fillTable();
 		}
-		showSumTbl('bySess');
+		showSumTbl('byDate');
 		fillTblSelect('tblSelect');
 	});
 }
@@ -2186,13 +2152,10 @@ function applyFilter(cat, oper, filVal1, filVal2){
 		document.getElementById('filterErrLbl').innerHTML = error;
 	}
 	
-	// IF TABLE DEST. IS SUMMARY PG., DON'T RENUMBER ROWS- ROW NUMS WILL BE USED FOR GRAPH X DATA
-	if(tblBodyName != 'sumTableBody'){
-		// RE-NUMBER ROWS
-		for(var y=0; y<rowColl.length; y++){
-			var z = y + 1;
-			rowColl[y].cells[0].textContent = z + "."
-		}
+	// RE-NUMBER ROWS
+	for(var y=0; y<rowColl.length; y++){
+		var z = y + 1;
+		rowColl[y].cells[0].textContent = z + "."
 	}
 }
 

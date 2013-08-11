@@ -6,7 +6,7 @@
 
 	<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
 	<div class="floatingFix">
-		<table id="summary" class="inactive">
+		<table id="summary" class="active">
 			<thead>
 				<tr>
 					<th></th>
@@ -34,7 +34,7 @@
 	<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>	
 	<div>
 		<div style="float: left">Select a category to see results...</div>
-		<select id="baseTbl" onchange="fillTblSelect(); showSumTbl('byDate')">
+		<select id="baseTbl" onchange="fillTblSelect(); showSumTbl('bySess')">
 			<option selected="true">Overall</option>
 			<option>Live</option>
 			<option>Online</option>
