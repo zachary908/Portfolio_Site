@@ -1,4 +1,4 @@
-html, body {
+html, body{
 	background: url("../images/water.jpg") /* no-repeat */ left top;
 	font-family: Arial;
 	font-size: 12px;
@@ -20,7 +20,7 @@ html, body {
 	text-align: center;
 }
 
-.cvrHomeImgs {
+.cvrHomeImgs{
 	float: left;
 	width: 240px;
 	height: 280px;
@@ -35,27 +35,27 @@ html, body {
 	visibility: hidden;
 }
 
-#cvrHomeImg1 {
+#cvrHomeImg1{
 	left: 0;
 	top: 0;
 }
 
-#cvrHomeImg2 {
+#cvrHomeImg2{
 	left: 248;
 	top: 0;
 }
 
-#cvrHomeImg3 {
+#cvrHomeImg3{
 	left: 496;
 	top: 0;
 }
 
-#cvrHomeImg4 {
+#cvrHomeImg4{
 	left: 744;
 	top: 0;
 }
 
-.descHomeImgs {
+.descHomeImgs{
 	float: left;
 	width: 230px;
 	height: 270px;
@@ -76,22 +76,22 @@ html, body {
 	cursor: pointer;
 }
 
-#descHomeImg1 {
+#descHomeImg1{
 	left: 0;
 	top: 0;
 }
 
-#descHomeImg2 {
+#descHomeImg2{
 	left: 248;
 	top: 0;
 }
 
-#descHomeImg3 {
+#descHomeImg3{
 	left: 496;
 	top: 0;
 }
 
-#descHomeImg4 {
+#descHomeImg4{
 	left: 744;
 	top: 0;
 }
@@ -108,7 +108,7 @@ html, body {
 	src: url('../fonts/EnigmaB_2.ttf');
 }
 
-.footer {
+.footer{
 	float: left;
 	clear: left;
 	border-top: solid 1px #d9d3d3;
@@ -120,7 +120,7 @@ html, body {
 	color: #7c7777;
 }
 
-.header {
+.header{
 	color: #d9d3d3;
 	clear: left;
 	margin-left: 50px;
@@ -147,18 +147,18 @@ html, body {
 	letter-spacing: 7px;
 }
 
-.header div.right div.bottom {
+.header div.right div.bottom{
 	font-family: Swis721 BlkEx BT;
 	font-size: 15px;
 	color: #7c7777;
 	margin-top: -3px;
 }
 
-.header div.right div.bottom a {
+.header div.right div.bottom a{
 	color: #7c7777;
 }
 
-.header div.left {
+.header div.left{
 	float: left;
 	font-size: 18px;
 	padding-top: 30px;
@@ -300,18 +300,17 @@ html, body {
 	margin: auto;
 }
 
-.selected
-{
+.selected{
 	opacity: 0.8;
 	border-bottom: solid 1px #cf0303;
 }
 
-.tagline {
+.tagline{
 	font-size: 60px;
 	text-transform: uppercase;
 	color: #ffffff;
 	width: 550px;
-	font-family: EnigmaB_2;
+	font-family: EnigmaB_2, Arial;
 	letter-spacing: -1px;
 	text-wrap: none;
 	padding: 25px 0px;
@@ -354,12 +353,12 @@ html, body {
 	float: left;
 }
 
-.wrapper {
+.wrapper{
 	position: absolute;
 	width: 100%;
 }
 
-.fixed {
+.fixed{
 	position: fixed;
 	top: -30px;
 }

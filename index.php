@@ -50,7 +50,7 @@ moused over. They are hidden when the mouse is out of the COVER. -->
 				onclick="$('#slideNum').val(4); document.getElementById('slideNumForm').submit();">
 				-->
 				
-					<div>Poker Page</div>
+					<div>Coming Soon...</div>
 				</div>
 			</a>	
 		</div> <!-- HOMEIMG PANEL -->

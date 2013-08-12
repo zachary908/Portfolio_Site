@@ -140,6 +140,7 @@
 		
 	</div><!-- END modalWrap -->
 	
+	<!-- BEGIN HEADER -->
 	<div class="headerBkgd">
 		<div class="headerWrap">
 			<div class="header">
@@ -150,9 +151,24 @@
 					</div>
 				</div>
 				<div class="center fleft">
-					<div class="navSect fleft activeNav">navigation</div>
-					<div class="navSect fleft">buttons</div>
-					<div class="navSect fleft">here?</div>
+					<a href="pokerSummary.php" class="navSect fleft 
+						<?php			
+							if(basename($_SERVER['PHP_SELF']) == "pokerSummary.php")
+								echo ' selected';
+						?>
+					">summary</a>
+					<a href="pokerSessions.php" class="navSect fleft
+						<?php			
+							if(basename($_SERVER['PHP_SELF']) == "pokerSessions.php")
+								echo ' selected';
+						?>
+					">sessions</a>
+					<a href="pokerAddSession.php" class="navSect fleft
+						<?php			
+							if(basename($_SERVER['PHP_SELF']) == "pokerAddSession.php")
+								echo ' selected';
+						?>
+					">add session</a>
 				</div>
 				<div class="right floatingFix">
 					<div class="fright">

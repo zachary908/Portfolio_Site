@@ -4,6 +4,11 @@ body, html{
 	margin: 0px;
 }
 
+a{
+	text-decoration: none;
+	color: black;
+}
+
 .headerBkgd{
     background-color: #F6F6F6;
     border-top: 5px solid black;
@@ -19,7 +24,8 @@ body, html{
     margin-top: 15px;
 }
 
-.header{
+.header,
+.footer{
     margin: auto;
     text-align: left;
     width: 1000px;
@@ -35,6 +41,44 @@ body, html{
 	width: 600px;
 }
 
+
+.footerBkgd{
+    background-color: #F6F6F6;
+    border-bottom: 5px solid black;
+	border-top: 1px solid #b1a8a7;
+    height: 90px;
+    margin: 0;
+    min-width: 1348px;
+    width: 100%;
+    z-index: -1;
+	box-shadow: 0px -1px 5px #cec8c8;
+}
+
+.footerWrap{
+    height: 70px;
+    margin: 15px 0px;
+	font-size: 14px;
+	color: #b1a8a7;
+}
+
+.footerFont{
+	font-size: 14px;
+	color: #b1a8a7;
+}
+
+.footerTopLeft{
+    margin-right: 15px;
+}
+
+.footerTopMiddle{
+    margin: 0 15px;
+}
+.footer .left{
+    float: left;
+    height: 75px;
+	width: 200px;
+}
+
 .navSect{
 	padding-top: 40px;
 	height: 32px;
@@ -44,6 +88,10 @@ body, html{
 }
 
 .navSect:hover{
+	border-bottom: 3px solid #CF0303;
+}
+
+.selected{
 	border-bottom: 3px solid #CF0303;
 }
 

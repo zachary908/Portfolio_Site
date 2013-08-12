@@ -384,14 +384,14 @@ function showSumTbl(byX){
 				applyFilter('ringTour', 'IS', 'Ring');
 				totTblId = "totalsCash";
 				avgTblId = "avgsCash";
-				lineColors[i] = 'yellow';
+				lineColors[i] = 'orange';
 				break;
 			case "Tournament":
 				fillTable();
 				applyFilter('ringTour', 'IS', 'Tour');
 				totTblId = "totalsTourney";
 				avgTblId = "avgsTourney";
-				lineColors[i] = 'black';
+				lineColors[i] = 'purple';
 				break;
 		}
 		

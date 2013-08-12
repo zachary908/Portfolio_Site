@@ -27,7 +27,6 @@
 		<tbody id="sumTableBody"></tbody>
 	</table>
 	
-	<button onclick="parent.location='pokerSessions.php'" type="button">Sessions</button><br>	
 	Welcome, <?php echo $_SESSION['user']['name'] ?><br>
 	<div>This page will show summary results.</div><br>
 		
