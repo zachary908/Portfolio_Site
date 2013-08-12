@@ -27,23 +27,24 @@
 		<tbody id="sumTableBody"></tbody>
 	</table>
 	
-	Welcome, <?php echo $_SESSION['user']['name'] ?><br>
-	<div>This page will show summary results.</div><br>
-		
-	<div>
-		<div style="float: left">Select a category to see results...</div>
-		<select id="baseTbl" onchange="fillTblSelect(); showSumTbl('bySess')">
-			<option selected="true">Overall</option>
-			<option>Live</option>
-			<option>Online</option>
-			<option>Cash</option>
-			<option>Tournament</option>
-		</select><br><br>
-	</div>
-	<div>
-		<div style="float: left">Select up to 4 categories to compare...</div>
-		<select id="compareTbl" multiple></select>
-		<button onclick="showSumTbl()">GO</button>
+	<div class="sumFilterWrap">
+		<div class="sumFilter floatingFix">
+			<div class="fleft">
+				<div class="sumFilterLbl fleft">Select a category to see results...</div>
+				<select id="baseTbl" onchange="fillTblSelect(); showSumTbl('bySess')">
+					<option selected="true">Overall</option>
+					<option>Live</option>
+					<option>Online</option>
+					<option>Cash</option>
+					<option>Tournament</option>
+				</select><br><br>
+			</div>
+			<div class="fleft">
+				<div class="sumFilterLbl fleft" style="margin-left: 50px">Select up to 4 categories to compare...</div>
+				<select id="compareTbl" multiple class="multiSelect"></select>
+				<button onclick="showSumTbl()">GO</button>
+			</div>
+		</div>
 	</div>
 	
 	<div class="sumTblGraphWrap floatingFix">

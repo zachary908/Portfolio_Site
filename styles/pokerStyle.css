@@ -188,6 +188,20 @@ a{
 	padding: 2px 15px;
 }
 
+.sumFilterWrap{
+	width: 100%;
+	margin-top: 40px;
+}
+
+.sumFilter{
+	width: 820px;
+	margin: auto;
+}
+
+.sumFilterLbl{
+	margin-right: 10px;
+}
+
 .sumTblGraphWrap{
 	width: 90%;
 	margin: auto;
@@ -264,5 +278,10 @@ td[name=live]{
 
 .active{
 	display: block;
+}
+
+.multiSelect{
+	width: 100px;
+	margin-top: -20px;
 }
 
