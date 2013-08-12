@@ -27,7 +27,7 @@
 		<tbody id="sumTableBody"></tbody>
 	</table>
 	
-	<div class="sumFilterWrap">
+	<div class="filterWrap">
 		<div class="sumFilter floatingFix">
 			<div class="fleft">
 				<div class="sumFilterLbl fleft">Select a category to see results...</div>

@@ -188,13 +188,18 @@ a{
 	padding: 2px 15px;
 }
 
-.sumFilterWrap{
+.filterWrap{
 	width: 100%;
-	margin-top: 40px;
 }
 
 .sumFilter{
 	width: 820px;
+	margin: auto;
+	margin-top: 40px;
+}
+
+.sessFilter{
+	width: 585px;
 	margin: auto;
 }
 
