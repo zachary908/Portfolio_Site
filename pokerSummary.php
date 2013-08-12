@@ -5,33 +5,32 @@
 	<div id="sumData" style="position: absolute; visibility: hidden"></div>
 
 	<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
-	<div class="floatingFix">
-		<table id="summary" class="inactive">
-			<thead>
-				<tr>
-					<th></th>
-					<th>Start Time</th>
-					<th>Location</th>
-					<th>Game Type</th>
-					<th>Limits</th>
-					<th>Duration</th>
-					<th>Buy In</th>
-					<th>Cash Out</th>
-					<th>R/T</th>
-					<th>Place</th>
-					<th>Rate</th>
-					<th>Return</th>
-					<th>Live/Online</th>
-					<th>Notes</th>
-				</tr>
-			</thead>
-			<tbody id="sumTableBody"></tbody>
-		</table>
-	</div>
-		
+	<table id="summary" class="inactive">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Start Time</th>
+				<th>Location</th>
+				<th>Game Type</th>
+				<th>Limits</th>
+				<th>Duration</th>
+				<th>Buy In</th>
+				<th>Cash Out</th>
+				<th>R/T</th>
+				<th>Place</th>
+				<th>Rate</th>
+				<th>Return</th>
+				<th>Live/Online</th>
+				<th>Notes</th>
+			</tr>
+		</thead>
+		<tbody id="sumTableBody"></tbody>
+	</table>
+	
+	<button onclick="parent.location='pokerSessions.php'" type="button">Sessions</button><br>	
 	Welcome, <?php echo $_SESSION['user']['name'] ?><br>
 	<div>This page will show summary results.</div><br>
-	<button onclick="parent.location='pokerSessions.php'" type="button">Go to Sessions Page</button><br>	
+		
 	<div>
 		<div style="float: left">Select a category to see results...</div>
 		<select id="baseTbl" onchange="fillTblSelect(); showSumTbl('bySess')">

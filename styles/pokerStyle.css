@@ -1,7 +1,63 @@
 body, html{
 	font-family: arial;
 	font-size: 16px;
+	margin: 0px;
+}
 
+.headerBkgd{
+    background-color: #F6F6F6;
+    border-top: 5px solid black;
+    height: 90px;
+    margin: 0;
+    min-width: 1348px;
+    width: 100%;
+    z-index: -1;
+}
+
+.headerWrap{
+    height: 70px;
+    margin-top: 15px;
+}
+
+.header{
+    margin: auto;
+    text-align: left;
+    width: 1000px;
+}
+
+.header .left{
+    float: left;
+    height: 75px;
+	width: 200px;
+}
+
+.header .center{
+	width: 600px;
+}
+
+.navSect{
+	padding-top: 40px;
+	height: 32px;
+	width: 150px;
+	margin: 0px 25px;
+	text-align: center;
+}
+
+.navSect:hover{
+	border-bottom: 3px solid #CF0303;
+}
+
+.header .right{
+    float: right;
+    height: 75px;
+    width: 200px;
+}
+
+.fright{
+	float: right;
+}
+.fleft{
+	float: left;
 }
 
 .floatingFix:after{
@@ -106,7 +162,7 @@ body, html{
 .sumAvgTbl{
 	border-collapse: true;
 	border: 1px solid black;
-	width: 1000px;
+	width: 800px;
 	margin: auto;
 }
 
@@ -120,7 +176,7 @@ th{
 
 .sumTotTbl th,
 .sumAvgTbl th{
-	width: 1000px;
+	width: 800px;
 }
 
 td[name=duration], 

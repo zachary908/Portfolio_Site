@@ -89,10 +89,27 @@
 		<!-- END loginModal -->
 		
 	</div><!-- END modalWrap -->
-
-	<button onclick="showModal('registerModal', 'regEmail')">show reg modal</button><br>
-	<button onclick="showModal('loginModal', 'logUsername')">show log modal</button><br>
-	<button onclick="logout()">Log out</button>
+	<div class="headerBkgd">
+		<div class="headerWrap">
+			<div class="header">
+				<div class="left">
+					<div>
+						Me Logo Here
+					</div>
+					<button onclick="showModal('registerModal', 'regEmail')">Register</button><br>
+					<button onclick="showModal('loginModal', 'logUsername')">Log In</button><br>
+				</div>
+				<div class="right floatingFix">
+					<div class="fright">
+					
+					</div><br>
+					<div class="fright">
+						<button onclick="logout()">Log out</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 	
 	
 	

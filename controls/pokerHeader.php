@@ -140,7 +140,32 @@
 		
 	</div><!-- END modalWrap -->
 	
-	<button onclick="logout()">Log out</button><br>
-	<button onclick="showModal('registerModal', 'regEmail')">show reg modal</button><br>
-	<button onclick="showModal('loginModal', 'logUsername')">show log modal</button><br>
-	End of pokerHeader<br>
+	<div class="headerBkgd">
+		<div class="headerWrap">
+			<div class="header">
+				<div class="left">
+					<div>
+						Me Logo Here<br>
+						and home link
+					</div>
+				</div>
+				<div class="center fleft">
+					<div class="navSect fleft activeNav">navigation</div>
+					<div class="navSect fleft">buttons</div>
+					<div class="navSect fleft">here?</div>
+				</div>
+				<div class="right floatingFix">
+					<div class="fright">
+					<?php
+						if(isset($_SESSION['user']['name'])){
+							echo $_SESSION['user']['name'];
+						}
+					?>
+					</div><br>
+					<div class="fright">
+						<button onclick="logout()">Log out</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>

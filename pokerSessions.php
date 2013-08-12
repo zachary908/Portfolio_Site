@@ -14,6 +14,7 @@
 			}
 		?>
 	</div><br>
+	
 	<button type="button" onclick="parent.location='pokerSummary.php'">Summary</button>
 	<div id="filter" onkeypress="checkEnter(event, 'applyFilter($('#category').val()), $('#operator').val())">Select a category to filter...<br>
 		<select id="category" onchange="fillOperator(); fillFilterVal()">
