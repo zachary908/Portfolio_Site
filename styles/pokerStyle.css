@@ -87,6 +87,7 @@ a{
 	width: 150px;
 	margin: 0px 25px;
 	text-align: center;
+	font-size: 20px;
 }
 
 .navSect:hover{
@@ -220,7 +221,7 @@ a{
 }
 
 .sumGraphWrap{
-	width: 600px;
+	width: 800px;
 	margin: auto;
 }
 
