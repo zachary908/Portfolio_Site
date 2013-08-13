@@ -446,10 +446,10 @@ function showSumTbl(byX){
 		var avgPtArr = new Array;
 		for(var j=0; j<avgDataX.length; j++){
 			// IF THE X DATA IS A DATE, CONVERT IT TO RGRAPH FORMAT
-			if(byX == 'byDate'){
-				avgDataX[j] = tblToRGraphDate(avgDataX[j]);
-				avgDataX[j] = new Date(avgDataX[j]);
-			}
+			// if(byX == 'byDate'){
+				// avgDataX[j] = tblToRGraphDate(avgDataX[j]);
+				// avgDataX[j] = new Date(avgDataX[j]);
+			// }
 			// totDataX[j] AND totDataY[j] MUST BE ELEMENTS 0 AND 1, RESPECTIVELY, OF A NEW ARRAY
 			var pt = new Array;
 			pt[0] = avgDataX[j];
@@ -614,71 +614,80 @@ function showSumTbl(byX){
         // Create the Scatter chart. The arguments are: the canvas ID and the data to be represented on the chart.
         // You can have multiple sets of data if you wish
 		// SINCE GRAPH DOESN'T DISPLAY FIRST LABEL, REMOVE IT FROM LABEL ARRAY
-		totXmaxArr.shift();
-		var canvas = document.getElementById('cvs1');
-        RGraph.Reset(canvas);
-		var sg = new RGraph.Scatter('cvs1', totPtsArr)
-		// Configure the chart to look as you want it to.
-            .Set('chart.background.barcolor1', 'white')
-            .Set('chart.background.barcolor2', 'white')
-            .Set('chart.grid.color', 'rgba(238,238,238,1)')
-			.Set('chart.axis.linewidth', 2)
-			.Set('chart.line.linewidth', 3)
-            .Set('chart.gutter.left', 50)
-			.Set('chart.yscale', true)
-			.Set('chart.tickmarks', null)
-			.Set('chart.units.pre', '$')
-			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmax-1)
-			.Set('chart.xaxis', true)
-			.Set('xmin', xmax)
-			.Set('xmax', xmin)
-			.Set('chart.ticksize', 3)
-			.Set('chart.labels', totXmaxArr)
-			.Set('chart.line', true)
-			.Set('chart.line.colors', lineColors)
-			.Set('key', tblSelArr)
-			.Set('key.interactive', true)
-			.Set('key.halign', 'left')
-			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
-			if(ymin < 0){
-				sg.Set('chart.xaxispos', 'center')
+		if(totXmaxArr){
+			totXmaxArr.shift();
+			var canvas = document.getElementById('cvs1');
+			RGraph.Reset(canvas);
+			var sg = new RGraph.Scatter('cvs1', totPtsArr)
+			// Configure the chart to look as you want it to.
+				.Set('chart.background.barcolor1', 'white')
+				.Set('chart.background.barcolor2', 'white')
+				.Set('chart.grid.color', 'rgba(238,238,238,1)')
+				.Set('chart.axis.linewidth', 2)
+				.Set('chart.line.linewidth', 3)
+				.Set('chart.gutter.left', 50)
+				.Set('chart.yscale', true)
+				.Set('chart.tickmarks', null)
+				.Set('chart.units.pre', '$')
+				.Set('chart.background.grid.autofit.numhlines', 10)
+				.Set('chart.background.grid.autofit.numvlines', xmax-1)
+				.Set('chart.xaxis', true)
+				.Set('xmin', xmax)
+				.Set('xmax', xmin)
+				.Set('chart.ticksize', 3)
+				.Set('chart.labels', totXmaxArr)
+				.Set('chart.line', true)
+				.Set('chart.line.colors', lineColors)
+				.Set('key', tblSelArr)
+				.Set('key.interactive', true)
+				.Set('key.halign', 'left')
+				// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
+				if(ymin < 0){
+					sg.Set('chart.xaxispos', 'center')
+				}
+				
+				// Now call the .Draw() method to draw the chart.
+				sg.Draw();
+				
+			var canvas = document.getElementById('cvs2');
+			RGraph.Reset(canvas);
+			var sg2 = new RGraph.Scatter('cvs2', avgPtsArr)
+				// Configure the chart to look as you want it to.
+				.Set('chart.background.barcolor1', 'white')
+				.Set('chart.background.barcolor2', 'white')
+				.Set('chart.grid.color', 'rgba(238,238,238,1)')
+				.Set('chart.axis.linewidth', 2)
+				.Set('chart.line.linewidth', 3)
+				.Set('chart.gutter.left', 50)
+				.Set('chart.yscale', true)
+				.Set('chart.tickmarks', null)
+				.Set('chart.units.pre', '$')
+				.Set('chart.background.grid.autofit.numhlines', 10)
+				.Set('chart.background.grid.autofit.numvlines', xmax-1)
+				.Set('chart.xaxis', true)
+				.Set('xmin', xmax)
+				.Set('xmax', xmin)
+				.Set('chart.ticksize', 3)
+				.Set('chart.labels', totXmaxArr)
+				.Set('chart.line', true)
+				.Set('chart.line.colors', lineColors)
+				.Set('key', tblSelArr)
+				.Set('key.interactive', true)
+				.Set('key.halign', 'left')
+				// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
+				if(yminAvg < 0){
+					sg2.Set('chart.xaxispos', 'center')
+				}
+				// Now call the .Draw() method to draw the chart.
+				sg2.Draw();
 			}
-			
-            // Now call the .Draw() method to draw the chart.
-            sg.Draw();
-			
-		var canvas = document.getElementById('cvs2');
-        RGraph.Reset(canvas);
-		var sg2 = new RGraph.Scatter('cvs2', avgPtsArr)
-            // Configure the chart to look as you want it to.
-            .Set('chart.background.barcolor1', 'white')
-            .Set('chart.background.barcolor2', 'white')
-            .Set('chart.grid.color', 'rgba(238,238,238,1)')
-			.Set('chart.axis.linewidth', 2)
-			.Set('chart.line.linewidth', 3)
-            .Set('chart.gutter.left', 50)
-			.Set('chart.yscale', true)
-			.Set('chart.tickmarks', null)
-			.Set('chart.units.pre', '$')
-			.Set('chart.background.grid.autofit.numhlines', 10)
-			.Set('chart.background.grid.autofit.numvlines', xmax-1)
-			.Set('chart.xaxis', true)
-			.Set('xmin', xmax)
-			.Set('xmax', xmin)
-			.Set('chart.ticksize', 3)
-			.Set('chart.labels', totXmaxArr)
-			.Set('chart.line', true)
-			.Set('chart.line.colors', lineColors)
-			.Set('key', tblSelArr)
-			.Set('key.interactive', true)
-			.Set('key.halign', 'left')
-			// IF YMIN > 0, PUT XAXIS AT BOTTOM OF GRAPH
-			if(yminAvg < 0){
-				sg2.Set('chart.xaxispos', 'center')
+			else{
+				var canvas = document.getElementById('cvs1');
+				RGraph.Reset(canvas);
+				var canvas = document.getElementById('cvs2');
+				RGraph.Reset(canvas);
+				return;
 			}
-            // Now call the .Draw() method to draw the chart.
-            sg2.Draw();
 			
 		// var lg = new RGraph.Line('cvs1', totDataYArr)
             // // Configure the chart to look as you want it to.
