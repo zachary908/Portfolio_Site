@@ -554,57 +554,57 @@ function showSumTbl(byX){
 		}
 	}
 	
-	if(byX == 'byDate'){
-		var timeStr = "";
-		var newStr1 = "";
-		var newStr2 = "";
-		for(var i=0; i<totPtArr.length; i++){
-			timeStr = totPtArr[i][0].toString();
-			timeStr = timeStr.slice(4,15);
-			newStr1 = timeStr.substr(0,6);
-			newStr1 = newStr1.replace("01", "1");
-			newStr1 = newStr1.replace("02", "2");
-			newStr1 = newStr1.replace("03", "3");
-			newStr1 = newStr1.replace("04", "4");
-			newStr1 = newStr1.replace("05", "5");
-			newStr1 = newStr1.replace("06", "6");
-			newStr1 = newStr1.replace("07", "7");
-			newStr1 = newStr1.replace("08", "8");
-			newStr1 = newStr1.replace("09", "9");
-			newStr2 = "," + timeStr.substr(6);
-			totPtArr[i][0] = newStr1 + newStr2;
-		}
+	// if(byX == 'byDate'){
+		// var timeStr = "";
+		// var newStr1 = "";
+		// var newStr2 = "";
+		// for(var i=0; i<totPtArr.length; i++){
+			// timeStr = totPtArr[i][0].toString();
+			// timeStr = timeStr.slice(4,15);
+			// newStr1 = timeStr.substr(0,6);
+			// newStr1 = newStr1.replace("01", "1");
+			// newStr1 = newStr1.replace("02", "2");
+			// newStr1 = newStr1.replace("03", "3");
+			// newStr1 = newStr1.replace("04", "4");
+			// newStr1 = newStr1.replace("05", "5");
+			// newStr1 = newStr1.replace("06", "6");
+			// newStr1 = newStr1.replace("07", "7");
+			// newStr1 = newStr1.replace("08", "8");
+			// newStr1 = newStr1.replace("09", "9");
+			// newStr2 = "," + timeStr.substr(6);
+			// totPtArr[i][0] = newStr1 + newStr2;
+		// }
 		
-		xmax = xmax.toString();
-		xmax = xmax.slice(4,15);
-		newStr1 = xmax.substr(0,6);
-		newStr1 = newStr1.replace("01", "1");
-		newStr1 = newStr1.replace("02", "2");
-		newStr1 = newStr1.replace("03", "3");
-		newStr1 = newStr1.replace("04", "4");
-		newStr1 = newStr1.replace("05", "5");
-		newStr1 = newStr1.replace("06", "6");
-		newStr1 = newStr1.replace("07", "7");
-		newStr1 = newStr1.replace("08", "8");
-		newStr1 = newStr1.replace("09", "9");
-		newStr2 = "," + xmax.substr(6);
-		xmax = newStr1 + newStr2;
+		// xmax = xmax.toString();
+		// xmax = xmax.slice(4,15);
+		// newStr1 = xmax.substr(0,6);
+		// newStr1 = newStr1.replace("01", "1");
+		// newStr1 = newStr1.replace("02", "2");
+		// newStr1 = newStr1.replace("03", "3");
+		// newStr1 = newStr1.replace("04", "4");
+		// newStr1 = newStr1.replace("05", "5");
+		// newStr1 = newStr1.replace("06", "6");
+		// newStr1 = newStr1.replace("07", "7");
+		// newStr1 = newStr1.replace("08", "8");
+		// newStr1 = newStr1.replace("09", "9");
+		// newStr2 = "," + xmax.substr(6);
+		// xmax = newStr1 + newStr2;
 		
-		xmin = xmin.toString();
-		xmin = xmin.slice(4,15);
-		newStr1 = xmin.substr(0,6)
-		newStr1 = newStr1.replace("01", "1");
-		newStr1 = newStr1.replace("02", "2");
-		newStr1 = newStr1.replace("03", "3");
-		newStr1 = newStr1.replace("04", "4");
-		newStr1 = newStr1.replace("05", "5");
-		newStr1 = newStr1.replace("06", "6");
-		newStr1 = newStr1.replace("07", "7");
-		newStr1 = newStr1.replace("08", "8");
-		newStr1 = newStr1.replace("09", "9");
-		newStr2 = "," + xmin.substr(6);
-		xmin = newStr1 + newStr2;
-	}
+		// xmin = xmin.toString();
+		// xmin = xmin.slice(4,15);
+		// newStr1 = xmin.substr(0,6)
+		// newStr1 = newStr1.replace("01", "1");
+		// newStr1 = newStr1.replace("02", "2");
+		// newStr1 = newStr1.replace("03", "3");
+		// newStr1 = newStr1.replace("04", "4");
+		// newStr1 = newStr1.replace("05", "5");
+		// newStr1 = newStr1.replace("06", "6");
+		// newStr1 = newStr1.replace("07", "7");
+		// newStr1 = newStr1.replace("08", "8");
+		// newStr1 = newStr1.replace("09", "9");
+		// newStr2 = "," + xmin.substr(6);
+		// xmin = newStr1 + newStr2;
+	// }
 
 // DISPLAY APPROPRIATE GRAPHS
 	// The datasets as shown on the chart. Each point is an array, described below.

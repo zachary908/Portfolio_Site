@@ -2,6 +2,8 @@ body, html{
 	font-family: arial;
 	font-size: 16px;
 	margin: 0px;
+	background: url("../images/pokerBkgdStrip4.jpg") repeat scroll left top;
+	-webkit-backface-visibility: hidden;
 }
 
 a{
@@ -229,6 +231,7 @@ a{
 .sumAvgTbl{
 	border-collapse: true;
 	border: 1px solid black;
+	background-color: white;
 	width: 800px;
 	margin: auto;
 }
@@ -236,7 +239,7 @@ a{
 th{
     text-align: center;
     border: 1px solid gray;
-    background-color: #ddd;
+    background-color: #c6c1c1;
     padding: 3px;
     vertical-align: top;
 }
