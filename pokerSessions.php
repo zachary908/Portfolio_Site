@@ -6,7 +6,7 @@
 	</form>
 	
 	<div id="sessData" style="position: absolute; visibility: hidden"></div>
-	<div id="sessStatus">
+	<div id="sessStatus" class="centerText">
 		<?php
 			if(isset($_SESSION["statusMsg"])){
 				$statusMsg = $_SESSION["statusMsg"];
@@ -43,10 +43,10 @@
 		</div>
 	</div>
 	
-	<table id="sessions" style="margin: auto">
-		<thead>
+	<table id="sessions" class="sessionsTbl">
+		<tbody>
 			<tr>
-				<td></td>
+				<th></th>
 				<th>Start Time</th>
 				<th>Location</th>
 				<th>Game Type</th>
@@ -60,9 +60,12 @@
 				<th>Return</th>
 				<th class="hide">Live/Online</th>
 				<th>Notes</th>
+				<th></th>
+				<th></th>
 			</tr>
-		</thead>
-		<tfoot>
+		</tbody>
+		<tbody id="sessTableBody"></tbody>
+		<tbody>
 			<tr>
 				<td></td><td></td><td></td><td></td>
 				<td>Hours Played:</td>
@@ -72,8 +75,8 @@
 				<td>ROI:</td>
 				<td>$/hour:</td>
 			</tr>
-		</tfoot>
-		<tbody id="sessTableBody"></tbody>
+		</tbody>
+		
 	</table>
 	<button type="button" onclick="parent.location='pokerAddSession.php'">Add Session</button>
 	<script>

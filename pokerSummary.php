@@ -6,7 +6,7 @@
 
 	<!-- THIS HIDDEN TABLE HOLDS FILTERED DATA -->
 	<table id="summary" class="inactive">
-		<thead>
+		<tbody>
 			<tr>
 				<th></th>
 				<th>Start Time</th>
@@ -23,7 +23,7 @@
 				<th>Live/Online</th>
 				<th>Notes</th>
 			</tr>
-		</thead>
+		</tbody>
 		<tbody id="sumTableBody"></tbody>
 	</table>
 	

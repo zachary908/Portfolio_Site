@@ -478,7 +478,7 @@ function showSumTbl(byX){
 			if(currArr[i] >= xmax){
 				xmax = currArr[i];
 				// SAVE THE ARRAY IN WHICH THE XMAX OCCURS
-				var totXmaxArr = totDataXArr[j]
+				var totXmaxArr = totDataXArr[j];
 			}
 		}
 	}
@@ -490,7 +490,7 @@ function showSumTbl(byX){
 			if(currArr[i] <= xmin){
 				xmin = currArr[i];
 				// SAVE THE ARRAY IN WHICH THE XMIN OCCURS
-				var totXminArr = totDataXArr[j]
+				var totXminArr = totDataXArr[j];
 			}
 		}
 	}
