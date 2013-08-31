@@ -1,29 +1,66 @@
 <NotepadPlus>
     <Session activeView="0">
-        <mainView activeIndex="3">
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1827" startPos="401" endPos="48" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\controls\pokerHeader.php" />
-            <File firstVisibleLine="15" xOffset="0" scrollWidth="1827" startPos="981" endPos="981" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerSessions.php">
-                <Mark line="41" />
+        <mainView activeIndex="0">
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="3220" startPos="3261" endPos="3261" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\controls\pokerIntroHeader.php" />
+            <File firstVisibleLine="6" xOffset="0" scrollWidth="3220" startPos="5338" endPos="5338" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\controls\pokerHeader.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1267" startPos="321" endPos="321" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\controls\pokerFooter.php" />
+            <File firstVisibleLine="266" xOffset="0" scrollWidth="3220" startPos="3934" endPos="3934" selMode="0" lang="CSS" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\styles\pokerStyle.css" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1295" startPos="106" endPos="106" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\poker.php" />
+            <File firstVisibleLine="4" xOffset="0" scrollWidth="3220" startPos="380" endPos="380" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerSummary.php">
+                <Mark line="98" />
+                <Mark line="112" />
+                <Mark line="184" />
             </File>
-            <File firstVisibleLine="98" xOffset="0" scrollWidth="1827" startPos="4616" endPos="4616" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerAddSession.php" />
-            <File firstVisibleLine="890" xOffset="0" scrollWidth="1827" startPos="26129" endPos="26129" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\scripts\pokerjs.js">
-                <Mark line="804" />
-                <Mark line="822" />
-                <Mark line="834" />
-                <Mark line="891" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="3220" startPos="334" endPos="344" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerSessions.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1267" startPos="2191" endPos="2191" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerAddSession.php" />
+            <File firstVisibleLine="0" xOffset="0" scrollWidth="1267" startPos="7111" endPos="7111" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerEditSession.php" />
+            <File firstVisibleLine="481" xOffset="0" scrollWidth="3220" startPos="13254" endPos="13254" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\scripts\pokerjs.js">
+                <Mark line="182" />
+                <Mark line="228" />
+                <Mark line="323" />
+                <Mark line="639" />
+                <Mark line="1684" />
+                <Fold line="3" />
+                <Fold line="11" />
+                <Fold line="23" />
+                <Fold line="33" />
+                <Fold line="43" />
+                <Fold line="55" />
+                <Fold line="74" />
+                <Fold line="93" />
+                <Fold line="108" />
+                <Fold line="124" />
+                <Fold line="134" />
+                <Fold line="757" />
+                <Fold line="843" />
+                <Fold line="864" />
+                <Fold line="878" />
+                <Fold line="888" />
+                <Fold line="943" />
+                <Fold line="1012" />
+                <Fold line="1018" />
+                <Fold line="1028" />
+                <Fold line="1078" />
+                <Fold line="1136" />
+                <Fold line="1161" />
+                <Fold line="1186" />
+                <Fold line="1211" />
+                <Fold line="1255" />
+                <Fold line="1423" />
+                <Fold line="1591" />
+                <Fold line="1600" />
+                <Fold line="1627" />
+                <Fold line="1669" />
+                <Fold line="1733" />
+                <Fold line="1804" />
+                <Fold line="1817" />
+                <Fold line="1977" />
+                <Fold line="2222" />
+                <Fold line="2309" />
             </File>
-            <File firstVisibleLine="466" xOffset="0" scrollWidth="1827" startPos="14579" endPos="14579" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerMethods.php">
-                <Mark line="169" />
-                <Mark line="205" />
+            <File firstVisibleLine="284" xOffset="0" scrollWidth="3220" startPos="4014" endPos="4014" selMode="0" lang="CSS" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\styles\style.css">
+                <Mark line="166" />
             </File>
-            <File firstVisibleLine="177" xOffset="0" scrollWidth="1827" startPos="7092" endPos="7092" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerEditSession.php" />
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1645" startPos="10" endPos="10" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\controls\pokerFooter.php" />
-            <File firstVisibleLine="1" xOffset="0" scrollWidth="1645" startPos="10" endPos="10" selMode="0" lang="CSS" encoding="-1" filename="C:\Users\Zachary\Documents\web\VideoInterviewPractice\style\style.css" />
-            <File firstVisibleLine="16" xOffset="0" scrollWidth="4970" startPos="1034" endPos="969" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\VideoInterviewPractice\Controls\header.php" />
-            <File firstVisibleLine="537" xOffset="0" scrollWidth="1827" startPos="10" endPos="10" selMode="0" lang="Javascript" encoding="-1" filename="C:\Users\Zachary\Documents\web\VideoInterviewPractice\scripts\javascript.js" />
-            <File firstVisibleLine="9" xOffset="0" scrollWidth="4970" startPos="10" endPos="10" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\VideoInterviewPractice\Methods.php" />
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1827" startPos="125" endPos="125" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\pokerSetStatus.php" />
-            <File firstVisibleLine="0" xOffset="0" scrollWidth="1827" startPos="444" endPos="444" selMode="0" lang="PHP" encoding="-1" filename="C:\Users\Zachary\Documents\web\Portfolio_Site\controls\pokerIntroHeader.php" />
         </mainView>
         <subView activeIndex="0" />
     </Session>
